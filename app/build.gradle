@@ -40,4 +40,5 @@ dependencies {
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$anko_version"
     compile "org.jetbrains.anko:anko:$anko_version"
     compile 'org.koin:koin-android:0.8.2'
+    compile 'joda-time:joda-time:2.9.9'
 }
