@@ -1,8 +1,10 @@
 package fr.jbouffard.japan2020.Domain.Travel.Entity
 
 import fr.jbouffard.japan2020.Domain.AggregateRoot
-import fr.jbouffard.japan2020.Domain.Travel.Event.AppEvent
+import fr.jbouffard.japan2020.Domain.Travel.Event.StreamEvent
 import fr.jbouffard.japan2020.Domain.Travel.Event.FlightPlanSelected
+import fr.jbouffard.japan2020.Domain.Travel.Exception.HolidayTooExpensiveException
+import fr.jbouffard.japan2020.Domain.Travel.Exception.NotEnoughTimeToPlanException
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Flight
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Overnight
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.RailpassPackage
@@ -18,21 +20,21 @@ class Holiday : AggregateRoot() {
     private var daySchedules: MutableList<Day> = mutableListOf()
     private var railpassPackage: RailpassPackage? = null
 
-    override fun applyEvent(event: AppEvent, isNew: Boolean) {
+    override fun applyEvent(event: StreamEvent, isNew: Boolean) {
         super.applyEvent(event, isNew)
         load(event)
     }
 
     fun selectRoundTrip(goingFlight: Flight, returnFlight: Flight) {
-        val calGoing = DateTime(goingFlight.departureDate).plus(Period.days(15))
-        if (calGoing.isAfterNow) {
-            throw Exception("la date de départ est trop proche")
+        val goingDepartureDate = DateTime(goingFlight.departureDate).plus(Period.days(15))
+        if (goingDepartureDate.isAfterNow) {
+            throw NotEnoughTimeToPlanException("la date de départ est trop proche")
         }
 
-        val calReturn = DateTime(returnFlight.arrivalDate)
-        calGoing.plus(Period.days(14))
-        if (calReturn.isAfter(calReturn)) {
-            throw Exception("Nous n'aurons pas assez de tune pour un voyage si long")
+        val returnArrivalDate = DateTime(returnFlight.arrivalDate)
+        goingDepartureDate.plus(Period.days(14))
+        if (goingDepartureDate.isBefore(returnArrivalDate)) {
+            throw HolidayTooExpensiveException("Nous n'aurons pas assez de tune pour un voyage si long")
         }
         val flightPlan = FlightPlan(goingFlight, returnFlight)
         applyChange(FlightPlanSelected(flightPlan, version))
@@ -58,7 +60,7 @@ class Holiday : AggregateRoot() {
 
     }
 
-    private fun load(event: AppEvent) = when(event) {
+    private fun load(event: StreamEvent) = when(event) {
         is FlightPlanSelected -> loadEvent(event)
     }
 
