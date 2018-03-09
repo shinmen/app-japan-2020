@@ -6,10 +6,9 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
-import fr.jbouffard.japan2020.Domain.Travel.Event.StreamEvent
-import fr.jbouffard.japan2020.Infrastructure.Adapter.StreamEventAdapter
+import fr.jbouffard.japan2020.Infrastructure.Adapter.EventDescriptorAdapter
 import fr.jbouffard.japan2020.Infrastructure.Repository.ApiEventStoreInterface
-import fr.jbouffard.japan2020.Infrastructure.Repository.ESEvent
+import fr.jbouffard.japan2020.Infrastructure.Repository.EventDescription
 import fr.jbouffard.japan2020.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.experimental.android.UI
@@ -52,8 +51,7 @@ class MainActivity : AppCompatActivity() {
         httpClient.addInterceptor(logging)
 
         val gson = GsonBuilder()
-                .setDateFormat("yyyy-M-dd hh:mm:ss")
-                .registerTypeAdapter(ESEvent::class.java, StreamEventAdapter())
+                .registerTypeAdapter(EventDescription::class.java, EventDescriptorAdapter())
                 .create()
         val retrofit = Retrofit.Builder()
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())

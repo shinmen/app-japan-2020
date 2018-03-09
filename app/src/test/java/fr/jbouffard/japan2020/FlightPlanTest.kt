@@ -23,7 +23,7 @@ class FlightPlanTest {
         val city = City("Paris", "France")
         val goingFlight = Flight(700, city, city, "Air", Date(), Date(),12.toFloat(), 700.toFloat(), false, 0)
         val returnFlight = Flight(700, city, city, "Air", Date(), Date(),12.toFloat(), 700.toFloat(), false, 0)
-        val holiday = Holiday()
+        val holiday = Holiday(UUID.randomUUID())
         holiday.selectRoundTrip(goingFlight, returnFlight)
     }
 
@@ -33,7 +33,7 @@ class FlightPlanTest {
         val oneMonthAgo = DateTime.now().minus(Period.days(30))
         val goingFlight = Flight(700, city, city, "Air", oneMonthAgo.toDate(), Date(),12.toFloat(), 700.toFloat(), false, 0)
         val returnFlight = Flight(700, city, city, "Air", Date(), Date(),12.toFloat(), 700.toFloat(), false, 0)
-        val holiday = Holiday()
+        val holiday = Holiday(UUID.randomUUID())
         holiday.selectRoundTrip(goingFlight, returnFlight)
     }
 
@@ -44,7 +44,7 @@ class FlightPlanTest {
         val twentyDaysAgo = DateTime.now().minus(Period.days(20))
         val goingFlight = Flight(700, city, city, "Air", oneMonthAgo.toDate(), oneMonthAgo.toDate(), 12.toFloat(), 700.toFloat(), false, 0)
         val returnFlight = Flight(700, city, city, "Air", twentyDaysAgo.toDate(), twentyDaysAgo.toDate(), 12.toFloat(), 700.toFloat(), false, 0)
-        val holiday = Holiday()
+        val holiday = Holiday(UUID.randomUUID())
         holiday.selectRoundTrip(goingFlight, returnFlight)
         val changes = holiday.getUncommittedChanges()
 

@@ -1,7 +1,7 @@
 package fr.jbouffard.japan2020.Domain.Travel.Entity
 
 import fr.jbouffard.japan2020.Domain.AggregateRoot
-import fr.jbouffard.japan2020.Domain.Travel.Event.StreamEvent
+import fr.jbouffard.japan2020.Domain.Travel.Event.Event
 import fr.jbouffard.japan2020.Domain.Travel.Event.FlightPlanSelected
 import fr.jbouffard.japan2020.Domain.Travel.Exception.HolidayTooExpensiveException
 import fr.jbouffard.japan2020.Domain.Travel.Exception.NotEnoughTimeToPlanException
@@ -11,16 +11,17 @@ import fr.jbouffard.japan2020.Domain.Travel.ValueObject.RailpassPackage
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Visit
 import org.joda.time.DateTime
 import org.joda.time.Period
+import java.util.*
 
 /**
  * Created by julienb on 26/02/18.
  */
-class Holiday : AggregateRoot() {
+class Holiday(override var uuid: UUID) : AggregateRoot() {
     private var flightPlan: FlightPlan? = null
     private var daySchedules: MutableList<Day> = mutableListOf()
     private var railpassPackage: RailpassPackage? = null
 
-    override fun applyEvent(event: StreamEvent, isNew: Boolean) {
+    override fun applyEvent(event: Event, isNew: Boolean) {
         super.applyEvent(event, isNew)
         load(event)
     }
@@ -37,7 +38,7 @@ class Holiday : AggregateRoot() {
             throw HolidayTooExpensiveException("Nous n'aurons pas assez de tune pour un voyage si long")
         }
         val flightPlan = FlightPlan(goingFlight, returnFlight)
-        applyChange(FlightPlanSelected(flightPlan, version))
+        applyChange(FlightPlanSelected(flightPlan, version, uuid))
     }
 
     fun selectRailPassPackage(railpass: RailpassPackage) {
@@ -60,7 +61,7 @@ class Holiday : AggregateRoot() {
 
     }
 
-    private fun load(event: StreamEvent) = when(event) {
+    private fun load(event: Event) = when(event) {
         is FlightPlanSelected -> loadEvent(event)
     }
 
