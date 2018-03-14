@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">Japan2020</string>
+    <string name="app_name">Japon 2020</string>
+    <string name="title_new">Nouveau voyage</string>
+    <string name="title_stats">Stats</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_stats">StatsActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
 </resources>

@@ -8,26 +8,89 @@
     tools:context="fr.jbouffard.japan2020.View.PlanHoliday.MainActivity">
 
     <TextView
-        android:id="@+id/message"
+        android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="@string/title_home"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/orienta"
+        android:gravity="center_horizontal"
+        android:text="@string/app_name"
+        android:textSize="40dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
+    <ImageView
+        android:id="@+id/france"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/ic_eiffel_tower"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/line"
         android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:src="@drawable/transparent_line"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/japan"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toEndOf="@id/france"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/plane"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_black_plane"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/france"
+        app:layout_constraintTop_toBottomOf="parent"
+
+        />
+
+    <ImageView
+        android:id="@+id/japan"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_fuji_mountain"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <ImageButton
+        android:id="@+id/list_holidays_button"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        android:background="@drawable/ic_planes"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintEnd_toStartOf="@id/new_holiday_button"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/new_holiday_button"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        android:background="@drawable/ic_board"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toEndOf="@id/list_holidays_button" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="50dp" />
+
 
 </android.support.constraint.ConstraintLayout>
