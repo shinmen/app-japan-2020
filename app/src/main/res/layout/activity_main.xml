@@ -21,56 +21,59 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent" />
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_animation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="150dp" />
+
     <ImageView
         android:id="@+id/france"
-        android:layout_width="54dp"
-        android:layout_height="54dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_marginStart="24dp"
         android:src="@drawable/ic_eiffel_tower"
-        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline_animation" />
 
     <ImageView
         android:id="@+id/line"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="75dp"
         android:src="@drawable/transparent_line"
-        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/japan"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@id/france"
-        app:layout_constraintTop_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline_animation" />
 
     <ImageView
         android:id="@+id/plane"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:src="@drawable/ic_black_plane"
-        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@id/france"
-        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_animation"
 
         />
 
     <ImageView
         android:id="@+id/japan"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_marginEnd="24dp"
         android:src="@drawable/ic_fuji_mountain"
-        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintTop_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline_animation" />
 
     <ImageButton
         android:id="@+id/list_holidays_button"
         android:layout_width="150dp"
         android:layout_height="120dp"
         android:background="@drawable/ic_planes"
-        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintBottom_toTopOf="@id/guideline_actions"
         app:layout_constraintEnd_toStartOf="@id/new_holiday_button"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent" />
@@ -80,13 +83,13 @@
         android:layout_width="150dp"
         android:layout_height="120dp"
         android:background="@drawable/ic_board"
-        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintBottom_toTopOf="@id/guideline_actions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toEndOf="@id/list_holidays_button" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline"
+        android:id="@+id/guideline_actions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

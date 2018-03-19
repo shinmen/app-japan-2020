@@ -1,14 +1,12 @@
 package fr.jbouffard.japan2020.View.PlanHoliday
 
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import fr.jbouffard.japan2020.R
 import kotlinx.android.synthetic.main.activity_main.*
 import android.animation.ObjectAnimator
 import android.view.View
 import android.view.animation.AnimationUtils
-import fr.jbouffard.japan2020.View.PlanHoliday.FlightRequestActivity
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
 
@@ -30,10 +28,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
         new_holiday_button.onClick {
             val i = FlightRequestActivity.newIntent(this@MainActivity)
             startActivity(i)
         }
+
+
 /*
         val logging = HttpLoggingInterceptor()
         // set your desired log level
@@ -60,6 +61,4 @@ class MainActivity : AppCompatActivity() {
             }
         }*/
     }
-
-
 }
