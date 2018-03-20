@@ -18,11 +18,13 @@ class DatePickerDialogFragment : DialogFragment(),
     lateinit var fragmentListener: DatetimeSelectInterface
 
     companion object {
-        private val ARG_DATE = "date"
+        private const val ARG_DATE = "date"
+        private const val ARG_VIEW = "view"
 
-        fun newInstance(date: DateTime): DatePickerDialogFragment {
+        fun newInstance(date: DateTime, view: Int): DatePickerDialogFragment {
             val args = Bundle().apply {
                 putSerializable(ARG_DATE, date)
+                putInt(ARG_VIEW, view)
             }
 
             return DatePickerDialogFragment().apply { arguments = args }
@@ -44,7 +46,8 @@ class DatePickerDialogFragment : DialogFragment(),
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         val date = DateTime().withDate(year, month + 1, dayOfMonth)
-        val timeFragment = TimePickerDialogFragment.newInstance(date)
+        val v = arguments!!.getInt(ARG_VIEW)
+        val timeFragment = TimePickerDialogFragment.newInstance(date, v)
         timeFragment.fragmentListener = fragmentListener
         timeFragment.show(fragmentManager, "time")
     }

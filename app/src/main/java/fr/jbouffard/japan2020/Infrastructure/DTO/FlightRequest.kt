@@ -7,5 +7,5 @@ data class FlightRequest(
         val originCode: String,
         val destinationCode: String,
         val departureDate: String,
-        val arrivalDate: String
+        val returnDate: String
 )

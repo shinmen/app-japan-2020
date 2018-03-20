@@ -7,85 +7,149 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageButton
-            android:id="@+id/flight_going_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/ic_travel_calendar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="parent"
+        android:layout_height="match_parent"
+        >
 
+        <ImageButton
+            android:id="@+id/flight_going_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:paddingTop="20dp"
+            android:src="@drawable/ic_travel_calendar"
+            app:layout_constraintEnd_toStartOf="@id/flight_going_input"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/flight_going_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/flight_return_hint"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@id/flight_going_hint">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/started_at" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_travel_calendar"
+            android:id="@+id/flight_return_hint"
+            android:background="@android:color/transparent"
+            android:paddingTop="20dp"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@id/flight_going_input"
+            app:layout_constraintEnd_toStartOf="@id/flight_return_input"
             />
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/flight_return_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@id/flight_return_hint">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/ended_at" />
+        </android.support.design.widget.TextInputLayout>
+
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/radio_group_origin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintEnd_toStartOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/flight_going_btn"
-            >
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/radio_group_destination"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            android:layout_marginStart="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/flight_going_input">
 
             <RadioButton
                 android:id="@+id/radio_bordeaux"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/bordeaux"
                 android:checked="true"
-                />
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                android:text="@string/city_bordeaux" />
 
             <RadioButton
                 android:id="@+id/radio_paris"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/paris" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                android:text="@string/city_paris"/>
         </RadioGroup>
-
-        <ImageButton
-            android:id="@+id/flight_return_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/ic_travel_calendar"
-            app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
 
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/flight_return_btn"
-            >
+            android:id="@+id/radio_group_destination"
+            app:layout_constraintStart_toEndOf="@id/radio_group_origin"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintTop_toBottomOf="@+id/flight_going_input">
 
             <RadioButton
                 android:id="@+id/radio_tokyo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:drawableEnd="@drawable/tokyo" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                android:text="@string/city_tokyo" />
 
             <RadioButton
                 android:id="@+id/radio_osaka"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/osaka" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                android:text="@string/city_osaka" />
 
             <RadioButton
                 android:id="@+id/radio_nagoya"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/nagoya" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                android:text="@string/city_nagoya" />
         </RadioGroup>
 
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline"
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5"
+            android:id="@+id/flight_request_btn"
+            android:text="@string/flight_price_request"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:background="@color/colorPrimaryDark"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            app:layout_constraintTop_toBottomOf="@id/radio_group_destination"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@drawable/divider"
+            android:id="@+id/divider_date"
+            app:layout_constraintTop_toBottomOf="@id/flight_request_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="10dp"
             />
 
     </android.support.constraint.ConstraintLayout>

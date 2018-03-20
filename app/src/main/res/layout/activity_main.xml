@@ -5,21 +5,34 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.jbouffard.japan2020.View.PlanHoliday.MainActivity">
+    tools:context="fr.jbouffard.japan2020.View.MainActivity">
 
     <TextView
         android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/orienta"
+        android:fontFamily="@font/shojumaru"
         android:gravity="center_horizontal"
         android:text="@string/app_name"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="40dp"
-        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/image_welcome"
+        app:layout_constraintTop_toBottomOf="@id/guideline_animation" />
+
+    <ImageView
+        android:id="@+id/image_welcome"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="5dp"
+        android:accessibilityLiveRegion="assertive"
+        android:src="@drawable/ic_fuji_mountain"
+        android:textAlignment="viewEnd"
+        app:layout_constraintEnd_toStartOf="@id/welcome"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/guideline_animation" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_animation"
@@ -28,72 +41,42 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="150dp" />
 
-    <ImageView
-        android:id="@+id/france"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="24dp"
-        android:src="@drawable/ic_eiffel_tower"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_animation" />
-
-    <ImageView
-        android:id="@+id/line"
-        android:layout_width="0dp"
-        android:layout_height="75dp"
-        android:src="@drawable/transparent_line"
-        app:layout_constraintEnd_toStartOf="@+id/japan"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toEndOf="@id/france"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_animation" />
-
-    <ImageView
-        android:id="@+id/plane"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_black_plane"
-        app:layout_constraintLeft_toRightOf="@id/france"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_animation"
-
-        />
-
-    <ImageView
-        android:id="@+id/japan"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginEnd="24dp"
-        android:src="@drawable/ic_fuji_mountain"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_animation" />
-
-    <ImageButton
-        android:id="@+id/list_holidays_button"
-        android:layout_width="150dp"
-        android:layout_height="120dp"
-        android:background="@drawable/ic_planes"
-        app:layout_constraintBottom_toTopOf="@id/guideline_actions"
-        app:layout_constraintEnd_toStartOf="@id/new_holiday_button"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageButton
-        android:id="@+id/new_holiday_button"
-        android:layout_width="150dp"
-        android:layout_height="120dp"
-        android:background="@drawable/ic_board"
-        app:layout_constraintBottom_toTopOf="@id/guideline_actions"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toEndOf="@id/list_holidays_button" />
-
     <android.support.constraint.Guideline
-        android:id="@+id/guideline_actions"
+        android:id="@+id/guideline_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="50dp" />
+        app:layout_constraintGuide_percent="0.5" />
+
+    <Button
+        android:id="@+id/new_holiday_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/background_light"
+        android:elevation="@dimen/cardview_default_elevation"
+        android:fontFamily="@font/orienta"
+        android:padding="40dp"
+        android:text="@string/plan_holiday"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_btn" />
+
+    <Button
+        android:id="@+id/list_holidays_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/background_light"
+        android:elevation="@dimen/cardview_default_elevation"
+        android:fontFamily="@font/orienta"
+        android:padding="40dp"
+        android:text="@string/planned_holidays"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/new_holiday_button" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -19,10 +19,14 @@ class TimePickerDialogFragment: DialogFragment(),
     lateinit var date: DateTime
 
     companion object {
-        private val ARG_TIME = "time"
+        private const val ARG_TIME = "time"
+        private const val ARG_VIEW = "view"
 
-        fun newInstance(date: DateTime): TimePickerDialogFragment {
-            val args = Bundle().apply { putSerializable(ARG_TIME, date) }
+        fun newInstance(date: DateTime, view: Int): TimePickerDialogFragment {
+            val args = Bundle().apply {
+                putSerializable(ARG_TIME, date)
+                putInt(ARG_VIEW, view)
+            }
 
             return TimePickerDialogFragment().apply { arguments = args }
         }
@@ -38,7 +42,7 @@ class TimePickerDialogFragment: DialogFragment(),
 
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
         val datetime = DateTime(date.year, date.monthOfYear, date.dayOfMonth, hourOfDay, minute)
-
-        fragmentListener.onDatetimeSelected(datetime)
+        val v = arguments!!.getInt(ARG_VIEW)
+        fragmentListener.onDatetimeSelected(datetime, v)
     }
 }
