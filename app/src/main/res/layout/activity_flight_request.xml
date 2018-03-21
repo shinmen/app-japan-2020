@@ -6,8 +6,5 @@
     android:layout_height="match_parent"
     tools:context="fr.jbouffard.japan2020.View.PlanHoliday.FlightRequestActivity">
 
-    <include layout="@layout/navigation" />
-
-
 
 </android.support.constraint.ConstraintLayout>

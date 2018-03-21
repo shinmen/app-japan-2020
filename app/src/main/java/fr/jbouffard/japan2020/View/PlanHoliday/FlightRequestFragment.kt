@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.Fragment
 import android.text.Editable
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,11 +26,18 @@ class FlightRequestFragment
     private lateinit var goingDateInput: TextInputLayout
     private lateinit var returnDateInput: TextInputLayout
 
+    private lateinit var mPresenter: FlightRequestPresenter
+
+    private var mGoingAt: DateTime? = null
+    private var mReturnAt: DateTime? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_flight_request, container, false)
         val goingBtn = view.findViewById<ImageButton>(R.id.flight_going_hint)
         goingDateInput = view.findViewById(R.id.flight_going_input)
         returnDateInput = view.findViewById(R.id.flight_return_input)
+
+        mPresenter = FlightRequestPresenter()
 
         goingBtn.onClick {
             val dateFragment = DatePickerDialogFragment.newInstance(DateTime.now(), GOING_DATE)
@@ -49,12 +55,14 @@ class FlightRequestFragment
         val requestBtn = view.findViewById<Button>(R.id.flight_request_btn)
         requestBtn.onClick {
             launch(UI) {
-                val presenter = FlightRequestPresenter()
+                checkNotNull(mGoingAt) { "date de départ nécessaire" }
+                checkNotNull(mReturnAt) { "date de retour nécessaire" }
+
                 val command = FlightRequestCommand(
-                        "PAR", DateTime(2018, 11, 2, 12, 0),
-                        "OSA", DateTime(2018, 11, 10, 12, 0)
+                        "PAR", mGoingAt!!,
+                        "OSA", mReturnAt!!
                 )
-                val offers = presenter.requestFlightPrice(command)
+                val offers = mPresenter.requestFlightPrice(command)
             }
         }
 
@@ -77,10 +85,14 @@ class FlightRequestFragment
 
     override fun onDatetimeSelected(dateTime: DateTime, view: Int) {
         when(view) {
-            GOING_DATE -> goingDateInput.editText?.text =
+            GOING_DATE -> {
+                    goingDateInput.editText?.text =
                     Editable.Factory.getInstance().newEditable(dateTime.toString("EE d MMM y à H:m"))
-            RETURN_DATE -> returnDateInput.editText?.text =
+            }
+            RETURN_DATE -> {
+                    returnDateInput.editText?.text =
                     Editable.Factory.getInstance().newEditable(dateTime.toString("EE d MMM y à H:m"))
+            }
         }
     }
 

@@ -16,5 +16,10 @@
     <string name="city_tokyo">Tokyo</string>
     <string name="city_osaka">Osaka</string>
     <string name="city_nagoya">Nagoya</string>
-    <string name="flight_price_request">Demande de prix</string>
+    <string name="flight_price_request">Recherchez des prix</string>
+    <string name="step_flight">Les vols</string>
+    <string name="going_flight">Aller</string>
+    <string name="return_flight">Retour</string>
+    <string name="origin_city">Départ de</string>
+    <string name="destination_city">retour de</string>
 </resources>

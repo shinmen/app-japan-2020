@@ -5,7 +5,9 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.jbouffard.japan2020.View.MainActivity">
+    tools:context="fr.jbouffard.japan2020.View.MainActivity"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    >
 
     <TextView
         android:id="@+id/welcome"
@@ -15,7 +17,7 @@
         android:gravity="center_horizontal"
         android:text="@string/app_name"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="40dp"
+        android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/image_welcome"
@@ -23,9 +25,10 @@
 
     <ImageView
         android:id="@+id/image_welcome"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
         android:layout_marginEnd="5dp"
+        android:layout_marginTop="8dp"
         android:accessibilityLiveRegion="assertive"
         android:src="@drawable/ic_fuji_mountain"
         android:textAlignment="viewEnd"
@@ -39,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="150dp" />
+        app:layout_constraintGuide_percent="0.2" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_btn"
