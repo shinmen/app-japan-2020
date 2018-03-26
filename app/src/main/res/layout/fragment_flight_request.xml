@@ -8,6 +8,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/transition_container"
         android:layout_margin="@dimen/activity_horizontal_margin">
 
         <TextView
@@ -26,7 +27,7 @@
             android:id="@+id/going_start_line"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="6dp"
             android:background="@drawable/divider"
             app:layout_constraintEnd_toStartOf="@id/going_text_line"
             app:layout_constraintHorizontal_chainStyle="spread"
@@ -39,100 +40,106 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/going_flight"
-            app:layout_constraintEnd_toStartOf="@id/going_end_line"
+            app:layout_constraintEnd_toStartOf="@+id/going_end_line"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toEndOf="@id/going_start_line"
-            app:layout_constraintTop_toBottomOf="@id/step_flight" />
+            app:layout_constraintStart_toEndOf="@+id/going_start_line"
+            app:layout_constraintTop_toBottomOf="@+id/step_flight" />
 
         <View
             android:id="@+id/going_end_line"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="6dp"
             android:background="@drawable/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toEndOf="@id/going_text_line"
             app:layout_constraintTop_toBottomOf="@id/step_flight" />
 
-
-        <TextView
-            android:id="@+id/label_radio_group_origin"
-            android:layout_width="wrap_content"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/going_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingTop="8sp"
-            android:text="@string/origin_city"
-            android:textColor="@color/colorPrimary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/going_text_line" />
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/going_text_line">
 
-        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/radio_group_origin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toEndOf="@id/label_radio_group_origin"
-            app:layout_constraintTop_toBottomOf="@id/going_text_line">
-
-            <RadioButton
-                android:id="@+id/radio_bordeaux"
+            <TextView
+                android:id="@+id/label_radio_group_origin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:checked="true"
-                android:text="@string/city_bordeaux"
+                android:paddingTop="18dp"
+                android:text="@string/origin_city"
                 android:textColor="@color/colorPrimary"
-                android:textSize="18sp" />
+                app:layout_constraintStart_toStartOf="parent" />
 
-            <RadioButton
-                android:id="@+id/radio_paris"
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/radio_group_origin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/city_paris"
-                android:textColor="@color/colorPrimary"
-                android:textSize="18sp" />
-        </RadioGroup>
+                android:orientation="horizontal"
+                app:layout_constraintStart_toEndOf="@id/label_radio_group_origin">
 
-        <ImageButton
-            android:id="@+id/flight_going_hint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@android:color/transparent"
-            android:paddingTop="20dp"
-            android:src="@drawable/ic_travel_calendar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_radio_group_origin" />
+                <RadioButton
+                    android:id="@+id/radio_bordeaux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:checked="true"
+                    android:text="@string/city_bordeaux"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/flight_going_input"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/flight_going_hint"
-            app:layout_constraintTop_toBottomOf="@id/label_radio_group_origin">
+                <RadioButton
+                    android:id="@+id/radio_paris"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/city_paris"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
+            </RadioGroup>
 
-            <EditText
-                android:layout_width="match_parent"
+            <ImageButton
+                android:id="@+id/flight_going_hint"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:hint="@string/started_at" />
+                android:layout_marginTop="16dp"
+                android:background="@android:color/transparent"
+                android:paddingTop="20dp"
+                android:src="@drawable/ic_travel_calendar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/label_radio_group_origin" />
 
-        </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/flight_going_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/flight_going_hint"
+                app:layout_constraintTop_toBottomOf="@id/label_radio_group_origin">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:hint="@string/started_at" />
+
+            </android.support.design.widget.TextInputLayout>
+        </android.support.constraint.ConstraintLayout>
 
         <View
             android:id="@+id/return_start_line"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="6dp"
             android:background="@drawable/divider"
             app:layout_constraintEnd_toStartOf="@id/return_text_line"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline_separator" />
+            app:layout_constraintTop_toBottomOf="@id/going_container" />
 
         <TextView
             android:id="@+id/return_text_line"
@@ -143,92 +150,102 @@
             app:layout_constraintEnd_toStartOf="@id/return_end_line"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toEndOf="@id/return_start_line"
-            app:layout_constraintTop_toBottomOf="@id/guideline_separator" />
+            app:layout_constraintTop_toBottomOf="@id/going_container" />
 
         <View
             android:id="@+id/return_end_line"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="6dp"
             android:background="@drawable/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toEndOf="@id/return_text_line"
-            app:layout_constraintTop_toBottomOf="@id/guideline_separator" />
+            app:layout_constraintTop_toBottomOf="@id/going_container" />
 
-        <TextView
-            android:id="@+id/label_radio_group_destination"
-            android:layout_width="wrap_content"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/return_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingTop="8dp"
-            android:text="@string/destination_city"
-            android:textColor="@color/colorPrimary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/return_text_line" />
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/return_text_line">
 
-        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/radio_group_destination"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toEndOf="@id/label_radio_group_destination"
-            app:layout_constraintTop_toBottomOf="@+id/return_text_line">
 
-            <RadioButton
-                android:id="@+id/radio_tokyo"
+            <TextView
+                android:id="@+id/label_radio_group_destination"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:checked="true"
-                android:text="@string/city_tokyo"
+                android:paddingTop="18dp"
+                android:text="@string/destination_city"
                 android:textColor="@color/colorPrimary"
-                android:textSize="18sp" />
+                app:layout_constraintStart_toStartOf="parent" />
 
-            <RadioButton
-                android:id="@+id/radio_osaka"
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/radio_group_destination"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/city_osaka"
-                android:textColor="@color/colorPrimary"
-                android:textSize="18sp" />
+                android:orientation="horizontal"
+                app:layout_constraintStart_toEndOf="@id/label_radio_group_destination">
 
-            <RadioButton
-                android:id="@+id/radio_nagoya"
+                <RadioButton
+                    android:id="@+id/radio_tokyo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:checked="true"
+                    android:text="@string/city_tokyo"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_osaka"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/city_osaka"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_nagoya"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/city_nagoya"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
+            </RadioGroup>
+
+            <ImageButton
+                android:id="@+id/flight_return_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/city_nagoya"
-                android:textColor="@color/colorPrimary"
-                android:textSize="18sp" />
-        </RadioGroup>
+                android:layout_marginTop="16dp"
+                android:background="@android:color/transparent"
+                android:paddingTop="20dp"
+                android:src="@drawable/ic_travel_calendar"
+                app:layout_constraintTop_toBottomOf="@id/radio_group_destination" />
 
-        <ImageButton
-            android:id="@+id/flight_return_hint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@android:color/transparent"
-            android:paddingTop="20dp"
-            android:src="@drawable/ic_travel_calendar"
-            app:layout_constraintTop_toBottomOf="@id/radio_group_destination" />
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/flight_return_input"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/flight_return_hint"
-            app:layout_constraintTop_toBottomOf="@id/radio_group_destination">
-
-            <EditText
-                android:layout_width="match_parent"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/flight_return_input"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:hint="@string/ended_at" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/flight_return_hint"
+                app:layout_constraintTop_toBottomOf="@id/radio_group_destination">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:hint="@string/ended_at" />
+            </android.support.design.widget.TextInputLayout>
+        </android.support.constraint.ConstraintLayout>
+
+
 
 
         <Button
@@ -244,12 +261,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline_separator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.55" />
 
     </android.support.constraint.ConstraintLayout>
 
