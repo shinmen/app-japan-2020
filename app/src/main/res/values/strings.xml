@@ -22,4 +22,9 @@
     <string name="return_flight">Retour</string>
     <string name="origin_city">Départ de</string>
     <string name="destination_city">retour de</string>
+    <string name="euro_price">%1$s €</string>
+    <string name="duration">%1$sh</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

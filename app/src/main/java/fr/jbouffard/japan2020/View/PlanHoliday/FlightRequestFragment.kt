@@ -21,18 +21,20 @@ import kotlinx.android.synthetic.main.fragment_flight_request.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import org.jetbrains.anko.textView
+import org.jetbrains.anko.sdk25.coroutines.onFocusChange
+import org.jetbrains.anko.sdk25.coroutines.onKey
+import org.jetbrains.anko.sdk25.coroutines.onTouch
 import org.joda.time.DateTime
 
 class FlightRequestFragment
     : Fragment(),
         DatetimeSelectInterface {
 
-    private var mListener: OnFragmentInteractionListener? = null
+    private var mListener: OnFlightRequestListener? = null
     private lateinit var goingDateInput: TextInputLayout
     private lateinit var returnDateInput: TextInputLayout
 
-    private lateinit var mPresenter: FlightRequestPresenter
+    lateinit var mPresenter: FlightRequestPresenter
 
     private var mGoingAt: DateTime? = null
     private var mReturnAt: DateTime? = null
@@ -41,8 +43,6 @@ class FlightRequestFragment
         val view = inflater.inflate(R.layout.fragment_flight_request, container, false)
         goingDateInput = view.findViewById(R.id.flight_going_input)
         returnDateInput = view.findViewById(R.id.flight_return_input)
-
-        mPresenter = FlightRequestPresenter()
 
         toggleGoingReturnInput(view)
         showGoingReturnCalendar(view)
@@ -63,7 +63,7 @@ class FlightRequestFragment
                             cityMapper.getCodeByFrenchCity(origin.toString()), mGoingAt!!,
                             cityMapper.getCodeByJapanCity(destination.toString()), mReturnAt!!
                     )
-                    val offers = mPresenter.requestFlightPrice(command)
+                    mListener?.onFlightPlanSelected(command)
                 }
             }
         }
@@ -130,10 +130,10 @@ class FlightRequestFragment
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
+        if (context is OnFlightRequestListener) {
             mListener = context
         } else {
-            throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException(context!!.toString() + " must implement OnFlightRequestListener")
         }
     }
 
@@ -157,8 +157,8 @@ class FlightRequestFragment
         }
     }
 
-    interface OnFragmentInteractionListener {
-        fun onFragmentInteraction()
+    interface OnFlightRequestListener {
+        fun onFlightPlanSelected(command: FlightRequestCommand)
     }
 
     companion object {

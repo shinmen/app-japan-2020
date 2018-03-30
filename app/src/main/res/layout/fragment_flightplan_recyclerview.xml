@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/flight_plan_list"
+    android:name="fr.jbouffard.japan2020.View.PlanHoliday.FlightPlanFragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    app:layoutManager="LinearLayoutManager"
+    tools:context="fr.jbouffard.japan2020.View.PlanHoliday.FlightPlanFragment"
+    tools:listitem="@layout/fragment_flightplan"
+    android:visibility="gone"/>
