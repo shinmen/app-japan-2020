@@ -44,7 +44,6 @@ class FlightRequestFragment
         goingDateInput = view.findViewById(R.id.flight_going_input)
         returnDateInput = view.findViewById(R.id.flight_return_input)
 
-        toggleGoingReturnInput(view)
         showGoingReturnCalendar(view)
 
 
@@ -109,24 +108,6 @@ class FlightRequestFragment
         }
     }
 
-    private fun toggleGoingReturnInput(view: View)
-    {
-        val returnText = view.findViewById<TextView>(R.id.return_text_line)
-
-        returnText.onClick {
-            TransitionManager.beginDelayedTransition(transition_container)
-            return_container.visibility = View.VISIBLE
-            going_container.visibility = View.GONE
-        }
-
-        val goingText = view.findViewById<TextView>(R.id.going_text_line)
-
-        goingText.onClick {
-            TransitionManager.beginDelayedTransition(transition_container)
-            return_container.visibility = View.GONE
-            going_container.visibility = View.VISIBLE
-        }
-    }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

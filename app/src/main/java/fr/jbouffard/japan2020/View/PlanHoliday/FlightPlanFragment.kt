@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ProgressBar
 import fr.jbouffard.japan2020.Domain.Travel.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Presenter.FlightRequestPresenter
@@ -19,6 +20,12 @@ import kotlinx.android.synthetic.main.fragment_start_holiday_planning.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.support.v4.toast
+import android.support.constraint.ConstraintSet
+import android.widget.TextView
+
+
+
+
 
 
 class FlightPlanFragment : Fragment() {
@@ -40,7 +47,7 @@ class FlightPlanFragment : Fragment() {
         launch(UI) {
             val offers = mPresenter.requestFlightPrice(mFlightRequestCommand!!)
             val list = view.findViewById<RecyclerView>(R.id.flight_plan_list)
-            val detail = view.findViewById<ConstraintLayout>(R.id.flight_plan_detailed)
+            val detailView = view.findViewById<ConstraintLayout>(R.id.flight_plan_detailed)
 
             TransitionManager.beginDelayedTransition(container!!)
             loading.visibility = View.GONE
@@ -48,12 +55,31 @@ class FlightPlanFragment : Fragment() {
             list.apply {
                 layoutManager = GridLayoutManager(activity, 2)
                 adapter = FlightPlanRecyclerViewAdapter(offers) { flightOffer ->
-                    toast("${flightOffer.totalRatePerAdult} Clicked")
-                    if (detail.visibility == View.GONE) {
+                    if (detailView.visibility == View.GONE) {
                         TransitionManager.beginDelayedTransition(container)
-                        detail.visibility = View.VISIBLE
+                        detailView.visibility = View.VISIBLE
                     }
-                    company_name.text = flightOffer.totalRatePerAdult.toString()
+                    flightOffer.goingFlight.flights.map { flight ->
+                        val constraintSet = ConstraintSet()
+                        constraintSet.clone(detailView)
+                        val cl = FrameLayout.LayoutParams(
+                                FrameLayout.LayoutParams.WRAP_CONTENT,
+                                FrameLayout.LayoutParams.WRAP_CONTENT
+                        )
+                        val origin = TextView(activity)
+                        origin.let {
+                            it.text = flight.departureAirport
+                            id = flight.flightNumber
+                            layoutParams = cl
+                        }
+                        detailView.addView(origin)
+                        constraintSet.connect(origin.id, ConstraintSet.TOP, detailView.id, ConstraintSet.BOTTOM, 18)
+                        constraintSet.connect(origin.id, ConstraintSet.START, detailView.id, ConstraintSet.START, 18)
+                        constraintSet.applyTo(detailView)
+
+
+
+                    }
                 }
             }
         }

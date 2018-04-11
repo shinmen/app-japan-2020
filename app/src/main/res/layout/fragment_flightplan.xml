@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="8dp"
-    android:padding="8dp"
     app:cardCornerRadius="2dp"
     app:cardElevation="6dp">
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
@@ -17,13 +18,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/departure_date"
-        android:text="2018-01-01 12:00" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="2018-01-01 12:00" />
 
     <TextView
         android:id="@+id/origin_departure_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CDG"
+        tools:text="CDG"
         app:layout_constraintEnd_toStartOf="@id/origin_duration"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,8 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:drawableStart="@drawable/ic_black_plane"
-        android:text="11:20"
+        tools:text="11,20h"
         app:layout_constraintEnd_toStartOf="@id/origin_arrival_city"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toEndOf="@id/origin_departure_city"
@@ -45,7 +47,7 @@
         android:id="@+id/origin_arrival_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NRT"
+        tools:text="NRT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toEndOf="@id/origin_duration"
@@ -53,22 +55,32 @@
         />
 
     <TextView
+        android:id="@+id/return_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="2018-10-01 12:00"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/origin_departure_city"
+        />
+
+    <TextView
         android:id="@+id/destination_departure_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NRT"
+        tools:text="NRT"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/destination_duration"
-        app:layout_constraintTop_toBottomOf="@id/origin_departure_city" />
+        app:layout_constraintTop_toBottomOf="@id/return_date" />
     <TextView
         android:id="@+id/destination_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:drawableStart="@drawable/ic_black_plane"
-        android:text="11:20"
-        app:layout_constraintTop_toBottomOf="@id/origin_departure_city"
+        tools:text="11:20"
+        app:layout_constraintTop_toBottomOf="@id/return_date"
         app:layout_constraintStart_toEndOf="@id/destination_departure_city"
         app:layout_constraintEnd_toStartOf="@id/destination_arrival_city"
         app:layout_constraintHorizontal_chainStyle="spread"/>
@@ -77,29 +89,24 @@
         android:id="@+id/destination_arrival_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CDG"
+        tools:text="CDG"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toEndOf="@id/destination_duration"
-        app:layout_constraintTop_toBottomOf="@id/origin_departure_city" />
+        app:layout_constraintTop_toBottomOf="@id/return_date" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/return_date"
-        android:text="2018-10-01 12:00"
-        app:layout_constraintTop_toBottomOf="@id/destination_departure_city"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+
 
     <TextView
         android:id="@+id/total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:text="850€"
-        android:drawableStart="@drawable/ic_coin"
-        app:layout_constraintTop_toBottomOf="@id/return_date" />
+        tools:text="850€"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/destination_departure_city" />
 
 </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
