@@ -1,14 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
     android:id="@+id/flight_plan_detailed"
-    android:visibility="gone">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="16dp"
+    android:layout_marginStart="16dp">
+
     <TextView
+        android:id="@+id/going_flight_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="youhou"/>
+        android:text="@string/going_flight_label"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/airline_company_name"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/airline_company_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@+id/going_flight_label"
+        app:layout_constraintEnd_toStartOf="@id/return_flight_label"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toEndOf="@id/going_flight_label"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="compagnie: AF" />
+
+
+    <TextView
+        android:id="@+id/return_flight_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/return_flight_label"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toEndOf="@id/airline_company_name"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+    <FrameLayout
+        android:id="@+id/going_first_flight_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/going_flight_label">
+
+        <include layout="@layout/detail_going_first_flight" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/going_second_flight_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/going_first_flight_container">
+
+        <include layout="@layout/detail_going_second_flight" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/going_third_flight_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/going_second_flight_container">
+        <include layout="@layout/detail_going_third_flight" />
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/return_first_flight_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/return_flight_label">
+
+        <include layout="@layout/detail_return_first_flight" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/return_second_flight_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/return_first_flight_container">
+
+        <include layout="@layout/detail_return_second_flight" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/return_third_flight_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/return_second_flight_container">
+
+        <include layout="@layout/detail_return_third_flight" />
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/hide_detail_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:elevation="4dp"
+        android:padding="8dp"
+        android:text="@string/hide_flight_detail_label"
+        app:layout_constraintBottom_toTopOf="@+id/separator_detail"
+        app:layout_constraintEnd_toStartOf="@id/start_planning_btn"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/start_planning_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:padding="8dp"
+        android:text="@string/choose_fligh_date_label"
+        app:layout_constraintBottom_toTopOf="@+id/separator_detail"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toEndOf="@id/hide_detail_btn" />
+
+    <View
+        android:id="@+id/separator_detail"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintBottom_toBottomOf="@+id/going_third_flight_container"
+        app:layout_constraintStart_toStartOf="@id/separator_roundtrip"
+        app:layout_constraintTop_toBottomOf="@id/airline_company_name" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/separator_roundtrip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"
+        />
 </android.support.constraint.ConstraintLayout>

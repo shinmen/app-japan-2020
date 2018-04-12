@@ -1,112 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="6dp">
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    android:layout_margin="4dp"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="8dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/departure_date"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="2018-01-01 12:00" />
+        android:paddingBottom="8dp"
+        android:paddingEnd="4dp"
+        android:paddingStart="4dp"
+        android:paddingTop="8dp">
 
-    <TextView
-        android:id="@+id/origin_departure_city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="CDG"
-        app:layout_constraintEnd_toStartOf="@id/origin_duration"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/departure_date" />
+        <TextView
+            android:id="@+id/total_fare_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="@string/price_per_pax_label"
+            app:layout_constraintEnd_toStartOf="@id/total_fare"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/origin_duration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        tools:text="11,20h"
-        app:layout_constraintEnd_toStartOf="@id/origin_arrival_city"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toEndOf="@id/origin_departure_city"
-        app:layout_constraintTop_toBottomOf="@id/departure_date" />
+        <TextView
+            android:id="@+id/total_fare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/total_fare_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/total_fare_label"
+            app:layout_constraintTop_toBottomOf="parent"
+            tools:text="850 €" />
 
-    <TextView
-        android:id="@+id/origin_arrival_city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="NRT"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toEndOf="@id/origin_duration"
-        app:layout_constraintTop_toBottomOf="@id/departure_date"
-        />
+        <View
+            android:id="@+id/separator_fare"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/darker_gray"
+            android:padding="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/total_fare_label" />
 
-    <TextView
-        android:id="@+id/return_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="2018-10-01 12:00"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/origin_departure_city"
-        />
+        <TextView
+            android:id="@+id/going_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/going_flight_label"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/departure_date"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/separator_fare" />
 
-    <TextView
-        android:id="@+id/destination_departure_city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="NRT"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/destination_duration"
-        app:layout_constraintTop_toBottomOf="@id/return_date" />
-    <TextView
-        android:id="@+id/destination_duration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        tools:text="11:20"
-        app:layout_constraintTop_toBottomOf="@id/return_date"
-        app:layout_constraintStart_toEndOf="@id/destination_departure_city"
-        app:layout_constraintEnd_toStartOf="@id/destination_arrival_city"
-        app:layout_constraintHorizontal_chainStyle="spread"/>
+        <TextView
+            android:id="@+id/departure_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/going_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@id/going_label"
+            app:layout_constraintTop_toBottomOf="@id/separator_fare"
+            tools:text="02 nov 18 à 21h45" />
 
-    <TextView
-        android:id="@+id/destination_arrival_city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="CDG"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toEndOf="@id/destination_duration"
-        app:layout_constraintTop_toBottomOf="@id/return_date" />
+        <TextView
+            android:id="@+id/going_origin_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@id/going_icon"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/going_label"
+            tools:text="CDG" />
+
+        <ImageView
+            android:id="@+id/going_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_black_plane"
+            app:layout_constraintEnd_toStartOf="@id/going_destination_code"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@id/going_origin_code"
+            app:layout_constraintTop_toBottomOf="@id/going_label" />
+
+        <TextView
+            android:id="@+id/going_destination_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/going_icon"
+            app:layout_constraintTop_toBottomOf="@id/going_label"
+            tools:text="NRT" />
+
+        <TextView
+            android:id="@+id/going_duration_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/travel_duration_label"
+            app:layout_constraintEnd_toStartOf="@id/going_duration"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/going_origin_code" />
+
+        <TextView
+            android:id="@+id/going_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@id/going_duration_label"
+            app:layout_constraintTop_toBottomOf="@id/going_origin_code"
+            tools:text="21:30" />
 
 
+        <View
+            android:id="@+id/separator_flights"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/darker_gray"
+            android:padding="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/going_duration_label" />
 
-    <TextView
-        android:id="@+id/total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        tools:text="850€"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/destination_departure_city" />
+        <TextView
+            android:id="@+id/return_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/return_flight_label"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/return_date"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/separator_flights" />
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/return_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/return_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@id/return_label"
+            app:layout_constraintTop_toBottomOf="@id/separator_flights"
+            tools:text="22 nov 18 à 09h45" />
+
+        <TextView
+            android:id="@+id/return_origin_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@id/return_icon"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/return_label"
+            tools:text="NRT" />
+
+        <ImageView
+            android:id="@+id/return_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:scaleX="-1"
+            android:scaleY="-1"
+            android:src="@drawable/ic_black_plane"
+            app:layout_constraintEnd_toStartOf="@id/return_destination_code"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@id/return_origin_code"
+            app:layout_constraintTop_toBottomOf="@id/return_label" />
+
+        <TextView
+            android:id="@+id/return_destination_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/return_icon"
+            app:layout_constraintTop_toBottomOf="@id/return_label"
+            tools:text="CDG" />
+
+        <TextView
+            android:id="@+id/return_duration_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/travel_duration_label"
+            app:layout_constraintEnd_toStartOf="@id/return_duration"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/return_origin_code" />
+
+        <TextView
+            android:id="@+id/return_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@id/return_duration_label"
+            app:layout_constraintTop_toBottomOf="@id/return_origin_code"
+            tools:text="21:30" />
+
+
+    </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

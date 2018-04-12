@@ -45,7 +45,7 @@
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:textColor="@android:color/white"
-                android:text="@string/going_flight" />
+                android:text="@string/going_flight_label" />
 
             <!-- HEADER INDICATOR -->
             <android.support.v7.widget.AppCompatImageView
@@ -153,7 +153,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:gravity="center_horizontal"
-                android:text="@string/return_flight"
+                android:text="@string/return_flight_label"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
 
@@ -279,7 +279,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2" />
+        app:layout_constraintGuide_percent="0.1" />
 
 
 </android.support.constraint.ConstraintLayout>

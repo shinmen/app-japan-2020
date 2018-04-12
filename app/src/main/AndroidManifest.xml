@@ -26,7 +26,8 @@
         <activity android:name=".View.PlanHoliday.FlightRequestActivity" />
         <activity
             android:name=".View.Stat.StatsActivity"
-            android:label="@string/title_activity_stats"></activity>
+            android:label="@string/title_activity_stats" />
+        <activity android:name=".View.PlanHoliday.PlanningActivity"></activity>
     </application>
 
 </manifest>

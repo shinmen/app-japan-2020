@@ -18,10 +18,8 @@ class FlightRequestPresenter {
         val request = FlightRequest(
             flightRequest.origin,
             flightRequest.destination,
-                "2018-11-02 12:00",
-                "2018-11-10 12:00"
-            /*flightRequest.goingDate.toString("y-M-d H:m"),
-            flightRequest.returnDate.toString("y-M-d H:m")*/
+            flightRequest.goingDate.toString("y-M-d H:m"),
+            flightRequest.returnDate.toString("y-M-d H:m")
         )
         return service.getFlightOffers(request).await()
     }

@@ -12,8 +12,7 @@ import org.jetbrains.anko.toast
 class FlightRequestActivity
         : AppCompatActivity(),
         FlightRequestFragment.OnFlightRequestListener,
-        FlightPlanFragment.OnListFlightPlanListener,
-        StartHolidayPlanningFragment.OnStartHolidayPlanningFlightPlanListener
+        FlightPlanFragment.OnStartHolidayPlanningFlightPlanListener
 {
     private var mPresenter: FlightRequestPresenter? = null
 
@@ -28,8 +27,8 @@ class FlightRequestActivity
                 .commit()
     }
 
-    override fun onDisplayFlightPlanDetail() {
-        val flightPlanFragment = supportFragmentManager.findFragmentByTag("flightplan")
+    override fun onStartHolidayPlanning() {
+        /*val flightPlanFragment = supportFragmentManager.findFragmentByTag("flightplan")
         val startHolidayFragment = StartHolidayPlanningFragment.newInstance()
         supportFragmentManager
                 .beginTransaction()
@@ -38,11 +37,9 @@ class FlightRequestActivity
                 .add(android.R.id.content, startHolidayFragment, "startholiday")
                 .add(android.R.id.content, flightPlanFragment, "flightplan")
                 .addToBackStack(null)
-                .commit()
-    }
-
-    override fun onStartHolidayPlanning() {
-        toast("youhou")
+                .commit()*/
+        val i = PlanningActivity.newIntent(this)
+        startActivity(i)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,9 +48,7 @@ class FlightRequestActivity
         mPresenter = FlightRequestPresenter()
 
         val flightPlanFragment = supportFragmentManager.findFragmentByTag("flightplan") as FlightPlanFragment?
-        flightPlanFragment?.let {
-            it.mPresenter = mPresenter as FlightRequestPresenter
-        }
+        flightPlanFragment?.mPresenter = mPresenter as FlightRequestPresenter
 
         if (flightPlanFragment == null) {
             val fragment = FlightRequestFragment.newInstance()

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/return_second_flight_timeline_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/return_second_flight_airport_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <View
+        android:id="@+id/return_timeline"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="@android:color/darker_gray"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
+        app:layout_constraintBottom_toBottomOf="@+id/return_second_flight_destination_code"
+        app:layout_constraintStart_toStartOf="@+id/return_second_flight_timeline_guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/return_second_flight_origin_code"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:background="@drawable/circle_btn"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="DOH" />
+
+    <TextView
+        android:id="@+id/return_second_flight_departure_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/return_second_flight_origin_code"
+        app:layout_constraintStart_toEndOf="@+id/return_second_flight_origin_code"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text=" 23:00" />
+
+    <TextView
+        android:id="@+id/return_second_flight_departure_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/return_second_flight_origin_code"
+        app:layout_constraintStart_toEndOf="@id/return_second_flight_departure_time"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="02 nov." />
+
+    <Button
+        android:id="@+id/return_second_flight_destination_code"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/circle_btn"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/return_second_flight_origin_code"
+        tools:text="NRT" />
+
+    <TextView
+        android:id="@+id/return_second_flight_arrival_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="12dp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/return_second_flight_destination_code"
+        app:layout_constraintStart_toEndOf="@id/return_second_flight_destination_code"
+        app:layout_constraintTop_toBottomOf="@+id/return_second_flight_departure_date"
+        tools:text=" 15:30" />
+
+    <TextView
+        android:id="@+id/return_second_flight_arrival_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/return_second_flight_destination_code"
+        app:layout_constraintStart_toEndOf="@id/return_second_flight_arrival_time"
+        app:layout_constraintTop_toBottomOf="@+id/return_second_flight_departure_date"
+        tools:text="03 nov." />
+
+</android.support.constraint.ConstraintLayout>

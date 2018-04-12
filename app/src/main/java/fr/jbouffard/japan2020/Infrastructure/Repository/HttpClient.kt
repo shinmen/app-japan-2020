@@ -32,7 +32,7 @@ class HttpClient {
         val httpClient = OkHttpClient.Builder()
         httpClient
                 .addInterceptor(logging)
-                .cache(cache)
+                //.cache(cache)
 
         val gson = GsonBuilder()
                 .registerTypeAdapter(object : TypeToken<DateTime>() {}.type, DateTimeTypeAdapter())
