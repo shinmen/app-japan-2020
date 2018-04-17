@@ -8,5 +8,5 @@ import java.util.*
  */
 data class FlightInfo(
         val flightNumber: Int, val arrivalDate: DateTime, val arrivalAirport: String,
-        val departureDate: DateTime, val departureAirport: String
+        val departureDate: DateTime, val departureAirport: String, val duration: Float
 )

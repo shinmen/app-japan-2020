@@ -78,9 +78,6 @@ class FlightPlanFragment : Fragment() {
             }
         }
 
-
-
-
         return view
     }
     
