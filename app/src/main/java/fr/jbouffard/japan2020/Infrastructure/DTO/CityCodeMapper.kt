@@ -8,10 +8,10 @@ class CityCodeMapper {
     private val cityMappingJp: Map<String, String> by lazy { hashMapOf("Tokyo" to "TYO", "Osaka" to "OSA", "Nagoya" to "NGO") }
 
     fun getCodeByFrenchCity(key: String): String {
-        return cityMappingFr.getOrDefault(key, "BOD")
+        return cityMappingFr[key] ?: "BOD"
     }
 
     fun getCodeByJapanCity(key: String): String {
-        return cityMappingJp.getOrDefault(key, "TYO")
+        return cityMappingJp[key] ?:"TYO"
     }
 }

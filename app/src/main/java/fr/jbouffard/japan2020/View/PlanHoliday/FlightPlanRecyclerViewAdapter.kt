@@ -23,13 +23,9 @@ class FlightPlanRecyclerViewAdapter(
 
     class ViewHolder(flightPlanView: View) : RecyclerView.ViewHolder(flightPlanView) {
         fun bind(flightOffer: FlightOffer, listener: (FlightOffer) -> Unit) = with(itemView) {
-            departure_date.text = flightOffer.goingFlight.flights.first().departureDate.toString("dd MMM yy à H:mm")
-            going_origin_code.text = flightOffer.goingFlight.flights.first().departureAirport
-            going_destination_code.text = flightOffer.goingFlight.flights.last().arrivalAirport
+            departure_date.text = flightOffer.goingFlight.flights.first().departureDate.toString("d MMM à H:mm")
             going_duration.text = resources.getString(R.string.duration, "%.2f".format(flightOffer.goingFlight.duration))
-            return_date.text = flightOffer.returnFlight.flights.last().departureDate.toString("dd MMM yy à H:mm")
-            return_origin_code.text = flightOffer.returnFlight.flights.first().departureAirport
-            return_destination_code.text = flightOffer.returnFlight.flights.last().arrivalAirport
+            return_date.text = flightOffer.returnFlight.flights.last().departureDate.toString("d MMM à H:mm")
             return_duration.text = resources.getString(R.string.duration, "%.2f".format(flightOffer.returnFlight.duration))
             total_fare.text = resources.getString(R.string.euro_price, "%.2f".format(flightOffer.totalRatePerAdult))
             setOnClickListener { listener(flightOffer) }

@@ -34,21 +34,17 @@ class FlightRequestFragment
     private lateinit var goingDateInput: TextInputLayout
     private lateinit var returnDateInput: TextInputLayout
 
-    lateinit var mPresenter: FlightRequestPresenter
-
     private var mGoingAt: DateTime? = null
     private var mReturnAt: DateTime? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_flight_request, container, false)
-        goingDateInput = view.findViewById(R.id.flight_going_input)
-        returnDateInput = view.findViewById(R.id.flight_return_input)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        goingDateInput = flight_going_input
+        returnDateInput = flight_return_input
 
         showGoingReturnCalendar(view)
 
-
-        val requestBtn = view.findViewById<Button>(R.id.flight_request_btn)
-        requestBtn.onClick {
+        //val requestBtn = view.findViewById<Button>(R.id.flight_request_btn)
+        flight_request_btn.onClick {
             launch(UI) {
                 if (isValid()) {
                     val originId = radio_group_origin.checkedRadioButtonId
@@ -66,8 +62,10 @@ class FlightRequestFragment
                 }
             }
         }
+    }
 
-        return view
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_flight_request, container, false)
     }
 
     private fun isValid(): Boolean
@@ -107,7 +105,6 @@ class FlightRequestFragment
             dateFragment.show(fragmentManager, "date")
         }
     }
-
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

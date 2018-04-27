@@ -7,6 +7,10 @@ import java.util.*
  * Created by julienb on 13/03/18.
  */
 data class FlightInfo(
-        val flightNumber: Int, val arrivalDate: DateTime, val arrivalAirport: String,
-        val departureDate: DateTime, val departureAirport: String, val duration: Float
+        val flightNumber: Int,
+        val arrivalDate: DateTime,
+        val arrivalAirport: Airport,
+        val departureDate: DateTime,
+        val departureAirport: Airport,
+        val duration: Float
 )

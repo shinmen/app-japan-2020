@@ -22,10 +22,10 @@
     <string name="destination_city">retour de</string>
     <string name="euro_price">%1$s €</string>
     <string name="duration">%1$sh</string>
-    <string name="price_per_pax_label">Prix/personne</string>
+    <string name="price_per_pax_label">Prix/pers</string>
     <string name="going_flight_label">Aller</string>
     <string name="return_flight_label">Retour</string>
-    <string name="travel_duration_label">Durée du voyage</string>
+    <string name="travel_duration_label">Durée</string>
     <string name="choose_fligh_date_label">Choisir cet A/R</string>
     <string name="hide_flight_detail_label">Masquer</string>
     <string name="company_name">Compagnie: %1$s</string>

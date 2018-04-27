@@ -6,10 +6,11 @@
     android:name="fr.jbouffard.japan2020.View.PlanHoliday.FlightPlanFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:visibility="gone"
+    app:layoutManager="GridLayoutManager"
+    tools:spanCount="2"
     tools:context="fr.jbouffard.japan2020.View.PlanHoliday.FlightPlanFragment"
     tools:listitem="@layout/fragment_flightplan"
-    tools:visibility="visible"
-    android:visibility="gone"/>
+    tools:visibility="visible" />

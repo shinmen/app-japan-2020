@@ -14,11 +14,8 @@ class FlightRequestActivity
         FlightRequestFragment.OnFlightRequestListener,
         FlightPlanFragment.OnStartHolidayPlanningFlightPlanListener
 {
-    private var mPresenter: FlightRequestPresenter? = null
-
     override fun onFlightPlanSelected(command: FlightRequestCommand) {
         val fragment = FlightPlanFragment.newInstance(command)
-        fragment.mPresenter = mPresenter!!
         supportFragmentManager
                 .beginTransaction()
                 .setTransition(android.R.transition.explode)
@@ -28,16 +25,6 @@ class FlightRequestActivity
     }
 
     override fun onStartHolidayPlanning() {
-        /*val flightPlanFragment = supportFragmentManager.findFragmentByTag("flightplan")
-        val startHolidayFragment = StartHolidayPlanningFragment.newInstance()
-        supportFragmentManager
-                .beginTransaction()
-                .setTransition(android.R.transition.explode)
-                .remove(flightPlanFragment)
-                .add(android.R.id.content, startHolidayFragment, "startholiday")
-                .add(android.R.id.content, flightPlanFragment, "flightplan")
-                .addToBackStack(null)
-                .commit()*/
         val i = PlanningActivity.newIntent(this)
         startActivity(i)
     }
@@ -45,14 +32,10 @@ class FlightRequestActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flight_request)
-        mPresenter = FlightRequestPresenter()
 
         val flightPlanFragment = supportFragmentManager.findFragmentByTag("flightplan") as FlightPlanFragment?
-        flightPlanFragment?.mPresenter = mPresenter as FlightRequestPresenter
-
         if (flightPlanFragment == null) {
             val fragment = FlightRequestFragment.newInstance()
-            fragment.mPresenter = mPresenter!!
 
             supportFragmentManager
                     .beginTransaction()
@@ -60,11 +43,6 @@ class FlightRequestActivity
                     .add(android.R.id.content, fragment)
                     .commit()
         }
-    }
-
-    override fun onDestroy() {
-        mPresenter = null
-        super.onDestroy()
     }
 
     companion object {

@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import android.view.View
 import android.widget.DatePicker
 import fr.jbouffard.japan2020.R
 import org.joda.time.DateTime
