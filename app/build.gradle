@@ -39,13 +39,13 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.github.florent37:expansionpanel:1.1.1'
     implementation 'com.google.android.gms:play-services-maps:15.0.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+    // Koin for Android
+    implementation "org.koin:koin-android:$koin_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$anko_version"
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:1.0.0'
     implementation "org.jetbrains.anko:anko:$anko_version"
     implementation 'joda-time:joda-time:2.9.9'
-    // Koin for Android
-    implementation "org.koin:koin-android:$koin_version"
 }
 kotlin {
     experimental {
