@@ -30,6 +30,8 @@
         android:layout_marginEnd="5dp"
         android:layout_marginTop="8dp"
         android:accessibilityLiveRegion="assertive"
+        android:baselineAlignBottom="false"
+        android:scaleType="fitEnd"
         android:src="@drawable/ic_fuji_mountain"
         android:textAlignment="viewEnd"
         app:layout_constraintEnd_toStartOf="@id/welcome"
@@ -58,43 +60,19 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@color/colorPrimaryDark"
+        android:transitionName="start_flight_process"
         android:elevation="4dp"
         android:fadingEdge="none"
         android:src="@drawable/ic_airplane_around_earth"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:elevation="5dp"
         app:fabSize="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline_btn" />
 
-    <Button
-        android:id="@+id/new_holiday_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@android:color/background_light"
-        android:elevation="@dimen/cardview_default_elevation"
-        android:fontFamily="@font/orienta"
-        android:padding="40dp"
-        android:text="@string/plan_holiday"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline_btn" />
-
-    <Button
-        android:id="@+id/list_holidays_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@android:color/background_light"
-        android:elevation="@dimen/cardview_default_elevation"
-        android:fontFamily="@font/orienta"
-        android:padding="40dp"
-        android:text="@string/planned_holidays"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/new_holiday_button" />
+    <include layout="@layout/navigation"/>
 
 
 </android.support.constraint.ConstraintLayout>

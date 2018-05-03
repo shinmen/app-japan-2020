@@ -25,7 +25,7 @@
     <string name="price_per_pax_label">Prix/pers</string>
     <string name="going_flight_label">Aller</string>
     <string name="return_flight_label">Retour</string>
-    <string name="travel_duration_label">Durée</string>
+    <string name="travel_duration_label">Durée:</string>
     <string name="choose_fligh_date_label">Choisir cet A/R</string>
     <string name="hide_flight_detail_label">Masquer</string>
     <string name="company_name">Compagnie: %1$s</string>

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_airplane_around_earth"
-        android:title="@string/title_new" />
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_line_chart"
-        android:title="@string/title_stats" />
+        android:iconTint="@color/colorPrimaryDark"
+        android:title="@string/title_stats"
+        app:showAsAction="always" />
 
 </menu>

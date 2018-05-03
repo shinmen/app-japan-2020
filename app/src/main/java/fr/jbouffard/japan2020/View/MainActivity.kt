@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.view.animation.AnimationUtils
 import fr.jbouffard.japan2020.View.PlanHoliday.FlightRequestActivity
 import org.jetbrains.anko.sdk25.coroutines.onClick
-
+import android.support.v4.app.ActivityOptionsCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,9 +33,10 @@ class MainActivity : AppCompatActivity() {
         welcome.startAnimation(welcomeAnimation)
 
 
-        new_holiday_button.onClick {
+        holiday_planning_btn.onClick {
             val i = FlightRequestActivity.newIntent(this@MainActivity)
-            startActivity(i)
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity, holiday_planning_btn, "start_flight_process")
+            startActivity(i, options.toBundle())
         }
 
 
