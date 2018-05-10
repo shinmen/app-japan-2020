@@ -43,7 +43,6 @@ class FlightRequestFragment
 
         showGoingReturnCalendar(view)
 
-        //val requestBtn = view.findViewById<Button>(R.id.flight_request_btn)
         flight_request_btn.onClick {
             launch(UI) {
                 if (isValid()) {
@@ -71,18 +70,18 @@ class FlightRequestFragment
     private fun isValid(): Boolean
     {
         if (mGoingAt == null) {
-            goingDateInput.error = "date d'aller nécessaire"
+            goingDateInput.error = resources.getString(R.string.error_going_date_required)
             return false
         }
 
         if (mReturnAt == null) {
-            returnDateInput.error = "date de retour nécessaire"
+            returnDateInput.error = resources.getString(R.string.error_return_date_required)
             return false
         }
 
         if (mGoingAt!!.isAfter(mReturnAt)) {
-            goingDateInput.error = "date d'aller supérieure à celle de retour"
-            returnDateInput.error = "date d'aller supérieure à celle de retour"
+            goingDateInput.error = resources.getString(R.string.error_going_date_lt_return)
+            returnDateInput.error = resources.getString(R.string.error_going_date_lt_return)
             return false
         }
 

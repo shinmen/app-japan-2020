@@ -1,13 +1,11 @@
 package fr.jbouffard.japan2020.View.PlanHoliday
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import fr.jbouffard.japan2020.Domain.Travel.Command.FlightRequestCommand
 
 import fr.jbouffard.japan2020.R
 

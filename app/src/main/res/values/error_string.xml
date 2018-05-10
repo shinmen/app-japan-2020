@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="error_going_date_required">date d\'aller nécessaire</string>
+    <string name="error_return_date_required">date de retour nécessaire</string>
+    <string name="error_going_date_lt_return">date d\'aller supérieure à celle de retour</string>
+
+</resources>

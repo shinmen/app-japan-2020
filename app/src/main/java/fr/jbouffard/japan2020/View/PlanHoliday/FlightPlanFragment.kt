@@ -1,11 +1,17 @@
 package fr.jbouffard.japan2020.View.PlanHoliday
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.transition.*
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,17 +20,12 @@ import android.widget.ProgressBar
 import fr.jbouffard.japan2020.Domain.Travel.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Presenter.FlightRequestPresenter
 import fr.jbouffard.japan2020.R
-import kotlinx.android.synthetic.main.fragment_start_holiday_planning.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import android.widget.Button
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
-import kotlinx.android.synthetic.main.detail_going_first_flight.*
-import kotlinx.android.synthetic.main.detail_going_second_flight.*
-import kotlinx.android.synthetic.main.detail_going_third_flight.*
-import kotlinx.android.synthetic.main.detail_return_first_flight.*
-import kotlinx.android.synthetic.main.detail_return_second_flight.*
-import kotlinx.android.synthetic.main.detail_return_third_flight.*
+import kotlinx.android.synthetic.main.detail_going_flight_plan.*
+import kotlinx.android.synthetic.main.detail_return_flight_plan.*
+import kotlinx.android.synthetic.main.fragment_start_holiday_planning.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.support.v4.toast
 
@@ -41,11 +42,6 @@ class FlightPlanFragment : Fragment() {
         arguments?.let {
             mFlightRequestCommand = it.getParcelable(ARG_FLIGHT_PLAN)
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -78,6 +74,7 @@ class FlightPlanFragment : Fragment() {
                         }
 
                         start_planning_btn.onClick {
+
                             mListener?.onStartHolidayPlanning()
                         }
                     }
@@ -93,55 +90,64 @@ class FlightPlanFragment : Fragment() {
     private fun hydrateDetailGoingFlight(flightOffer: FlightOffer)
     {
         going_first_flight_origin_code.text = flightOffer.goingFlight.flights.first().departureAirport.code
-        going_first_flight_departure_date.text = flightOffer.goingFlight.flights.first().departureDate.toString("dd MMM")
-        going_first_flight_departure_time.text = flightOffer.goingFlight.flights.first().departureDate.toString("HH:mm")
+        going_first_flight_departure_city.text = resources.getString(R.string.highlighted_time, flightOffer.goingFlight.flights.first().departureAirport.city, flightOffer.goingFlight.flights.first().departureAirport.country)
+        going_first_flight_departure_date.text = highlightDate(flightOffer.goingFlight.flights.first().departureDate.toString("HH:mm dd MMM"))
         going_first_flight_destination_code.text = flightOffer.goingFlight.flights.first().arrivalAirport.code
-        going_first_flight_arrival_date.text = flightOffer.goingFlight.flights.first().arrivalDate.toString("dd MMM")
-        going_first_flight_arrival_time.text = flightOffer.goingFlight.flights.first().arrivalDate.toString("HH:mm")
+        going_first_flight_arrival_city.text = resources.getString(R.string.highlighted_time, flightOffer.goingFlight.flights.first().arrivalAirport.city, flightOffer.goingFlight.flights.first().arrivalAirport.country)
+        going_first_flight_arrival_date.text = highlightDate(flightOffer.goingFlight.flights.first().arrivalDate.toString("HH:mm dd MMM"))
 
-        going_second_flight_origin_code.text = flightOffer.goingFlight.flights[1].departureAirport.code
-        going_second_flight_departure_date.text = flightOffer.goingFlight.flights[1].departureDate.toString("dd MMM")
-        going_second_flight_departure_time.text = flightOffer.goingFlight.flights[1].departureDate.toString("HH:mm")
-        going_second_flight_destination_code.text = flightOffer.goingFlight.flights[1].arrivalAirport.code
-        going_second_flight_arrival_date.text = flightOffer.goingFlight.flights[1].arrivalDate.toString("dd MMM")
-        going_second_flight_arrival_time.text = flightOffer.goingFlight.flights[1].arrivalDate.toString("HH:mm")
+        going_second_flight_departure_code.text = flightOffer.goingFlight.flights[1].departureAirport.code
+        going_second_flight_departure_city.text = resources.getString(R.string.highlighted_time, flightOffer.goingFlight.flights[1].departureAirport.city, flightOffer.goingFlight.flights[1].departureAirport.country)
+        going_second_flight_departure_date.text = highlightDate(flightOffer.goingFlight.flights[1].departureDate.toString("HH:mm dd MMM"))
+        going_second_flight_arrival_code.text = flightOffer.goingFlight.flights[1].arrivalAirport.code
+        going_second_flight_arrival_city.text = resources.getString(R.string.highlighted_time, flightOffer.goingFlight.flights[1].arrivalAirport.city, flightOffer.goingFlight.flights[1].arrivalAirport.country)
+        going_second_flight_arrival_date.text = highlightDate(flightOffer.goingFlight.flights[1].arrivalDate.toString("HH:mm dd MMM"))
 
         if (flightOffer.goingFlight.flights.size > 2) {
-            going_third_flight_content.visibility = View.VISIBLE
-            going_third_flight_origin_code.text = flightOffer.goingFlight.flights[2].departureAirport.code
-            going_third_flight_departure_date.text = flightOffer.goingFlight.flights[2].departureDate.toString("dd MMM")
-            going_third_flight_departure_time.text = flightOffer.goingFlight.flights[2].departureDate.toString("HH:mm")
-            going_third_flight_destination_code.text = flightOffer.goingFlight.flights[2].arrivalAirport.code
-            going_third_flight_arrival_date.text = flightOffer.goingFlight.flights[2].arrivalDate.toString("dd MMM")
-            going_third_flight_arrival_time.text = flightOffer.goingFlight.flights[2].arrivalDate.toString("HH:mm")
+            detail_going_third_flight_container.visibility = View.VISIBLE
+            going_third_flight_departure_code.text = flightOffer.goingFlight.flights[2].departureAirport.code
+            going_third_flight_departure_city.text = resources.getString(R.string.highlighted_time, flightOffer.goingFlight.flights[2].departureAirport.city, flightOffer.goingFlight.flights[2].departureAirport.country)
+            going_third_flight_departure_date.text = highlightDate(flightOffer.goingFlight.flights[2].departureDate.toString("HH:mm dd MMM"))
+            going_third_flight_arrival_code.text = flightOffer.goingFlight.flights[2].arrivalAirport.code
+            going_third_flight_arrival_city.text = resources.getString(R.string.highlighted_time, flightOffer.goingFlight.flights[2].arrivalAirport.city, flightOffer.goingFlight.flights[2].arrivalAirport.country)
+            going_third_flight_arrival_date.text = highlightDate(flightOffer.goingFlight.flights[2].arrivalDate.toString("HH:mm dd MMM"))
         }
     }
 
     private fun hydrateDetailReturnFlight(flightOffer: FlightOffer)
     {
         return_first_flight_origin_code.text = flightOffer.returnFlight.flights.first().departureAirport.code
-        return_first_flight_departure_date.text = flightOffer.returnFlight.flights.first().departureDate.toString("dd MMM")
-        return_first_flight_departure_time.text = flightOffer.returnFlight.flights.first().departureDate.toString("HH:mm")
+        return_first_flight_departure_city.text = resources.getString(R.string.highlighted_time, flightOffer.returnFlight.flights.first().departureAirport.city, flightOffer.returnFlight.flights.first().departureAirport.country)
+        return_first_flight_departure_date.text = highlightDate(flightOffer.returnFlight.flights.first().departureDate.toString("HH:mm dd MMM"))
         return_first_flight_destination_code.text = flightOffer.returnFlight.flights.first().arrivalAirport.code
-        return_first_flight_arrival_date.text = flightOffer.returnFlight.flights.first().arrivalDate.toString("dd MMM")
-        return_first_flight_arrival_time.text = flightOffer.returnFlight.flights.first().arrivalDate.toString("HH:mm")
+        return_first_flight_arrival_city.text = resources.getString(R.string.highlighted_time, flightOffer.returnFlight.flights.first().arrivalAirport.city, flightOffer.returnFlight.flights.first().arrivalAirport.country)
+        return_first_flight_arrival_date.text = highlightDate(flightOffer.returnFlight.flights.first().arrivalDate.toString("HH:mm dd MMM"))
 
-        return_second_flight_origin_code.text = flightOffer.returnFlight.flights[1].departureAirport.code
-        return_second_flight_departure_date.text = flightOffer.returnFlight.flights[1].departureDate.toString("dd MMM")
-        return_second_flight_departure_time.text = flightOffer.returnFlight.flights[1].departureDate.toString("HH:mm")
-        return_second_flight_destination_code.text = flightOffer.returnFlight.flights[1].arrivalAirport.code
-        return_second_flight_arrival_date.text = flightOffer.returnFlight.flights[1].arrivalDate.toString("dd MMM")
-        return_second_flight_arrival_time.text = flightOffer.returnFlight.flights[1].arrivalDate.toString("HH:mm")
+        return_second_flight_departure_code.text = flightOffer.returnFlight.flights[1].departureAirport.code
+        return_second_flight_departure_city.text = resources.getString(R.string.highlighted_time, flightOffer.returnFlight.flights[1].departureAirport.city, flightOffer.returnFlight.flights[1].departureAirport.country)
+        return_second_flight_departure_date.text = highlightDate(flightOffer.returnFlight.flights[1].departureDate.toString("HH:mm dd MMM"))
+        return_second_flight_arrival_code.text = flightOffer.returnFlight.flights[1].arrivalAirport.code
+        return_second_flight_arrival_city.text = resources.getString(R.string.highlighted_time, flightOffer.returnFlight.flights[1].arrivalAirport.city, flightOffer.returnFlight.flights[1].arrivalAirport.country)
+        return_second_flight_arrival_date.text = highlightDate(flightOffer.returnFlight.flights[1].arrivalDate.toString("HH:mm dd MMM"))
 
         if (flightOffer.returnFlight.flights.size > 2) {
-            return_third_flight_content.visibility = View.VISIBLE
-            return_third_flight_origin_code.text = flightOffer.returnFlight.flights[2].departureAirport.code
-            return_third_flight_departure_date.text = flightOffer.returnFlight.flights[2].departureDate.toString("dd MMM")
-            return_third_flight_departure_time.text = flightOffer.returnFlight.flights[2].departureDate.toString("HH:mm")
-            return_third_flight_destination_code.text = flightOffer.returnFlight.flights[2].arrivalAirport.code
-            return_third_flight_arrival_date.text = flightOffer.returnFlight.flights[2].arrivalDate.toString("dd MMM")
-            return_third_flight_arrival_time.text = flightOffer.returnFlight.flights[2].arrivalDate.toString("HH:mm")
+            detail_return_third_flight_container.visibility = View.VISIBLE
+            return_third_flight_departure_code.text = flightOffer.returnFlight.flights[2].departureAirport.code
+            return_third_flight_departure_city.text = resources.getString(R.string.highlighted_time, flightOffer.returnFlight.flights[2].departureAirport.city, flightOffer.returnFlight.flights[2].departureAirport.country)
+            return_third_flight_departure_date.text = highlightDate(flightOffer.returnFlight.flights[2].departureDate.toString("HH:mm dd MMM"))
+            return_third_flight_arrival_code.text = flightOffer.returnFlight.flights[2].arrivalAirport.code
+            return_third_flight_arrival_city.text = resources.getString(R.string.highlighted_time, flightOffer.returnFlight.flights[2].arrivalAirport.city, flightOffer.returnFlight.flights[2].arrivalAirport.country)
+            return_third_flight_arrival_date.text = highlightDate(flightOffer.returnFlight.flights[2].arrivalDate.toString("HH:mm dd MMM"))
         }
+    }
+
+    private fun highlightDate(date :String): SpannableString {
+        val highlighted = SpannableString(date)
+        highlighted.setSpan(StyleSpan(Typeface.BOLD), 0, 5, 0)
+        highlighted.setSpan(ForegroundColorSpan(Color.LTGRAY), 6, date.length, 0)
+        highlighted.setSpan(RelativeSizeSpan(0.8f), 6, date.length, 0)
+
+        return highlighted
     }
 
 

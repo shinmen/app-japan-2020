@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <Button
+        android:id="@+id/going_first_flight_origin_code"
+        style="@style/detail_airport_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="CDG" />
+
+    <TextView
+        android:id="@+id/going_first_flight_departure_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/going_first_flight_origin_code"
+        app:layout_constraintTop_toTopOf="@id/going_first_flight_origin_code"
+        tools:text="12:00 02 nov." />
+
+    <TextView
+        android:id="@+id/going_first_flight_departure_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toEndOf="@+id/going_first_flight_origin_code"
+        app:layout_constraintTop_toBottomOf="@+id/going_first_flight_departure_date"
+        tools:text="Paris, FR" />
+
+
+    
+    <Button
+        android:id="@+id/going_first_flight_destination_code"
+        style="@style/detail_airport_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/going_first_flight_origin_code"
+        tools:text="DOH" />
+
+    <TextView
+        android:id="@+id/going_first_flight_arrival_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/going_first_flight_destination_code"
+        app:layout_constraintTop_toTopOf="@+id/going_first_flight_destination_code"
+        tools:text="21:00 02 nov." />
+
+    <TextView
+        android:id="@+id/going_first_flight_arrival_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toEndOf="@+id/going_first_flight_destination_code"
+        app:layout_constraintTop_toBottomOf="@+id/going_first_flight_arrival_date"
+        tools:text="Doha, QA" />
+
+
+
+    <Button
+        android:id="@+id/going_second_flight_departure_code"
+        style="@style/detail_airport_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/going_first_flight_destination_code"
+        tools:text="DOH" />
+
+    <TextView
+        android:id="@+id/going_second_flight_departure_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/going_second_flight_departure_code"
+        app:layout_constraintTop_toTopOf="@+id/going_second_flight_departure_code"
+        tools:text="23:00 02 nov." />
+
+    <TextView
+        android:id="@+id/going_second_flight_departure_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toEndOf="@+id/going_second_flight_departure_code"
+        app:layout_constraintTop_toBottomOf="@+id/going_second_flight_departure_date"
+        tools:text="Doha, QA" />
+
+
+
+    <Button
+        android:id="@+id/going_second_flight_arrival_code"
+        style="@style/detail_airport_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/going_second_flight_departure_code"
+        tools:text="NRT" />
+
+    <TextView
+        android:id="@+id/going_second_flight_arrival_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/going_second_flight_arrival_code"
+        app:layout_constraintTop_toTopOf="@+id/going_second_flight_arrival_code"
+        tools:text="12:00 03 nov." />
+
+    <TextView
+        android:id="@+id/going_second_flight_arrival_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toEndOf="@+id/going_second_flight_arrival_code"
+        app:layout_constraintTop_toBottomOf="@+id/going_second_flight_arrival_date"
+        tools:text="Tokyo, JP" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/detail_going_third_flight_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/going_second_flight_arrival_code"
+        android:visibility="gone"
+        tools:visibility="visible"
+        >
+        <View
+            android:id="@+id/going_timeline_additionnal"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="14dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/going_third_flight_arrival_code"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/going_third_flight_departure_code"
+            style="@style/detail_airport_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="DOH" />
+
+        <TextView
+            android:id="@+id/going_third_flight_departure_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/going_third_flight_departure_code"
+            app:layout_constraintTop_toTopOf="@id/going_third_flight_departure_code"
+            tools:text="23:00 02 nov." />
+
+        <TextView
+            android:id="@+id/going_third_flight_departure_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toEndOf="@id/going_third_flight_departure_code"
+            app:layout_constraintTop_toBottomOf="@id/going_third_flight_departure_date"
+            tools:text="Doha, QA" />
+
+
+        <Button
+            android:id="@+id/going_third_flight_arrival_code"
+            style="@style/detail_airport_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/going_third_flight_departure_code"
+            tools:text="NRT" />
+
+        <TextView
+            android:id="@+id/going_third_flight_arrival_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/going_third_flight_arrival_code"
+            app:layout_constraintTop_toTopOf="@id/going_third_flight_arrival_code"
+            tools:text="12:00 03 nov." />
+
+        <TextView
+            android:id="@+id/going_third_flight_arrival_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toEndOf="@id/going_third_flight_arrival_code"
+            app:layout_constraintTop_toBottomOf="@id/going_third_flight_arrival_date"
+            tools:text="Tokyo, JP" />
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/going_timeline"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="14dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintBottom_toTopOf="@+id/detail_going_third_flight_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/going_first_flight_origin_code" />
+
+</android.support.constraint.ConstraintLayout>

@@ -43,68 +43,23 @@
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toEndOf="@id/airline_company_name"
         app:layout_constraintTop_toTopOf="parent"
-
         />
 
-    <FrameLayout
-        android:id="@+id/going_first_flight_container"
+    <include
+        layout="@layout/detail_going_flight_plan"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/hide_detail_btn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/going_flight_label">
+        app:layout_constraintTop_toBottomOf="@id/going_flight_label" />
 
-        <include layout="@layout/detail_going_first_flight" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/going_second_flight_container"
+    <include
+        layout="@layout/detail_return_flight_plan"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/going_first_flight_container">
-
-        <include layout="@layout/detail_going_second_flight" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/going_third_flight_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/going_second_flight_container">
-        <include layout="@layout/detail_going_third_flight" />
-    </FrameLayout>
-
-
-    <FrameLayout
-        android:id="@+id/return_first_flight_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/hide_detail_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/return_flight_label">
-
-        <include layout="@layout/detail_return_first_flight" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/return_second_flight_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/return_first_flight_container">
-
-        <include layout="@layout/detail_return_second_flight" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/return_third_flight_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/return_second_flight_container">
-
-        <include layout="@layout/detail_return_third_flight" />
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@id/return_flight_label" />
 
     <Button
         android:id="@+id/hide_detail_btn"
@@ -116,7 +71,7 @@
         android:text="@string/hide_flight_detail_label"
         app:layout_constraintBottom_toTopOf="@+id/separator_detail"
         app:layout_constraintEnd_toStartOf="@id/start_planning_btn"
-        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -129,7 +84,7 @@
         app:layout_constraintBottom_toTopOf="@+id/separator_detail"
         app:layout_constraintEnd_toEndOf="parent"
 
-        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@id/hide_detail_btn" />
 
     <View
@@ -144,7 +99,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
         android:background="@android:color/darker_gray"
-        app:layout_constraintBottom_toBottomOf="@+id/going_third_flight_container"
+        app:layout_constraintBottom_toTopOf="@+id/hide_detail_btn"
         app:layout_constraintStart_toStartOf="@id/separator_roundtrip"
         app:layout_constraintTop_toBottomOf="@id/airline_company_name" />
 
