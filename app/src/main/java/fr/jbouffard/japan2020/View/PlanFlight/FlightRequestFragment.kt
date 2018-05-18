@@ -1,34 +1,26 @@
-package fr.jbouffard.japan2020.View.PlanHoliday
+package fr.jbouffard.japan2020.View.PlanFlight
 
 import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
-import android.support.transition.TransitionManager
 import android.support.v4.app.Fragment
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.RadioButton
-import android.widget.TextView
-import fr.jbouffard.japan2020.Domain.Travel.Command.FlightRequestCommand
+import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Infrastructure.DTO.CityCodeMapper
-import fr.jbouffard.japan2020.Presenter.FlightRequestPresenter
 import fr.jbouffard.japan2020.R
 import kotlinx.android.synthetic.main.fragment_flight_request.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import org.jetbrains.anko.sdk25.coroutines.onFocusChange
-import org.jetbrains.anko.sdk25.coroutines.onKey
-import org.jetbrains.anko.sdk25.coroutines.onTouch
 import org.joda.time.DateTime
 
 class FlightRequestFragment
-    : Fragment(),
-        DatetimeSelectInterface {
+    : Fragment(), DatetimeSelectInterface {
 
     private var mListener: OnFlightRequestListener? = null
     private lateinit var goingDateInput: TextInputLayout

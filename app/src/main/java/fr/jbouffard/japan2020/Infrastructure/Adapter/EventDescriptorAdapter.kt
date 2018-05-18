@@ -1,10 +1,10 @@
 package fr.jbouffard.japan2020.Infrastructure.Adapter
 
 import com.google.gson.*
-import fr.jbouffard.japan2020.Domain.Travel.Event.FlightPlanSelected
 import fr.jbouffard.japan2020.Infrastructure.Repository.EventDescription
 import java.lang.reflect.Type
 import com.google.gson.GsonBuilder
+import fr.jbouffard.japan2020.Domain.Travel.Event.FlightPlanSelected
 import java.util.*
 
 

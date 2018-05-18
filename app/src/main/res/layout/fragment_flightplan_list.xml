@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <android.support.constraint.Guideline
         android:id="@+id/loading_guideline"
@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
+
     <ProgressBar
         android:id="@+id/flight_plan_loading"
         android:layout_width="wrap_content"
@@ -28,11 +29,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="1"
         tools:visibility="visible">
+
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
-        <include layout="@layout/fragment_start_holiday_planning" />
+
+            <include
+                layout="@layout/fragment_start_holiday_planning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </ScrollView>
     </FrameLayout>
 

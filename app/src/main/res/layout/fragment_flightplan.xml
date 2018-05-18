@@ -12,67 +12,58 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
         android:paddingBottom="8dp"
         android:paddingEnd="4dp"
         android:paddingStart="4dp"
         android:paddingTop="8dp">
 
-        <TextView
-            android:id="@+id/total_fare_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:text="@string/price_per_pax_label"
-            app:layout_constraintEnd_toStartOf="@id/total_fare"
-            app:layout_constraintHorizontal_chainStyle="packed"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/list_fare_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/total_fare"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/total_fare_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@id/total_fare_label"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="850 €" />
+            <TextView
+                android:id="@+id/total_fare_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="@string/price_per_pax_label"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toStartOf="@id/total_fare"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/total_fare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/total_fare_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/total_fare_label"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="850 €" />
+
+        </android.support.constraint.ConstraintLayout>
+
 
         <View
             android:id="@+id/separator_fare"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="8dp"
             android:background="@android:color/darker_gray"
             android:padding="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/total_fare_label" />
-
-        <TextView
-            android:id="@+id/going_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/going_flight_label"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/separator_fare"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/departure_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/going_label"
-            tools:text="02 nov à 21h45" />
+            app:layout_constraintTop_toBottomOf="@+id/list_fare_container" />
 
         <TextView
             android:id="@+id/going_duration_label"
@@ -80,22 +71,47 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="@string/travel_duration_label"
+            android:textColor="@android:color/white"
             app:layout_constraintEnd_toStartOf="@id/going_duration"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/departure_date" />
-
 
         <TextView
             android:id="@+id/going_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@id/going_duration_label"
             app:layout_constraintTop_toBottomOf="@+id/departure_date"
             tools:text="21:30" />
+
+        <TextView
+            android:id="@+id/going_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/going_flight_label"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/separator_fare" />
+
+        <TextView
+            android:id="@+id/departure_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/going_label"
+            tools:text="02 nov à 21h45" />
+
 
         <View
             android:id="@+id/separator_flights"
@@ -114,8 +130,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/return_flight_label"
+            android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -128,10 +144,25 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/return_label"
             tools:text="22 nov à 09h45" />
+
+        <TextView
+            android:id="@+id/return_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/return_duration_label"
+            app:layout_constraintTop_toBottomOf="@+id/return_date"
+            tools:text="21:30" />
 
         <TextView
             android:id="@+id/return_duration_label"
@@ -140,24 +171,12 @@
             android:layout_margin="8dp"
             android:layout_marginEnd="8dp"
             android:text="@string/travel_duration_label"
+            android:textColor="@android:color/white"
             app:layout_constraintEnd_toStartOf="@+id/return_duration"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/return_date" />
-
-        <TextView
-            android:id="@+id/return_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@+id/return_duration_label"
-            app:layout_constraintTop_toBottomOf="@+id/return_date"
-            tools:text="21:30" />
 
 
     </android.support.constraint.ConstraintLayout>

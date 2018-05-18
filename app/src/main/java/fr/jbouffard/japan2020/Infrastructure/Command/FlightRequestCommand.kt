@@ -1,4 +1,4 @@
-package fr.jbouffard.japan2020.Domain.Travel.Command
+package fr.jbouffard.japan2020.Infrastructure.Command
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

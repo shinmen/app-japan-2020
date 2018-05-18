@@ -1,8 +1,7 @@
 package fr.jbouffard.japan2020.Domain.Travel.Entity
 
 import fr.jbouffard.japan2020.Domain.AggregateRoot
-import fr.jbouffard.japan2020.Domain.Travel.Event.Event
-import fr.jbouffard.japan2020.Domain.Travel.Event.FlightPlanSelected
+import fr.jbouffard.japan2020.Domain.Travel.Event.*
 import fr.jbouffard.japan2020.Domain.Travel.Exception.HolidayTooExpensiveException
 import fr.jbouffard.japan2020.Domain.Travel.Exception.NotEnoughTimeToPlanException
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Flight
@@ -29,7 +28,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot() {
     fun selectRoundTrip(goingFlight: Flight, returnFlight: Flight) {
         val goingDepartureDate = DateTime(goingFlight.departureDate).plus(Period.days(15))
         if (goingDepartureDate.isAfterNow) {
-            throw NotEnoughTimeToPlanException("la date de départ est trop proche")
+            throw NotEnoughTimeToPlanException("la date de départ est trop proche pour s'organiser")
         }
 
         val returnArrivalDate = DateTime(returnFlight.arrivalDate)
@@ -38,7 +37,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot() {
             throw HolidayTooExpensiveException("Nous n'aurons pas assez de tune pour un voyage si long")
         }
         val flightPlan = FlightPlan(goingFlight, returnFlight)
-        applyChange(FlightPlanSelected(flightPlan, version, uuid))
+        //applyChange(FlightPlanSelected(flightPlan, version, uuid))
     }
 
     fun selectRailPassPackage(railpass: RailpassPackage) {
@@ -63,10 +62,28 @@ class Holiday(override var uuid: UUID) : AggregateRoot() {
 
     private fun load(event: Event) = when(event) {
         is FlightPlanSelected -> loadEvent(event)
+        is FlyToJapan -> loadEvent(event)
+        is ReturnFlightScheduled -> loadEvent(event)
+        is ArrivedInJapan -> loadEvent(event)
+    }
+    /*private inline fun <reified T: Event> load(event: Event)  {
+        loadEvent(event as T)
+    }*/
+
+    fun loadEvent(event: FlightPlanSelected) {
+        version++
     }
 
-    private fun loadEvent(event: FlightPlanSelected) {
-        flightPlan = event.flightPlan
+    fun loadEvent(event: ReturnFlightScheduled) {
+        version++
+    }
+
+    fun loadEvent(event: FlyToJapan) {
+        //flightPlan = event.goingFlight
+        version++
+    }
+
+    fun loadEvent(event: ArrivedInJapan) {
         version++
     }
 }

@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import fr.jbouffard.japan2020.R
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.animation.AnimationUtils
-import fr.jbouffard.japan2020.View.PlanHoliday.FlightRequestActivity
+import fr.jbouffard.japan2020.View.PlanFlight.FlightRequestActivity
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import android.support.v4.app.ActivityOptionsCompat
 

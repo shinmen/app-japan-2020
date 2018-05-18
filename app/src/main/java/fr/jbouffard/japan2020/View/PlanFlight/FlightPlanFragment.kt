@@ -1,4 +1,4 @@
-package fr.jbouffard.japan2020.View.PlanHoliday
+package fr.jbouffard.japan2020.View.PlanFlight
 
 import android.content.Context
 import android.graphics.Color
@@ -17,7 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ProgressBar
-import fr.jbouffard.japan2020.Domain.Travel.Command.FlightRequestCommand
+import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Presenter.FlightRequestPresenter
 import fr.jbouffard.japan2020.R
 import kotlinx.coroutines.experimental.android.UI
@@ -28,7 +28,6 @@ import kotlinx.android.synthetic.main.detail_return_flight_plan.*
 import kotlinx.android.synthetic.main.fragment_start_holiday_planning.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.support.v4.toast
-
 
 class FlightPlanFragment : Fragment() {
     private var mFlightRequestCommand: FlightRequestCommand? = null
@@ -74,7 +73,6 @@ class FlightPlanFragment : Fragment() {
                         }
 
                         start_planning_btn.onClick {
-
                             mListener?.onStartHolidayPlanning()
                         }
                     }
@@ -149,7 +147,6 @@ class FlightPlanFragment : Fragment() {
 
         return highlighted
     }
-
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

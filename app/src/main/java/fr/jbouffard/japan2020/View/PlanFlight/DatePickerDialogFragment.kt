@@ -1,4 +1,4 @@
-package fr.jbouffard.japan2020.View.PlanHoliday
+package fr.jbouffard.japan2020.View.PlanFlight
 
 import android.app.DatePickerDialog
 import android.app.Dialog
@@ -36,6 +36,7 @@ class DatePickerDialogFragment : DialogFragment(),
         // Create a new instance of DatePickerDialog and return it
         return DatePickerDialog(
                 activity,
+                R.style.DateDialogTheme,
                 this,
                 date.year,
                 date.monthOfYear - 1,

@@ -1,18 +1,15 @@
-package fr.jbouffard.japan2020.View.PlanHoliday
+package fr.jbouffard.japan2020.View.PlanFlight
 
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import fr.jbouffard.japan2020.Domain.Travel.Command.FlightRequestCommand
-import fr.jbouffard.japan2020.Presenter.FlightRequestPresenter
+import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.R
-import org.jetbrains.anko.toast
+import fr.jbouffard.japan2020.View.PlanHoliday.PlanningActivity
 
 class FlightRequestActivity
-        : AppCompatActivity(),
-        FlightRequestFragment.OnFlightRequestListener,
-        FlightPlanFragment.OnStartHolidayPlanningFlightPlanListener
+        : AppCompatActivity(), FlightRequestFragment.OnFlightRequestListener, FlightPlanFragment.OnStartHolidayPlanningFlightPlanListener
 {
     override fun onFlightPlanSelected(command: FlightRequestCommand) {
         val fragment = FlightPlanFragment.newInstance(command)

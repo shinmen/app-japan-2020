@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/activity_horizontal_margin"
-    tools:context="fr.jbouffard.japan2020.View.PlanHoliday.FlightRequestFragment">
+    tools:context="fr.jbouffard.japan2020.View.PlanFlight.FlightRequestFragment">
 
     <TextView
         android:id="@+id/step_flight"
@@ -31,7 +31,7 @@
         <com.github.florent37.expansionpanel.ExpansionHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryDark"
             app:expansion_headerIndicator="@id/goingHeaderIndicator"
             app:expansion_layout="@id/goingExpansionLayout"
             app:expansion_toggleOnClick="true">
@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="18dp"
                     android:text="@string/origin_city"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorPrimaryDark"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
@@ -94,7 +94,7 @@
                         android:layout_marginTop="10dp"
                         android:checked="true"
                         android:text="@string/city_bordeaux"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="18sp" />
 
                     <RadioButton
@@ -103,7 +103,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/city_paris"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="18sp" />
                 </RadioGroup>
 
@@ -140,7 +140,7 @@
         <com.github.florent37.expansionpanel.ExpansionHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryDark"
             app:expansion_headerIndicator="@id/returnHeaderIndicator"
             app:expansion_layout="@id/returnExpansionLayout"
             app:expansion_toggleOnClick="true">
@@ -190,8 +190,9 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="18dp"
                     android:text="@string/destination_city"
-                    android:textColor="@color/colorPrimary"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:textColor="@color/colorPrimaryDark"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="16dp" />
 
                 <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/radio_group_destination"
@@ -207,7 +208,7 @@
                         android:layout_marginTop="10dp"
                         android:checked="true"
                         android:text="@string/city_tokyo"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="18sp" />
 
                     <RadioButton
@@ -216,7 +217,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/city_osaka"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="18sp" />
 
                     <RadioButton
@@ -225,7 +226,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/city_nagoya"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="18sp" />
                 </RadioGroup>
 

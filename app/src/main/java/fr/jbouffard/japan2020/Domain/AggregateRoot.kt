@@ -35,6 +35,4 @@ abstract class AggregateRoot {
             changes.add(event)
         }
     }
-
-
 }

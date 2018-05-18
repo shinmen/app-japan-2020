@@ -8,5 +8,5 @@ import java.util.*
  */
 interface EventStore {
     fun saveEvents(uuid: UUID, changes: List<Event>, expectedVersion: Int)
-    fun getAggregateHistory(uuid: UUID) :List<Event>
+    fun getAggregateHistory(uuid: UUID): List<Event>
 }

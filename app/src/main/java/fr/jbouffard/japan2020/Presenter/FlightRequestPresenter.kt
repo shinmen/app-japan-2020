@@ -1,6 +1,6 @@
 package fr.jbouffard.japan2020.Presenter
 
-import fr.jbouffard.japan2020.Domain.Travel.Command.FlightRequestCommand
+import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightRequest
 import fr.jbouffard.japan2020.Infrastructure.Repository.ApiInterface
@@ -16,10 +16,10 @@ class FlightRequestPresenter {
 
         val service = retrofit.create<ApiInterface>(ApiInterface::class.java)
         val request = FlightRequest(
-            flightRequest.origin,
-            flightRequest.destination,
-            flightRequest.goingDate.toString("y-M-d H:m"),
-            flightRequest.returnDate.toString("y-M-d H:m")
+                flightRequest.origin,
+                flightRequest.destination,
+                flightRequest.goingDate.toString("y-M-d H:m"),
+                flightRequest.returnDate.toString("y-M-d H:m")
         )
         return service.getFlightOffers(request).await()
     }

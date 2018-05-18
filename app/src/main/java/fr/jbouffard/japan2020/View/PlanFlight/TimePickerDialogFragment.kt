@@ -1,4 +1,4 @@
-package fr.jbouffard.japan2020.View.PlanHoliday
+package fr.jbouffard.japan2020.View.PlanFlight
 
 import android.app.Dialog
 import android.app.TimePickerDialog
@@ -7,7 +7,6 @@ import android.support.v4.app.DialogFragment
 import android.widget.TimePicker
 import fr.jbouffard.japan2020.R
 import org.joda.time.DateTime
-import java.util.*
 
 /**
  * Created by julienb on 15/03/18.
@@ -37,7 +36,14 @@ class TimePickerDialogFragment: DialogFragment(),
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AppTheme)
 
         // Create a new instance of TimePickerDialog and return it
-        return TimePickerDialog(activity, this, date.hourOfDay, date.minuteOfHour, true)
+        return TimePickerDialog(
+                activity,
+                R.style.DateDialogTheme,
+                this,
+                date.hourOfDay,
+                date.minuteOfHour,
+                true
+        )
     }
 
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
