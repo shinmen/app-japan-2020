@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
+import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
 import fr.jbouffard.japan2020.R
 import fr.jbouffard.japan2020.View.PlanHoliday.PlanningActivity
 
@@ -21,7 +22,7 @@ class FlightRequestActivity
                 .commit()
     }
 
-    override fun onStartHolidayPlanning() {
+    override fun onStartHolidayPlanning(flightOffer: FlightOffer) {
         val i = PlanningActivity.newIntent(this)
         startActivity(i)
     }
@@ -33,7 +34,6 @@ class FlightRequestActivity
         val flightPlanFragment = supportFragmentManager.findFragmentByTag("flightplan") as FlightPlanFragment?
         if (flightPlanFragment == null) {
             val fragment = FlightRequestFragment.newInstance()
-
             supportFragmentManager
                     .beginTransaction()
                     .setTransition(android.R.transition.explode)

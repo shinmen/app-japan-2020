@@ -6,17 +6,65 @@
     android:layout_height="match_parent"
     tools:context="fr.jbouffard.japan2020.View.PlanHoliday.PlanningActivity">
 
+    <TextView
+        android:id="@+id/step_day"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/shojumaru"
+        android:gravity="center_horizontal"
+        android:text="@string/step_day"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/map_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/map_separator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/step_day">
+
+    </FrameLayout>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/map_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
     <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/pager_separator"
+        app:layout_constraintTop_toBottomOf="@+id/map_separator"
+        tools:layout="fr.jbouffard.japan2020.View.PlanHoliday.DayFragment">
 
-    <me.relex.circleindicator.CircleIndicator
+    </android.support.v4.view.ViewPager>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/pager_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="40dp" />
+
+    <com.stepstone.stepper.StepperLayout
         android:id="@+id/indicator"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pager_separator"
+        app:ms_activeStepColor="@color/colorPrimary"
+        app:ms_backButtonText="Précéd."
+        app:ms_completeButtonText="Récap"
+        app:ms_nextButtonText="Suivant"
+        app:ms_stepperType="progress_bar" />
 
 
 </android.support.constraint.ConstraintLayout>

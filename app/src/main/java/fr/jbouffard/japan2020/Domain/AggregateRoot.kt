@@ -1,6 +1,5 @@
 package fr.jbouffard.japan2020.Domain
 
-import fr.jbouffard.japan2020.Domain.Travel.Event.Event
 import java.util.*
 
 /**
@@ -10,9 +9,9 @@ abstract class AggregateRoot {
     abstract var uuid: UUID
 
     protected var version: Int = 0
-    private var changes: MutableList<Event> = mutableListOf()
+    protected var changes: MutableList<DomainEvent> = mutableListOf()
 
-    fun getUncommittedChanges(): List<Event> {
+    fun getUncommittedChanges(): List<DomainEvent> {
         return changes
     }
 
@@ -20,19 +19,14 @@ abstract class AggregateRoot {
         changes = mutableListOf()
     }
 
-    fun replayHistory(history: List<Event>) {
+    fun replayHistory(history: List<DomainEvent>) {
         history.forEach {
-            applyEvent(it, false)
+            applyEvent(it)
         }
     }
 
-    protected fun applyChange(event: Event) {
-        applyEvent(event, true)
+    protected open fun applyNewEvent(domainEvent: DomainEvent) {
+        changes.add(domainEvent)
     }
-
-    protected open fun applyEvent(event: Event, isNew: Boolean) {
-        if (isNew) {
-            changes.add(event)
-        }
-    }
+    protected abstract fun applyEvent(domainEvent: DomainEvent)
 }

@@ -17,22 +17,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ProgressBar
+import fr.jbouffard.japan2020.Domain.DomainException
 import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Presenter.FlightRequestPresenter
 import fr.jbouffard.japan2020.R
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
+import fr.jbouffard.japan2020.Infrastructure.Repository.HttpClient
 import kotlinx.android.synthetic.main.detail_going_flight_plan.*
 import kotlinx.android.synthetic.main.detail_return_flight_plan.*
 import kotlinx.android.synthetic.main.fragment_start_holiday_planning.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.toast
+import org.koin.android.ext.android.inject
+import java.io.IOException
 
 class FlightPlanFragment : Fragment() {
     private var mFlightRequestCommand: FlightRequestCommand? = null
     private var mListener: OnStartHolidayPlanningFlightPlanListener? = null
-    lateinit var mPresenter: FlightRequestPresenter
+    private val mPresenter: FlightRequestPresenter by inject()
 
     private lateinit var mDetailView: FrameLayout
 
@@ -46,7 +51,6 @@ class FlightPlanFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_flightplan_list, container, false)
         val loading = view.findViewById<ProgressBar>(R.id.flight_plan_loading)
-        mPresenter = FlightRequestPresenter()
 
         launch(UI) {
             try {
@@ -73,12 +77,17 @@ class FlightPlanFragment : Fragment() {
                         }
 
                         start_planning_btn.onClick {
-                            mListener?.onStartHolidayPlanning()
+                            try {
+                                mPresenter.selectRoundTrip(flightOffer)
+                                mListener?.onStartHolidayPlanning(flightOffer)
+                            }  catch (e: DomainException) {
+                                longToast(e.message.toString())
+                            }
                         }
                     }
                 }
-            } catch (e: Exception) {
-                toast("Désolé, il y a une couille dans le potage")
+            } catch (e: IOException) {
+                toast(resources.getString(R.string.flight_offers_error))
             }
         }
 
@@ -163,7 +172,7 @@ class FlightPlanFragment : Fragment() {
     }
 
     interface OnStartHolidayPlanningFlightPlanListener {
-        fun onStartHolidayPlanning()
+        fun onStartHolidayPlanning(flightOffer: FlightOffer)
     }
 
     companion object {

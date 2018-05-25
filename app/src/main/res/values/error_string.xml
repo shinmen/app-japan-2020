@@ -4,5 +4,7 @@
     <string name="error_going_date_required">date d\'aller nécessaire</string>
     <string name="error_return_date_required">date de retour nécessaire</string>
     <string name="error_going_date_lt_return">date d\'aller supérieure à celle de retour</string>
+    <string name="generic_error">Désolé, une erreur inattendue s\'est produite</string>
+    <string name="flight_offers_error">Une erreur est survenue lors de la récupérations des vols</string>
 
 </resources>

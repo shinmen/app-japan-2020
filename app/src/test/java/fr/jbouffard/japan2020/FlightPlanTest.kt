@@ -2,7 +2,7 @@ package fr.jbouffard.japan2020
 
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Domain.Travel.Event.FlightPlanSelected
-import fr.jbouffard.japan2020.Domain.Travel.Exception.HolidayTooExpensiveException
+import fr.jbouffard.japan2020.Domain.Budget.Exception.HolidayTooExpensiveException
 import fr.jbouffard.japan2020.Domain.Travel.Exception.NotEnoughTimeToPlanException
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Flight
