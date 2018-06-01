@@ -14,8 +14,6 @@ import com.stepstone.stepper.VerificationError
 
 import fr.jbouffard.japan2020.R
 import fr.jbouffard.japan2020.View.PlanFlight.FlightPlanFragment
-import fr.jbouffard.japan2020.View.PlanHoliday.dummy.DummyContent
-import fr.jbouffard.japan2020.View.PlanHoliday.dummy.DummyContent.DummyItem
 
 class VisitFragment
     : Fragment(), Step
@@ -44,7 +42,7 @@ class VisitFragment
         if (view is RecyclerView) {
             val context = view.getContext()
             view.layoutManager = LinearLayoutManager(context)
-            view.adapter = VisitRecyclerViewAdapter(DummyContent.ITEMS, mListener)
+            view.adapter = VisitRecyclerViewAdapter(listOf(2), mListener)
         }
         return view
     }

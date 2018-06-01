@@ -2,6 +2,7 @@ package fr.jbouffard.japan2020.View.PlanHoliday
 
 import android.content.Context
 import android.os.Bundle
+import android.support.transition.TransitionManager
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -11,15 +12,23 @@ import android.view.View
 import android.view.ViewGroup
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
+import fr.jbouffard.japan2020.Infrastructure.DTO.OvernightOffer
+import fr.jbouffard.japan2020.Presenter.FlightRequestPresenter
+import fr.jbouffard.japan2020.Presenter.OvernightRequestPresenter
 
 import fr.jbouffard.japan2020.R
-import fr.jbouffard.japan2020.View.PlanHoliday.dummy.DummyContent
-import fr.jbouffard.japan2020.View.PlanHoliday.dummy.DummyContent.DummyItem
+import kotlinx.android.synthetic.main.fragment_overnight.view.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.support.v4.toast
+import org.koin.android.ext.android.inject
 
 class OvernightFragment
     : Fragment(), Step
 {
     private var mListener: OnListFragmentInteractionListener? = null
+    private val mPresenter: OvernightRequestPresenter by inject()
 
     override fun onSelected() {
     }
@@ -33,20 +42,32 @@ class OvernightFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (arguments != null) {
+        arguments?.let {
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_overnight_list, container, false)
+        val list = view.findViewById<RecyclerView>(R.id.list)
 
-        // Set the adapter
-        if (view is RecyclerView) {
-            val context = view.getContext()
-            view.layoutManager = LinearLayoutManager(context)
-            view.adapter = OvernightRecyclerViewAdapter(DummyContent.ITEMS, mListener)
+        launch(UI) {
+            try {
+                TransitionManager.beginDelayedTransition(container!!)
+                val offers = mPresenter.requestOvernightsOffers()
+                list.apply {
+                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    adapter = OvernightRecyclerViewAdapter(offers) { overnight ->
+                        thumbnail.onClick {
+                            val dialog = OvernightDetailDialogFragment.newInstance(overnight)
+                            dialog.show(fragmentManager, OvernightDetailDialogFragment.ARG_OVERNIGHT_DETAIL)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                toast(e.message.toString())
+            }
         }
+
         return view
     }
 
@@ -75,7 +96,6 @@ class OvernightFragment
 
         fun newInstance(): OvernightFragment {
             val args = Bundle().apply {
-
             }
             return OvernightFragment().apply { arguments = args }
         }

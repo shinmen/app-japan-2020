@@ -67,7 +67,7 @@
         android:background="@android:color/transparent"
         android:elevation="4dp"
         android:padding="8dp"
-        android:text="@string/hide_flight_detail_label"
+        android:text="@string/close"
         app:layout_constraintBottom_toTopOf="@+id/separator_detail"
         app:layout_constraintEnd_toStartOf="@id/start_planning_btn"
         app:layout_constraintHorizontal_chainStyle="spread_inside"

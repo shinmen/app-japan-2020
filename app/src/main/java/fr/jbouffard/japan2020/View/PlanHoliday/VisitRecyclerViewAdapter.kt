@@ -8,14 +8,9 @@ import android.widget.TextView
 import fr.jbouffard.japan2020.R
 
 import fr.jbouffard.japan2020.View.PlanHoliday.VisitFragment.OnListFragmentInteractionListener
-import fr.jbouffard.japan2020.View.PlanHoliday.dummy.DummyContent.DummyItem
 
-/**
- * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
- * specified [OnListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
- */
-class VisitRecyclerViewAdapter(private val mValues: List<DummyItem>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<VisitRecyclerViewAdapter.ViewHolder>() {
+
+class VisitRecyclerViewAdapter(private val mValues: List<Int>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<VisitRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_visit, parent, false)
@@ -24,8 +19,6 @@ class VisitRecyclerViewAdapter(private val mValues: List<DummyItem>, private val
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mItem = mValues[position]
-        //holder.mIdView.text = mValues[position].id
-        //holder.mContentView.text = mValues[position].content
 
         holder.mView.setOnClickListener {
             mListener?.onListFragmentInteraction()
@@ -37,9 +30,7 @@ class VisitRecyclerViewAdapter(private val mValues: List<DummyItem>, private val
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        //val mIdView: TextView
-        //val mContentView: TextView
-        var mItem: DummyItem? = null
+        var mItem: Int? = null
 
         init {
             //mIdView = mView.findViewById<View>(R.id.id) as TextView

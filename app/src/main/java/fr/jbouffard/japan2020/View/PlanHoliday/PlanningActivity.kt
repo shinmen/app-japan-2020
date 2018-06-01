@@ -5,6 +5,9 @@ import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import fr.jbouffard.japan2020.R
 import android.support.v4.view.ViewPager
 import com.mapbox.mapboxsdk.Mapbox
@@ -31,17 +34,14 @@ class PlanningActivity
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_planning)
 
-        val viewpager = findViewById<ViewPager>(R.id.pager)
         val indicator = findViewById<StepperLayout>(R.id.indicator)
-        val adapter = StepperAdapter(supportFragmentManager, this)
+        val adapter = StepperAdapter(supportFragmentManager, this, 6)
         indicator.setAdapter(adapter)
-        viewpager.adapter = adapter
-
-        Mapbox.getInstance(this, getString(R.string.map_box_api_key))
+        //Mapbox.getInstance(this, getString(R.string.map_box_api_key))
 
         // Create supportMapFragment
         val mapFragment: SupportMapFragment
-        if (savedInstanceState == null) {
+  /*      if (savedInstanceState == null) {
 
             // Create fragment
             val transaction = supportFragmentManager.beginTransaction()
@@ -67,7 +67,7 @@ class PlanningActivity
 
         mapFragment.getMapAsync({
 
-        })
+        })*/
     }
 
     companion object {

@@ -28,11 +28,12 @@
     <string name="return_flight_label">Retour</string>
     <string name="travel_duration_label">Durée:</string>
     <string name="choose_fligh_date_label">Choisir cet A/R</string>
-    <string name="hide_flight_detail_label">Masquer</string>
+    <string name="close">Masquer</string>
     <string name="company_name">Compagnie: %1$s</string>
     <string name="highlighted_time">%1$s, %2$s.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add">Ajouter</string>
 
 </resources>
