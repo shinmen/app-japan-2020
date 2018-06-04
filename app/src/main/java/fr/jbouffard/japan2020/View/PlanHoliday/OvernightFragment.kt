@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.support.transition.TransitionManager
 import android.support.v4.app.Fragment
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -12,8 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
-import fr.jbouffard.japan2020.Infrastructure.DTO.OvernightOffer
-import fr.jbouffard.japan2020.Presenter.FlightRequestPresenter
 import fr.jbouffard.japan2020.Presenter.OvernightRequestPresenter
 
 import fr.jbouffard.japan2020.R
@@ -57,10 +54,8 @@ class OvernightFragment
                 list.apply {
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     adapter = OvernightRecyclerViewAdapter(offers) { overnight ->
-                        thumbnail.onClick {
-                            val dialog = OvernightDetailDialogFragment.newInstance(overnight)
-                            dialog.show(fragmentManager, OvernightDetailDialogFragment.ARG_OVERNIGHT_DETAIL)
-                        }
+                        val dialog = OvernightDetailDialogFragment.newInstance(overnight)
+                        dialog.show(fragmentManager, OvernightDetailDialogFragment.ARG_OVERNIGHT_DETAIL)
                     }
                 }
             } catch (e: Exception) {

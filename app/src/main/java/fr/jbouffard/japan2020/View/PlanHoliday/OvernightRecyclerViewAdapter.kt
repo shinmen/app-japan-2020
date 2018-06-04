@@ -21,8 +21,6 @@ class OvernightRecyclerViewAdapter(private val overnights: List<OvernightOffer>,
     class ViewHolder(overnightView: View) : RecyclerView.ViewHolder(overnightView) {
         fun bind(overnightOffer: OvernightOffer, listener: (OvernightOffer) -> Unit) = with(itemView) {
             Picasso.get().load(overnightOffer.thumbnailUrl)
-                    //.resize(100, 100)
-                    //.centerCrop()
                     .into(thumbnail)
             pricePerPax.text = "${overnightOffer.pricePerPax}€/pers."
             name.text = overnightOffer.accommodation.commercialName

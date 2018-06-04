@@ -1,0 +1,62 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fr.jbouffard.japan2020.View.PlanHoliday.OvernightDetailDialogFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/city"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="@tools:sample/cities"
+        />
+
+    <TextView
+        android:id="@+id/tourism_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minEms="5"
+        android:minLines="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/city"
+        android:text=" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus libero vitae erat fermentum, id aliquet urna pellentesque. Donec elit ante, viverra sed justo sit amet, posuere interdum magna. Cras blandit vestibulum risus vel egestas. Curabitur blandit sapien tellus, non feugiat enim varius eget. Vestibulum tincidunt leo quis nulla egestas egestas. Fusce sed tempor elit. Fusce blandit purus at augue pellentesque dictum. Nam tempus, velit vitae lacinia ornare, risus massa tristique velit, tempor consectetur justo risus a elit. Vivamus eu aliquam leo. Etiam ullamcorper posuere ligula sed mattis. Donec eu orci molestie, pulvinar sapien at, ullamcorper dolor.
+
+Morbi rhoncus augue odio, et malesuada purus mollis id. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."
+        tools:text="@tools:sample/lorem/random"
+        />
+
+    <Button
+        android:id="@+id/visit_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:paddingBottom="16dp"
+        android:text="@string/close"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@id/confirm"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tourism_info" />
+
+    <Button
+        android:id="@+id/visit_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:elevation="@dimen/cardview_default_elevation"
+        android:paddingBottom="16dp"
+        android:text="@string/add"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toEndOf="@id/close"
+        app:layout_constraintTop_toBottomOf="@id/tourism_info" />
+
+</android.support.constraint.ConstraintLayout>

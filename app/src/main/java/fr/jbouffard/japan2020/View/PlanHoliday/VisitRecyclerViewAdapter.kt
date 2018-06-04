@@ -4,41 +4,33 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import com.squareup.picasso.Picasso
+import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
 import fr.jbouffard.japan2020.R
+import kotlinx.android.synthetic.main.fragment_overnight.view.*
+import kotlinx.android.synthetic.main.fragment_visit.view.*
 
-import fr.jbouffard.japan2020.View.PlanHoliday.VisitFragment.OnListFragmentInteractionListener
+
+class VisitRecyclerViewAdapter(private val visits: List<Visit>, private val listener: (Visit) -> Unit) : RecyclerView.Adapter<VisitRecyclerViewAdapter.ViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VisitRecyclerViewAdapter.ViewHolder(parent.inflate(R.layout.fragment_visit))
+
+    override fun onBindViewHolder(holder: VisitRecyclerViewAdapter.ViewHolder, position: Int) = holder.bind(visits[position], listener)
+
+    override fun getItemCount() = visits.size
 
 
-class VisitRecyclerViewAdapter(private val mValues: List<Int>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<VisitRecyclerViewAdapter.ViewHolder>() {
+    class ViewHolder(visitView: View) : RecyclerView.ViewHolder(visitView) {
+        fun bind(visit: Visit, listener: (Visit) -> Unit) = with(itemView) {
+            val id = resources.getIdentifier(visit.city.toLowerCase(), "drawable", context.packageName)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_visit, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.mItem = mValues[position]
-
-        holder.mView.setOnClickListener {
-            mListener?.onListFragmentInteraction()
+            Picasso.get().load(id).resize(200, 200).centerCrop().into(city_thumbnail)
+            city.text = visit.city
+            setOnClickListener { listener(visit) }
         }
     }
 
-    override fun getItemCount(): Int {
-        return mValues.size
-    }
-
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        var mItem: Int? = null
-
-        init {
-            //mIdView = mView.findViewById<View>(R.id.id) as TextView
-            //mContentView = mView.findViewById<View>(R.id.content) as TextView
-        }
-
-        override fun toString(): String {
-            return super.toString()
-        }
+    private fun ViewGroup.inflate(layoutRes: Int): View {
+        return LayoutInflater.from(context).inflate(layoutRes, this, false)
     }
 }
