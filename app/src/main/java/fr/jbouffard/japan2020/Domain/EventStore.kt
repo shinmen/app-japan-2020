@@ -6,6 +6,6 @@ import java.util.*
  * Created by julienb on 26/02/18.
  */
 interface EventStore {
-    fun saveEvents(uuid: UUID, changes: List<DomainEvent>, expectedVersion: Int)
-    fun getAggregateHistory(uuid: UUID): List<DomainEvent>
+    suspend fun saveEvents(uuid: UUID, changes: List<DomainEvent>, expectedVersion: Int)
+    suspend fun getAggregateHistory(uuid: String): List<DomainEvent>
 }

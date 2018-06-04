@@ -19,6 +19,13 @@ import com.mapbox.mapboxsdk.constants.Style.SATELLITE
 import com.mapbox.mapboxsdk.maps.MapboxMapOptions
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
+import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
+import fr.jbouffard.japan2020.Infrastructure.Repository.EventStoreImpl
+import fr.jbouffard.japan2020.Infrastructure.Repository.HttpClient
+import fr.jbouffard.japan2020.Infrastructure.Repository.Repository
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+import java.util.*
 
 
 class PlanningActivity

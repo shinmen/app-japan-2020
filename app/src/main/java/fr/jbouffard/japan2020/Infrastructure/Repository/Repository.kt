@@ -9,11 +9,11 @@ import java.util.*
  * Created by julienb on 26/02/18.
  */
 class Repository(private val eventStore:EventStore): RepositoryInterface {
-    override fun save(entity: AggregateRoot, expectedVersion: Int) {
+    override suspend fun save(entity: AggregateRoot, expectedVersion: Int) {
         eventStore.saveEvents(entity.uuid, entity.getUncommittedChanges(), expectedVersion)
     }
 
-    override fun getById(uuid: UUID, entity: AggregateRoot): AggregateRoot {
+    override suspend fun getById(uuid: String, entity: AggregateRoot): AggregateRoot {
         val history = eventStore.getAggregateHistory(uuid)
         entity.replayHistory(history)
 

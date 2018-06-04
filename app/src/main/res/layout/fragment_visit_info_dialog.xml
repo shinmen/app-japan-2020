@@ -6,29 +6,30 @@
     tools:context="fr.jbouffard.japan2020.View.PlanHoliday.OvernightDetailDialogFragment">
 
     <TextView
+        android:id="@+id/city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/city"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/shojumaru"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="@tools:sample/cities"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@tools:sample/cities" />
 
     <TextView
         android:id="@+id/tourism_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minEms="5"
-        android:minLines="3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/city"
+        android:gravity="center"
+        android:padding="8dp"
         android:text=" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus libero vitae erat fermentum, id aliquet urna pellentesque. Donec elit ante, viverra sed justo sit amet, posuere interdum magna. Cras blandit vestibulum risus vel egestas. Curabitur blandit sapien tellus, non feugiat enim varius eget. Vestibulum tincidunt leo quis nulla egestas egestas. Fusce sed tempor elit. Fusce blandit purus at augue pellentesque dictum. Nam tempus, velit vitae lacinia ornare, risus massa tristique velit, tempor consectetur justo risus a elit. Vivamus eu aliquam leo. Etiam ullamcorper posuere ligula sed mattis. Donec eu orci molestie, pulvinar sapien at, ullamcorper dolor.
 
 Morbi rhoncus augue odio, et malesuada purus mollis id. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."
-        tools:text="@tools:sample/lorem/random"
-        />
+        android:textColorLink="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/city"
+        tools:text="@tools:sample/lorem/random" />
 
     <Button
         android:id="@+id/visit_close"

@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import fr.jbouffard.japan2020.Infrastructure.Adapter.DateTimeTypeAdapter
+import fr.jbouffard.japan2020.Infrastructure.Adapter.EventDescriptorAdapter
 import fr.jbouffard.japan2020.Infrastructure.Adapter.VisitAdapter
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
 import okhttp3.Cache
@@ -39,6 +40,7 @@ class HttpClient {
         val gson = GsonBuilder()
                 .registerTypeAdapter(object : TypeToken<DateTime>() {}.type, DateTimeTypeAdapter())
                 .registerTypeAdapter(object : TypeToken<Visit>() {}.type, VisitAdapter())
+                .registerTypeAdapter(object : TypeToken<EventDescription>() {}.type, EventDescriptorAdapter())
                 .create()
         retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))

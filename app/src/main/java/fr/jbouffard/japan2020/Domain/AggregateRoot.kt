@@ -8,7 +8,7 @@ import java.util.*
 abstract class AggregateRoot {
     abstract var uuid: UUID
 
-    protected var version: Int = 0
+    var version: Int = 0
     protected var changes: MutableList<DomainEvent> = mutableListOf()
 
     fun getUncommittedChanges(): List<DomainEvent> {

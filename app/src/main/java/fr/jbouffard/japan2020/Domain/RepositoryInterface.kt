@@ -6,6 +6,6 @@ import java.util.*
  * Created by julienb on 26/02/18.
  */
 interface RepositoryInterface {
-    fun save(entity: AggregateRoot, expectedVersion: Int)
-    fun getById(uuid: UUID, entity: AggregateRoot): AggregateRoot
+    suspend fun save(entity: AggregateRoot, expectedVersion: Int)
+    suspend fun getById(uuid: String, entity: AggregateRoot): AggregateRoot
 }
