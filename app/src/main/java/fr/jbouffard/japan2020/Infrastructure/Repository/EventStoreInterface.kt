@@ -1,5 +1,6 @@
 package fr.jbouffard.japan2020.Infrastructure.Repository
 
+import fr.jbouffard.japan2020.Infrastructure.DTO.CommonResult
 import kotlinx.coroutines.experimental.Deferred
 import retrofit2.http.*
 
@@ -12,7 +13,7 @@ interface EventStoreInterface {
     }
 
     @POST("events/{streamId}")
-    fun newBatch(@Path("streamId") streamId: String, @Body batchEvent: List<EventDescription>)
+    fun newBatch(@Path("streamId") streamId: String, @Body batchEvent: List<EventDescription>): Deferred<CommonResult>
 
     @GET("events/{streamId}")
     fun getHistory(@Path("streamId") streamId: String): Deferred<List<EventDescription>>

@@ -12,6 +12,7 @@ import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
 import fr.jbouffard.japan2020.Presenter.FlightRequestPresenter
 import fr.jbouffard.japan2020.R
 import fr.jbouffard.japan2020.View.PlanHoliday.PlanningActivity
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.koin.android.ext.android.inject
 import java.util.*
@@ -33,7 +34,7 @@ class FlightRequestActivity
 
     override fun onStartHolidayPlanning(flightOffer: FlightOffer) {
         val i = PlanningActivity.newIntent(this)
-        launch {  mPresenter.selectRoundTrip(flightOffer) }
+        launch(UI) {  mPresenter.selectRoundTrip(flightOffer) }
         startActivity(i)
     }
 

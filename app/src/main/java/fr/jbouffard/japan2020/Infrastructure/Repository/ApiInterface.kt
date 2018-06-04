@@ -15,8 +15,6 @@ interface ApiInterface {
         const val BASE_URL = "http://www.japon2020.jbouffard.fr/"
         //const val BASE_URL = "http://www.mocky.io"
     }
-    @GET("/v2/5a9d3f4c3100005700ab5330")
-    fun getHistory(): Deferred<List<EventDescription>>
 
     @POST("flights/offers")
     fun getFlightOffers(@Body flightRequest: FlightRequest): Deferred<List<FlightOffer>>

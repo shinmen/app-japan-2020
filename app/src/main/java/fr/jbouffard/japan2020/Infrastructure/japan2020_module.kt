@@ -16,7 +16,7 @@ import org.koin.dsl.module.applicationContext
  * Created by julienb on 24/05/18.
  */
 val japan2020Module: Module =  applicationContext {
-    factory { FlightRequestPresenter(get()) }
+    factory { FlightRequestPresenter(get(), get()) }
     factory { OvernightRequestPresenter(get()) }
     factory { VisitRequestPresenter(get()) }
     factory { HttpClient() }
