@@ -5,11 +5,6 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.mapbox.mapboxsdk.geometry.LatLng
-import fr.jbouffard.japan2020.Domain.Budget.Event.FlightPlanProvisioned
-import fr.jbouffard.japan2020.Domain.DomainEvent
-import fr.jbouffard.japan2020.Domain.Travel.Event.ArrivedInJapan
-import fr.jbouffard.japan2020.Domain.Travel.Event.FlyBackToFrance
-import fr.jbouffard.japan2020.Domain.Travel.Event.FlyToJapan
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
 import fr.jbouffard.japan2020.Infrastructure.Repository.EventDescription

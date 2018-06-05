@@ -1,5 +1,6 @@
 package fr.jbouffard.japan2020.Domain.Travel.ValueObject
 
+import org.joda.time.DateTime
 import java.util.*
 
 /**
@@ -7,7 +8,9 @@ import java.util.*
  */
 data class Flight(
     val departureCity: City,
+    val departureDate: DateTime,
     val arrivalCity: City,
-    val departureDate: Date,
-    val arrivalDate: Date
+    val arrivalDate: DateTime,
+    val duration: Float,
+    val flightNumber: String
 )

@@ -34,16 +34,13 @@ class FlightRequestPresenter(private val httpClient: HttpClient, private val rep
 
     @Throws(DomainException::class)
     suspend fun selectRoundTrip(flightOffer: FlightOffer) {
-        val adapter = FlightOfferAdapter(flightOffer)
+        val adapter = FlightOfferAdapter()
         val holiday = Holiday(UUID.randomUUID())
-        holiday.selectRoundTrip(adapter.toTravelDomain())
-        val jobHoliday = async { repo.save(holiday, holiday.version) }
-
-        val budget = BudgetOrganisation(UUID.randomUUID())
-        budget.provisionRoundTrip(adapter.toBudgetDomain())
-        val jobBudget = async {  repo.save(budget, budget.version) }
-
-        jobHoliday.await()
-        jobBudget.await()
+        holiday.selectRoundTrip(
+                adapter.toFlightPlan(flightOffer.goingFlight),
+                adapter.toFlightPlan(flightOffer.returnFlight),
+                flightOffer.totalRatePerAdult
+        )
+        repo.save(holiday, holiday.version)
     }
 }

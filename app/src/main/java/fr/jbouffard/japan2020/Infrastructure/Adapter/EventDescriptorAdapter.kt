@@ -7,8 +7,8 @@ import com.google.gson.GsonBuilder
 import fr.jbouffard.japan2020.Domain.Budget.Event.FlightPlanProvisioned
 import fr.jbouffard.japan2020.Domain.DomainEvent
 import fr.jbouffard.japan2020.Domain.Travel.Event.ArrivedInJapan
-import fr.jbouffard.japan2020.Domain.Travel.Event.FlyBackToFrance
-import fr.jbouffard.japan2020.Domain.Travel.Event.FlyToJapan
+import fr.jbouffard.japan2020.Domain.Travel.Event.PlanHolidayPeriod
+import fr.jbouffard.japan2020.Domain.Travel.Event.SelectFlightPlan
 import java.util.*
 
 
@@ -25,10 +25,9 @@ class EventDescriptorAdapter : JsonDeserializer<EventDescription> {
         val type = jsonObject.get("eventType")?.asString
         val data = jsonObject.get("data")?.asJsonObject
         val javaclass = when(type) {
-            "FlyToJapan" -> FlyToJapan::class.java
-            "FlyBackToFrance" -> FlyBackToFrance::class.java
+            "SelectFlightPlan" -> SelectFlightPlan::class.java
+            "PlanHolidayPeriod" -> PlanHolidayPeriod::class.java
             "ArrivedInJapan" -> ArrivedInJapan::class.java
-            "FlightPlanProvisioned" -> FlightPlanProvisioned::class.java
             else -> {
                 null
             }
