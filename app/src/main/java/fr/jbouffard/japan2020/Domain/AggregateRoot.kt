@@ -7,6 +7,7 @@ import java.util.*
  */
 abstract class AggregateRoot {
     abstract var uuid: UUID
+    abstract val streamId: String
 
     var version: Int = 0
     protected var changes: MutableList<DomainEvent> = mutableListOf()
@@ -15,7 +16,7 @@ abstract class AggregateRoot {
         return changes
     }
 
-    fun markChangesAsCommited() {
+    fun markChangesAsCommitted() {
         changes = mutableListOf()
     }
 

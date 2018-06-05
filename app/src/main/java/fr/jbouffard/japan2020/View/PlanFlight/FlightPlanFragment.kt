@@ -78,7 +78,7 @@ class FlightPlanFragment : Fragment() {
 
                         start_planning_btn.onClick {
                             try {
-                                mPresenter.selectRoundTrip(flightOffer)
+                                //mPresenter.selectRoundTrip(flightOffer)
                                 mListener?.onStartHolidayPlanning(flightOffer)
                             }  catch (e: DomainException) {
                                 longToast(e.message.toString())

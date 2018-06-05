@@ -8,14 +8,14 @@ import java.util.*
  * Created by julienb on 28/02/18.
  */
 class EventStoreImpl(private val httpClient: HttpClient): EventStore {
-    override suspend fun saveEvents(uuid: UUID, changes: List<DomainEvent>, expectedVersion: Int): Unit {
+    override suspend fun saveEvents(streamId: String, changes: List<DomainEvent>, expectedVersion: Int) {
         val client = httpClient.retrofit.baseUrl(EventStoreInterface.BASE_URL).build()
         val service = client.create<EventStoreInterface>(EventStoreInterface::class.java)
         val events = mutableListOf<EventDescription>()
         changes.forEach {
             events.add(EventDescription(UUID.randomUUID(), it.javaClass.simpleName, it))
         }
-        service.newBatch(uuid.toString(), events).await()
+        service.newBatch(streamId, events).await()
     }
 
     override suspend fun getAggregateHistory(uuid: String): List<DomainEvent> {

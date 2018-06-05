@@ -4,9 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import fr.jbouffard.japan2020.Domain.Budget.Entity.BudgetOrganisation
-import fr.jbouffard.japan2020.Domain.Budget.ValueObject.FlightPlan
-import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
 import fr.jbouffard.japan2020.Presenter.FlightRequestPresenter
@@ -15,7 +12,6 @@ import fr.jbouffard.japan2020.View.PlanHoliday.PlanningActivity
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.koin.android.ext.android.inject
-import java.util.*
 
 class FlightRequestActivity
         : AppCompatActivity(), FlightRequestFragment.OnFlightRequestListener, FlightPlanFragment.OnStartHolidayPlanningFlightPlanListener
@@ -34,7 +30,7 @@ class FlightRequestActivity
 
     override fun onStartHolidayPlanning(flightOffer: FlightOffer) {
         val i = PlanningActivity.newIntent(this)
-        launch(UI) {  mPresenter.selectRoundTrip(flightOffer) }
+        launch {  mPresenter.selectRoundTrip(flightOffer) }
         startActivity(i)
     }
 

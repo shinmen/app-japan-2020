@@ -6,5 +6,5 @@ import java.util.*
  * Created by julienb on 21/05/18.
  */
 interface DomainEvent {
-    val id: UUID
+    val streamId: String
 }

@@ -10,6 +10,7 @@ import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightRequest
 import fr.jbouffard.japan2020.Infrastructure.Repository.ApiInterface
 import fr.jbouffard.japan2020.Infrastructure.Repository.HttpClient
+import kotlinx.coroutines.experimental.async
 import retrofit2.Retrofit
 import java.util.*
 
@@ -36,8 +37,13 @@ class FlightRequestPresenter(private val httpClient: HttpClient, private val rep
         val adapter = FlightOfferAdapter(flightOffer)
         val holiday = Holiday(UUID.randomUUID())
         holiday.selectRoundTrip(adapter.toTravelDomain())
-        repo.save(holiday, holiday.version)
+        val jobHoliday = async { repo.save(holiday, holiday.version) }
+
         val budget = BudgetOrganisation(UUID.randomUUID())
         budget.provisionRoundTrip(adapter.toBudgetDomain())
+        val jobBudget = async {  repo.save(budget, budget.version) }
+
+        jobHoliday.await()
+        jobBudget.await()
     }
 }

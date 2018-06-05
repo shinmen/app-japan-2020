@@ -1,6 +1,5 @@
 package fr.jbouffard.japan2020.Infrastructure.Repository
 
-import fr.jbouffard.japan2020.Infrastructure.DTO.CommonResult
 import fr.jbouffard.japan2020.Infrastructure.DTO.Result
 import kotlinx.coroutines.experimental.Deferred
 import retrofit2.http.*

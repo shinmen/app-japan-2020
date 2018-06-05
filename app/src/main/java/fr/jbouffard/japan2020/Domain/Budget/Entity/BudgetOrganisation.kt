@@ -14,6 +14,7 @@ import java.util.*
  * Created by julienb on 15/05/18.
  */
 class BudgetOrganisation(override var uuid: UUID) : AggregateRoot() {
+    override val streamId: String by lazy { "BudgetOrganisation-$uuid" }
 
     fun provisionRoundTrip(flightPlan: FlightPlan) {
         val returnArrivalDate = DateTime(flightPlan.returnFlight.arrivalDate)
@@ -24,7 +25,7 @@ class BudgetOrganisation(override var uuid: UUID) : AggregateRoot() {
             throw HolidayTooExpensiveException("Nous n'aurons pas assez de tune pour un voyage si long")
         }
 
-        applyNewEvent(FlightPlanProvisioned(flightPlan, version, uuid))
+        applyNewEvent(FlightPlanProvisioned(flightPlan, version, streamId))
     }
 
 

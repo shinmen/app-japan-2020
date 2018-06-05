@@ -4,10 +4,12 @@ import fr.jbouffard.japan2020.Domain.AggregateRoot
 import fr.jbouffard.japan2020.Domain.Travel.Event.*
 import fr.jbouffard.japan2020.Domain.DomainEvent
 import fr.jbouffard.japan2020.Domain.Travel.Exception.NotEnoughTimeToPlanException
+import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Flight
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Overnight
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.RailpassPackage
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Visit
 import org.joda.time.DateTime
+import org.joda.time.Duration
 import org.joda.time.Period
 import java.util.*
 
@@ -15,9 +17,16 @@ import java.util.*
  * Created by julienb on 26/02/18.
  */
 class Holiday(override var uuid: UUID) : AggregateRoot() {
-    private var flightPlan: FlightPlan? = null
+    override val streamId: String by lazy { "Holiday-$uuid" }
+    private var goingFlight: Flight? = null
+    private var returnFlight: Flight? = null
     private var daySchedules: MutableList<Day> = mutableListOf()
     private var railpassPackage: RailpassPackage? = null
+    private var startHolidayAt: DateTime? = null
+    private var endHolidayAt: DateTime? = null
+
+    var holidayDuration: Long = 0
+        get() = Duration(startHolidayAt, endHolidayAt).standardDays
 
     override fun applyNewEvent(domainEvent: DomainEvent) {
         super.applyNewEvent(domainEvent)
@@ -35,9 +44,14 @@ class Holiday(override var uuid: UUID) : AggregateRoot() {
             throw NotEnoughTimeToPlanException("la date de départ est trop proche pour s'organiser")
         }
 
-        applyNewEvent(FlyToJapan(flightPlan.goingFlight, version, uuid))
-        applyNewEvent(FlyBackToFrance(flightPlan.returnFlight, version, uuid))
+        applyNewEvent(FlyToJapan(flightPlan.goingFlight, version, streamId))
+        applyNewEvent(FlyBackToFrance(flightPlan.returnFlight, version, streamId))
     }
+
+    fun startHolidayPlanning() {
+        applyNewEvent(ArrivedInJapan(version, streamId))
+    }
+
 
     fun selectRailPassPackage(railpass: RailpassPackage) {
 
@@ -65,16 +79,20 @@ class Holiday(override var uuid: UUID) : AggregateRoot() {
         is ArrivedInJapan -> loadEvent(event)
     }
 
-    fun loadEvent(event: FlyBackToFrance) {
+    private fun loadEvent(event: FlyBackToFrance) {
+        returnFlight = event.returnFlight
+        endHolidayAt = DateTime(event.returnFlight.departureDate.time)
         version++
     }
 
-    fun loadEvent(event: FlyToJapan) {
-        //flightPlan = event.goingFlight
+    private fun loadEvent(event: FlyToJapan) {
+        goingFlight = event.goingFlight
+        startHolidayAt = DateTime(event.goingFlight.arrivalDate.time)
         version++
     }
 
-    fun loadEvent(event: ArrivedInJapan) {
+    private fun loadEvent(event: ArrivedInJapan) {
+        daySchedules.add(Day())
         version++
     }
 }
