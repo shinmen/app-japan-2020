@@ -1,11 +1,14 @@
 package fr.jbouffard.japan2020.Domain.Travel.Entity
 
+import android.os.Parcelable
 import fr.jbouffard.japan2020.Domain.Budget.Exception.HolidayTooExpensiveException
 import fr.jbouffard.japan2020.Domain.Travel.Exception.NotEnoughTimeToPlanException
+import kotlinx.android.parcel.Parcelize
 import org.joda.time.DateTime
 import org.joda.time.Period
 
-data class AirTransportation(private val goingFlightPlan: FlightPlan, private val returnFlightPlan: FlightPlan, val fare: Float) {
+@Parcelize
+data class AirTransportation(private val goingFlightPlan: FlightPlan, private val returnFlightPlan: FlightPlan, val fare: Float) : Parcelable{
     fun selectRoundTrip() {
         val goingDepartureDate = goingFlightPlan.flightPlan.first().departureDate
         val soonDate = DateTime().apply { plus(Period.days(15))}

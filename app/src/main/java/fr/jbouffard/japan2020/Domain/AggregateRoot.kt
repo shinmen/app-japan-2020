@@ -5,6 +5,7 @@ import java.util.*
 /**
  * Created by julienb on 26/02/18.
  */
+
 abstract class AggregateRoot {
     abstract var uuid: UUID
     abstract val streamId: String

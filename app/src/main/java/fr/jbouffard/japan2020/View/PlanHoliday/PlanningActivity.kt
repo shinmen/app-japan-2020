@@ -23,6 +23,7 @@ import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Infrastructure.Repository.EventStoreImpl
 import fr.jbouffard.japan2020.Infrastructure.Repository.HttpClient
 import fr.jbouffard.japan2020.Infrastructure.Repository.Repository
+import kotlinx.android.synthetic.main.fragment_overnight.view.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import java.util.*
@@ -40,7 +41,7 @@ class PlanningActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_planning)
-
+        val holiday = intent.getParcelableExtra<Holiday>(HOLIDAY_ARG)
         val indicator = findViewById<StepperLayout>(R.id.indicator)
         val adapter = StepperAdapter(supportFragmentManager, this, 6)
         indicator.setAdapter(adapter)
@@ -78,8 +79,9 @@ class PlanningActivity
     }
 
     companion object {
-        fun newIntent(packageContext: Context): Intent {
-            return Intent(packageContext, PlanningActivity::class.java)
+        private const val HOLIDAY_ARG = "holiday_arg"
+        fun newIntent(packageContext: Context, holiday: Holiday): Intent {
+            return Intent(packageContext, PlanningActivity::class.java).apply { putExtra(HOLIDAY_ARG, holiday)  }
         }
     }
 }

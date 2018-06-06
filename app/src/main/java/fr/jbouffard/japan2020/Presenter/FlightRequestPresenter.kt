@@ -33,7 +33,7 @@ class FlightRequestPresenter(private val httpClient: HttpClient, private val rep
     }
 
     @Throws(DomainException::class)
-    suspend fun selectRoundTrip(flightOffer: FlightOffer) {
+    suspend fun selectRoundTrip(flightOffer: FlightOffer): Holiday {
         val adapter = FlightOfferAdapter()
         val holiday = Holiday(UUID.randomUUID())
         holiday.selectRoundTrip(
@@ -42,5 +42,7 @@ class FlightRequestPresenter(private val httpClient: HttpClient, private val rep
                 flightOffer.totalRatePerAdult
         )
         repo.save(holiday, holiday.version)
+
+        return holiday
     }
 }

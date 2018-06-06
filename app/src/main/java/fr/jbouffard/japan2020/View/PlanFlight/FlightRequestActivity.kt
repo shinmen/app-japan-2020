@@ -29,9 +29,12 @@ class FlightRequestActivity
     }
 
     override fun onStartHolidayPlanning(flightOffer: FlightOffer) {
-        val i = PlanningActivity.newIntent(this)
-        launch {  mPresenter.selectRoundTrip(flightOffer) }
-        startActivity(i)
+        launch(UI) {
+            val holiday = mPresenter.selectRoundTrip(flightOffer)
+            val i = PlanningActivity.newIntent(this@FlightRequestActivity, holiday)
+
+            startActivity(i)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
