@@ -23,8 +23,10 @@ class VisitRecyclerViewAdapter(private val visits: List<Visit>, private val list
     class ViewHolder(visitView: View) : RecyclerView.ViewHolder(visitView) {
         fun bind(visit: Visit, listener: (Visit) -> Unit) = with(itemView) {
             val id = resources.getIdentifier(visit.city.toLowerCase(), "drawable", context.packageName)
-
-            Picasso.get().load(id).resize(200, 200).centerCrop().into(city_thumbnail)
+            Picasso.get()
+                    .load(id)
+                    .fit()
+                    .into(city_thumbnail)
             city.text = visit.city
             setOnClickListener { listener(visit) }
         }

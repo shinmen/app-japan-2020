@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
+import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Presenter.OvernightRequestPresenter
 import fr.jbouffard.japan2020.Presenter.VisitRequestPresenter
 
@@ -89,8 +90,10 @@ class VisitFragment
     }
 
     companion object {
-        fun newInstance(): VisitFragment {
+        const val VISIT_ARG = "holiday_for_visit"
+        fun newInstance(holiday: Holiday): VisitFragment {
             val args = Bundle().apply {
+                putParcelable(VISIT_ARG, holiday)
             }
             return VisitFragment().apply { arguments = args }
         }

@@ -32,6 +32,9 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     var holidayDuration: Long = 0
         get() = Duration(startHolidayAt, endHolidayAt).standardDays
 
+    private val currentDay: Day
+        get() = daySchedules.last()
+
     override fun applyNewEvent(domainEvent: DomainEvent) {
         super.applyNewEvent(domainEvent)
         load(domainEvent as EventList)
@@ -59,7 +62,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     }
 
     fun wakeUp() {
-
+        
     }
 
     fun scheduleVisitCity(visit: Visit) {

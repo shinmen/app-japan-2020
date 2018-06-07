@@ -42,8 +42,9 @@ class PlanningActivity
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_planning)
         val holiday = intent.getParcelableExtra<Holiday>(HOLIDAY_ARG)
+        holiday.startHolidayPlanning()
         val indicator = findViewById<StepperLayout>(R.id.indicator)
-        val adapter = StepperAdapter(supportFragmentManager, this, 6)
+        val adapter = StepperAdapter(supportFragmentManager, this, holiday)
         indicator.setAdapter(adapter)
         //Mapbox.getInstance(this, getString(R.string.map_box_api_key))
 

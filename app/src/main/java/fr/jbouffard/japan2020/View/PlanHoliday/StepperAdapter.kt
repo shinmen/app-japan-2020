@@ -5,20 +5,22 @@ import android.support.v4.app.FragmentManager
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.adapter.AbstractFragmentStepAdapter
 import com.stepstone.stepper.viewmodel.StepViewModel
+import fr.jbouffard.japan2020.Domain.Travel.Entity.Day
+import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 
 /**
  * Created by julienb on 21/05/18.
  */
-class StepperAdapter(fm: FragmentManager, context: Context, private val stepNumber: Int) : AbstractFragmentStepAdapter(fm, context) {
+class StepperAdapter(fm: FragmentManager, context: Context, private val holiday: Holiday) : AbstractFragmentStepAdapter(fm, context) {
     override fun getCount(): Int {
-        return stepNumber
+        return (holiday.holidayDuration * 2).toInt()
     }
 
     override fun createStep(position: Int): Step {
         return if (position %2 == 0) {
-            VisitFragment.newInstance()
+            VisitFragment.newInstance(holiday)
         } else {
-            OvernightFragment.newInstance()
+            OvernightFragment.newInstance(holiday)
         }
     }
 

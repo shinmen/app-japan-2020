@@ -24,13 +24,15 @@ class Day() : Parcelable {
     }
 
     constructor(source: Parcel) : this() {
-
+        source.readList(visits, Visit::class.java.classLoader)
+        overnight = source.readParcelable(Overnight::class.java.classLoader)
     }
 
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-
+        writeList(visits)
+        writeParcelable(overnight, flags)
     }
 
     companion object {

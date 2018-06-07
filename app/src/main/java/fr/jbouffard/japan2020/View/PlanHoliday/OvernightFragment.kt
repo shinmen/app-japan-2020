@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
+import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Presenter.OvernightRequestPresenter
 
 import fr.jbouffard.japan2020.R
@@ -87,10 +88,11 @@ class OvernightFragment
 
     companion object {
 
-        private val ARG_OVERNIGHT = "overnight"
+        private val OVERNIGHT_ARG = "holiday_for_overnight"
 
-        fun newInstance(): OvernightFragment {
+        fun newInstance(holiday: Holiday): OvernightFragment {
             val args = Bundle().apply {
+                putParcelable(OVERNIGHT_ARG, holiday)
             }
             return OvernightFragment().apply { arguments = args }
         }
