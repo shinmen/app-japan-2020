@@ -62,7 +62,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     }
 
     fun wakeUp() {
-        
+
     }
 
     fun scheduleVisitCity(visit: Visit) {

@@ -26,12 +26,17 @@ class StepperAdapter(fm: FragmentManager, context: Context, private val holiday:
 
     override fun getViewModel(position: Int): StepViewModel {
         val builder = StepViewModel.Builder(context)
-        val dayCount = count / 2
+        /*val dayCount = count / 2
         when {
             position < 1 -> builder.setNextButtonLabel("Jour 1")
             position == 2 -> builder.setNextButtonLabel("Jour 2")
             position %2 == 0 -> builder.setNextButtonLabel("Jour ${position-1}")
             else -> builder.setNextButtonLabel("Jour ${position-1}")
+        }*/
+        if (position %2 == 0) {
+            builder.setNextButtonLabel("Jour ${position+1}")
+        } else {
+            builder.setNextButtonLabel("Jour $position")
         }
 
         return builder.create()
