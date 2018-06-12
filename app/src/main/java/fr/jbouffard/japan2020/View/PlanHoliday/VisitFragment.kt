@@ -4,33 +4,32 @@ import android.content.Context
 import android.os.Bundle
 import android.support.transition.TransitionManager
 import android.support.v4.app.Fragment
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.stepstone.stepper.Step
+import com.stepstone.stepper.BlockingStep
+import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.VerificationError
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
-import fr.jbouffard.japan2020.Presenter.OvernightRequestPresenter
+import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
 import fr.jbouffard.japan2020.Presenter.VisitRequestPresenter
 
 import fr.jbouffard.japan2020.R
-import fr.jbouffard.japan2020.View.PlanFlight.FlightPlanFragment
-import kotlinx.android.synthetic.main.fragment_overnight.view.*
-import kotlinx.android.synthetic.main.fragment_visit.view.*
 import kotlinx.android.synthetic.main.fragment_visit_list.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.support.v4.toast
 import org.koin.android.ext.android.inject
 
 class VisitFragment
-    : Fragment(), Step
+    : Fragment(), BlockingStep, VisitTourismInfoDialogFragment.onVisitPlaceChoice
 {
-    private var mListener: OnListFragmentInteractionListener? = null
+    override fun onPlaceChosen(visit: Visit) {
+        mListener!!.onVisited(visit)
+    }
+
+    private var mListener: OnVisitSchedulerListener? = null
     private val mPresenter: VisitRequestPresenter by inject()
 
     override fun onSelected() {
@@ -41,6 +40,14 @@ class VisitFragment
     }
 
     override fun onError(error: VerificationError) {
+    }
+
+    override fun onBackClicked(callback: StepperLayout.OnBackClickedCallback?) {
+        callback?.goToPrevStep()
+    }
+
+    override fun onNextClicked(callback: StepperLayout.OnNextClickedCallback?) {
+        callback?.goToNextStep()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +66,7 @@ class VisitFragment
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     adapter = VisitRecyclerViewAdapter(visits) { visit ->
                         val dialog = VisitTourismInfoDialogFragment.newInstance(visit)
+                        dialog.fragmentListener = this@VisitFragment
                         dialog.show(fragmentManager, VisitTourismInfoDialogFragment.ARG_VISIT_INFO)
                     }
                 }
@@ -73,7 +81,7 @@ class VisitFragment
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is OnListFragmentInteractionListener) {
+        if (context is OnVisitSchedulerListener) {
             mListener = context
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnListFragmentInteractionListener")
@@ -85,8 +93,8 @@ class VisitFragment
         mListener = null
     }
 
-    interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction()
+    interface OnVisitSchedulerListener {
+        fun onVisited(visit: Visit)
     }
 
     companion object {

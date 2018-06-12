@@ -8,7 +8,8 @@ import org.joda.time.DateTime
 import org.joda.time.Period
 
 @Parcelize
-data class AirTransportation(private val goingFlightPlan: FlightPlan, private val returnFlightPlan: FlightPlan, val fare: Float) : Parcelable{
+data class AirTransportation(val goingFlightPlan: FlightPlan, val returnFlightPlan: FlightPlan, val fare: Float) : Parcelable{
+
     fun selectRoundTrip() {
         val goingDepartureDate = goingFlightPlan.flightPlan.first().departureDate
         val soonDate = DateTime().apply { plus(Period.days(15))}

@@ -3,17 +3,11 @@ package fr.jbouffard.japan2020.View.PlanHoliday
 
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import com.squareup.picasso.Picasso
-import fr.jbouffard.japan2020.Infrastructure.DTO.OvernightOffer
 
 import fr.jbouffard.japan2020.R
-import kotlinx.android.synthetic.main.fragment_overnight_detail_dialog.*
-import android.support.constraint.ConstraintSet
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
 import kotlinx.android.synthetic.main.fragment_visit_info_dialog.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -22,6 +16,7 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 class VisitTourismInfoDialogFragment : DialogFragment() {
 
     private lateinit var mVisit: Visit
+    lateinit var fragmentListener: onVisitPlaceChoice
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +37,9 @@ class VisitTourismInfoDialogFragment : DialogFragment() {
         visit_close.onClick {
             dismiss()
         }
+        visit_confirm.onClick {
+            fragmentListener.onPlaceChosen(mVisit)
+        }
     }
 
     companion object {
@@ -52,6 +50,10 @@ class VisitTourismInfoDialogFragment : DialogFragment() {
             }
             return VisitTourismInfoDialogFragment().apply { arguments = args }
         }
+    }
+
+    interface onVisitPlaceChoice {
+        fun onPlaceChosen(visit: Visit)
     }
 
 }// Required empty public constructor

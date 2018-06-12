@@ -9,7 +9,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.stepstone.stepper.BlockingStep
 import com.stepstone.stepper.Step
+import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.VerificationError
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Presenter.OvernightRequestPresenter
@@ -23,7 +25,7 @@ import org.jetbrains.anko.support.v4.toast
 import org.koin.android.ext.android.inject
 
 class OvernightFragment
-    : Fragment(), Step
+    : Fragment(), BlockingStep
 {
     private var mListener: OnListFragmentInteractionListener? = null
     private val mPresenter: OvernightRequestPresenter by inject()
@@ -36,6 +38,14 @@ class OvernightFragment
     }
 
     override fun onError(error: VerificationError) {
+    }
+
+    override fun onBackClicked(callback: StepperLayout.OnBackClickedCallback?) {
+        callback?.goToPrevStep()
+    }
+
+    override fun onNextClicked(callback: StepperLayout.OnNextClickedCallback?) {
+        callback?.goToNextStep()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

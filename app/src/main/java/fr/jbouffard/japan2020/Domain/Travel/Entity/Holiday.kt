@@ -5,6 +5,7 @@ import android.os.Parcelable
 import fr.jbouffard.japan2020.Domain.AggregateRoot
 import fr.jbouffard.japan2020.Domain.Travel.Event.*
 import fr.jbouffard.japan2020.Domain.DomainEvent
+import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Overnight
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.RailpassPackage
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Visit
@@ -50,11 +51,15 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
 
         applyNewEvent(SelectFlightPlan(goingFlightPlan, returnFlightPlan, fare, version, streamId))
         applyNewEvent(PlanHolidayPeriod(goingFlightPlan.flightPlan.last().arrivalDate, returnFlightPlan.flightPlan.first().departureDate, version, streamId))
-        applyNewEvent(ArrivedInJapan(version, streamId))
     }
 
     fun startHolidayPlanning() {
-        applyNewEvent(ArrivedInJapan(version, streamId))
+        applyNewEvent(ArrivedInJapan(
+            airTransportation!!.goingFlightPlan.flightPlan.last().arrivalDate,
+            airTransportation!!.goingFlightPlan.flightPlan.last().arrivalCity,
+            version,
+            streamId
+        ))
     }
 
     fun selectRailPassPackage(railpass: RailpassPackage) {
@@ -62,7 +67,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     }
 
     fun wakeUp() {
-
+        applyNewEvent(NewDayStarted(version, streamId))
     }
 
     fun scheduleVisitCity(visit: Visit) {
@@ -81,6 +86,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
         is SelectFlightPlan -> loadEvent(event)
         is PlanHolidayPeriod -> loadEvent(event)
         is ArrivedInJapan -> loadEvent(event)
+        is NewDayStarted -> loadEvent(event)
     }
 
     private fun loadEvent(event: SelectFlightPlan) {
@@ -96,6 +102,12 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
 
     private fun loadEvent(event: ArrivedInJapan) {
         daySchedules.add(Day())
+        daySchedules.last().visits.add(Visit(event.firstCity, event.arrivedAt.toDate()))
+        version++
+    }
+
+    private fun loadEvent(event: NewDayStarted) {
+        daySchedules.add(Day())
         version++
     }
 
@@ -105,8 +117,6 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
         startHolidayAt = DateTime(source.readLong())
         endHolidayAt = DateTime(source.readLong())
     }
-
-
 
     override fun describeContents() = 0
 

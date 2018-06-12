@@ -3,6 +3,7 @@ package fr.jbouffard.japan2020.Domain.Travel.Event
 
 import fr.jbouffard.japan2020.Domain.DomainEvent
 import fr.jbouffard.japan2020.Domain.Travel.Entity.FlightPlan
+import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Flight
 import org.joda.time.DateTime
 import java.util.*
@@ -13,4 +14,5 @@ import java.util.*
 sealed class EventList
 data class PlanHolidayPeriod(val holidayStartAt: DateTime, val holidayEndAt: DateTime, val version: Int, override val streamId: String): EventList(), DomainEvent
 data class SelectFlightPlan(val goingFlightPlan: FlightPlan, val returnFlightPlan: FlightPlan, val fare: Float, val version: Int, override val streamId: String): EventList(), DomainEvent
-data class ArrivedInJapan(val version: Int, override val streamId: String): EventList(), DomainEvent
+data class ArrivedInJapan(val arrivedAt: DateTime, val firstCity: City, val version: Int, override val streamId: String): EventList(), DomainEvent
+data class NewDayStarted(val version: Int, override val streamId: String): EventList(), DomainEvent

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
 import fr.jbouffard.japan2020.Presenter.FlightRequestPresenter
@@ -31,7 +32,11 @@ class FlightRequestActivity
     override fun onStartHolidayPlanning(flightOffer: FlightOffer) {
         launch(UI) {
             val holiday = mPresenter.selectRoundTrip(flightOffer)
-            val i = PlanningActivity.newIntent(this@FlightRequestActivity, holiday)
+            val arrivalCity = City(
+                    flightOffer.goingFlight.flights.last().arrivalAirport.city,
+                    flightOffer.goingFlight.flights.last().arrivalAirport.country
+            )
+            val i = PlanningActivity.newIntent(this@FlightRequestActivity, holiday, arrivalCity)
 
             startActivity(i)
         }
