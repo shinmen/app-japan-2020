@@ -27,12 +27,13 @@ class VisitFragment
 {
     private var mListener: OnVisitSchedulerListener? = null
     private lateinit var mHoliday: Holiday
+    private var mDayNumber: Int = 1
     private val mPresenter: VisitRequestPresenter by inject()
 
-    override fun onPlaceChosen(visit: Visit, position: Int) {
+    override fun onPlaceChosen(visit: Visit) {
         mListener!!.onVisited(visit)
         launch {
-            mPresenter.visitPlace(mHoliday, visit.city, position)
+            mPresenter.visitPlace(mHoliday, visit.city, mDayNumber)
         }
     }
 
@@ -58,6 +59,7 @@ class VisitFragment
         super.onCreate(savedInstanceState)
         arguments?.let {
             mHoliday = it.getParcelable(VISIT_ARG)
+            mDayNumber = it.getInt("dayNumber")
         }
     }
 
@@ -70,8 +72,8 @@ class VisitFragment
                 val visits = mPresenter.requestVisits()
                 list.apply {
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                    adapter = VisitRecyclerViewAdapter(visits) { visit, position ->
-                        val dialog = VisitTourismInfoDialogFragment.newInstance(visit, position)
+                    adapter = VisitRecyclerViewAdapter(visits) { visit ->
+                        val dialog = VisitTourismInfoDialogFragment.newInstance(visit)
                         dialog.fragmentListener = this@VisitFragment
                         dialog.show(fragmentManager, VisitTourismInfoDialogFragment.ARG_VISIT_INFO)
                     }
@@ -105,9 +107,11 @@ class VisitFragment
 
     companion object {
         const val VISIT_ARG = "holiday_for_visit"
-        fun newInstance(holiday: Holiday): VisitFragment {
+        fun newInstance(holiday: Holiday, dayNumber: Int): VisitFragment {
             val args = Bundle().apply {
                 putParcelable(VISIT_ARG, holiday)
+                putInt("dayNumber", dayNumber)
+
             }
             return VisitFragment().apply { arguments = args }
         }

@@ -29,6 +29,7 @@ class OvernightFragment
 {
     private var mListener: OnListFragmentInteractionListener? = null
     private val mPresenter: OvernightRequestPresenter by inject()
+    private lateinit var mHoliday: Holiday
 
     override fun onSelected() {
     }
@@ -45,12 +46,16 @@ class OvernightFragment
     }
 
     override fun onNextClicked(callback: StepperLayout.OnNextClickedCallback?) {
-        callback?.goToNextStep()
+        launch(UI) {
+            mPresenter.finishDay(mHoliday)
+            callback?.goToNextStep()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            mHoliday = it.getParcelable(OVERNIGHT_ARG)
         }
     }
 
@@ -97,7 +102,6 @@ class OvernightFragment
     }
 
     companion object {
-
         private val OVERNIGHT_ARG = "holiday_for_overnight"
 
         fun newInstance(holiday: Holiday): OvernightFragment {

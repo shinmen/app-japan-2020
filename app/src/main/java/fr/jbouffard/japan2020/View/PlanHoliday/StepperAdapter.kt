@@ -12,14 +12,15 @@ import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
  * Created by julienb on 21/05/18.
  */
 class StepperAdapter(fm: FragmentManager, context: Context, private val holiday: Holiday) : AbstractFragmentStepAdapter(fm, context) {
+    private val days by lazy {   0.rangeTo(holiday.holidayDuration).toList() }
     override fun getCount(): Int {
         return (holiday.holidayDuration * 2).toInt()
     }
 
     override fun createStep(position: Int): Step {
-
+        days[position]
         return if (position %2 == 0) {
-            VisitFragment.newInstance(holiday)
+            VisitFragment.newInstance(holiday, position)
         } else {
             OvernightFragment.newInstance(holiday)
         }

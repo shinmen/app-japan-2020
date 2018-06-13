@@ -1,5 +1,6 @@
 package fr.jbouffard.japan2020.Presenter
 
+import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightRequest
@@ -24,5 +25,9 @@ class OvernightRequestPresenter(private val httpClient: HttpClient) {
                 "Tokyo"
         )
         return service.getOvernightOffers(request).await()
+    }
+
+    suspend fun finishDay(holiday: Holiday) {
+        holiday.wakeUp()
     }
 }
