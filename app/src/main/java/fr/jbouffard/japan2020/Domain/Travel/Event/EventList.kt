@@ -15,4 +15,4 @@ sealed class EventList
 data class PlanHolidayPeriod(val holidayStartAt: DateTime, val holidayEndAt: DateTime, val version: Int, override val streamId: String): EventList(), DomainEvent
 data class SelectFlightPlan(val goingFlightPlan: FlightPlan, val returnFlightPlan: FlightPlan, val fare: Float, val version: Int, override val streamId: String): EventList(), DomainEvent
 data class ArrivedInJapan(val arrivedAt: DateTime, val firstCity: City, val version: Int, override val streamId: String): EventList(), DomainEvent
-data class NewDayStarted(val version: Int, override val streamId: String): EventList(), DomainEvent
+data class NewDayStarted(val date: DateTime, val version: Int, override val streamId: String): EventList(), DomainEvent

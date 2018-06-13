@@ -12,6 +12,7 @@ import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Visit
 import kotlinx.android.parcel.Parcelize
 import org.joda.time.DateTime
 import org.joda.time.Duration
+import org.joda.time.Period
 import java.util.*
 
 /**
@@ -33,8 +34,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     var holidayDuration: Long = 0
         get() = Duration(startHolidayAt, endHolidayAt).standardDays
 
-    private val currentDay: Day
-        get() = daySchedules.last()
+    fun getDateOf(position: Int) = if(position%2 == 0) { daySchedules[position].date } else { daySchedules[position-1].date }
 
     override fun applyNewEvent(domainEvent: DomainEvent) {
         super.applyNewEvent(domainEvent)
@@ -67,7 +67,9 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     }
 
     fun wakeUp() {
-        applyNewEvent(NewDayStarted(version, streamId))
+        val dayAfter = daySchedules.last().date
+        dayAfter!!.plus(Period.days(1))
+        applyNewEvent(NewDayStarted(dayAfter, version, streamId))
     }
 
     fun scheduleVisitCity(visit: Visit) {
@@ -79,7 +81,6 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     }
 
     fun goToCity() {
-
     }
 
     private fun load(event: EventList) = when (event) {
@@ -101,13 +102,17 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     }
 
     private fun loadEvent(event: ArrivedInJapan) {
-        daySchedules.add(Day())
+        val day = Day()
+        day.date = startHolidayAt
+        daySchedules.add(day)
         daySchedules.last().visits.add(Visit(event.firstCity, event.arrivedAt.toDate()))
         version++
     }
 
     private fun loadEvent(event: NewDayStarted) {
-        daySchedules.add(Day())
+        val day = Day()
+        day.date = event.date
+        daySchedules.add(day)
         version++
     }
 

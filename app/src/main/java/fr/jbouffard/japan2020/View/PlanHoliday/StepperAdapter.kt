@@ -17,6 +17,7 @@ class StepperAdapter(fm: FragmentManager, context: Context, private val holiday:
     }
 
     override fun createStep(position: Int): Step {
+
         return if (position %2 == 0) {
             VisitFragment.newInstance(holiday)
         } else {

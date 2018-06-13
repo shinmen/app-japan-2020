@@ -16,12 +16,14 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 class VisitTourismInfoDialogFragment : DialogFragment() {
 
     private lateinit var mVisit: Visit
+    private var mPosition: Int = 0
     lateinit var fragmentListener: onVisitPlaceChoice
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mVisit = it.getParcelable("visit")
+            mPosition = it.getInt("position")
         }
         setStyle(STYLE_NORMAL, R.style.FullScreenDialogTheme)
     }
@@ -38,22 +40,24 @@ class VisitTourismInfoDialogFragment : DialogFragment() {
             dismiss()
         }
         visit_confirm.onClick {
-            fragmentListener.onPlaceChosen(mVisit)
+            fragmentListener.onPlaceChosen(mVisit, mPosition)
+            dismiss()
         }
     }
 
     companion object {
         const val ARG_VISIT_INFO = "visit_tourism_info"
-        fun newInstance(visit: Visit): VisitTourismInfoDialogFragment {
+        fun newInstance(visit: Visit, position: Int): VisitTourismInfoDialogFragment {
             val args = Bundle().apply {
                 putParcelable("visit", visit)
+                putInt("position", position)
             }
             return VisitTourismInfoDialogFragment().apply { arguments = args }
         }
     }
 
     interface onVisitPlaceChoice {
-        fun onPlaceChosen(visit: Visit)
+        fun onPlaceChosen(visit: Visit, position: Int)
     }
 
 }// Required empty public constructor

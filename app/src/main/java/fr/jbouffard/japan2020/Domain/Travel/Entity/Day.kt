@@ -5,11 +5,15 @@ import android.os.Parcelable
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Overnight
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Visit
 import kotlinx.android.parcel.Parcelize
+import org.joda.time.DateTime
 
 /**
  * Created by julienb on 26/02/18.
  */
 class Day() : Parcelable {
+
+    var date: DateTime? = null
+
     var overnight: Overnight? = null
         private set
 

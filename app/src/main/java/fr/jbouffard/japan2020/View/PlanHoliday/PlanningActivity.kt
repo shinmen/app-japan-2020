@@ -3,37 +3,28 @@ package fr.jbouffard.japan2020.View.PlanHoliday
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import fr.jbouffard.japan2020.R
-import android.support.v4.view.ViewPager
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.res.ResourcesCompat
+import android.support.v7.app.AppCompatActivity
 import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.annotations.*
-import com.stepstone.stepper.StepperLayout
-import com.mapbox.mapboxsdk.maps.SupportMapFragment
+import com.mapbox.mapboxsdk.annotations.IconFactory
+import com.mapbox.mapboxsdk.annotations.MarkerOptions
+import com.mapbox.mapboxsdk.annotations.PolylineOptions
 import com.mapbox.mapboxsdk.camera.CameraPosition
 import com.mapbox.mapboxsdk.constants.Style
-import com.mapbox.mapboxsdk.constants.Style.SATELLITE
-import com.mapbox.mapboxsdk.maps.MapboxMapOptions
 import com.mapbox.mapboxsdk.geometry.LatLng
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
+import com.mapbox.mapboxsdk.geometry.LatLngBounds
+import com.mapbox.mapboxsdk.maps.MapboxMap
+import com.mapbox.mapboxsdk.maps.MapboxMapOptions
+import com.mapbox.mapboxsdk.maps.SupportMapFragment
+import com.stepstone.stepper.StepperLayout
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Domain.Utils.GeolocationForArrivalCity
-import fr.jbouffard.japan2020.Infrastructure.Repository.EventStoreImpl
-import fr.jbouffard.japan2020.Infrastructure.Repository.HttpClient
-import fr.jbouffard.japan2020.Infrastructure.Repository.Repository
-import kotlinx.android.synthetic.main.fragment_overnight.view.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import java.util.*
-import com.mapbox.mapboxsdk.geometry.LatLngBounds
-import com.mapbox.mapboxsdk.maps.MapboxMap
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
+import fr.jbouffard.japan2020.R
+import org.jetbrains.anko.toast
 
 
 class PlanningActivity
@@ -52,8 +43,9 @@ class PlanningActivity
         markerList.add(visit.geolocation)
         mMap?.addPolyline(PolylineOptions()
                         .addAll(markerList.asIterable())
-                        .color(Color.parseColor("#3bb2d0"))
+                        .color(ContextCompat.getColor(this, R.color.colorPrimaryDark))
                         .width(2.toFloat()))
+        toast(getString(R.string.added_visit))
     }
 
     override fun onListFragmentInteraction() {
@@ -95,13 +87,10 @@ class PlanningActivity
         }
 
         mapFragment.getMapAsync({ map ->
-            val iconFactory = IconFactory.getInstance(this@PlanningActivity)
-            val icon = iconFactory.fromResource(R.drawable.ic_visit_icon)
-            this@PlanningActivity.mMap = map
+            mMap = map
             map.addMarker(MarkerOptions().apply {
                 position(arrivalGeolocation)
                 title(arrivalCity.name)
-                //icon(icon)
                 }
             )
             markerList.add(arrivalGeolocation)

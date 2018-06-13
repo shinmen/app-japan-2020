@@ -25,12 +25,16 @@ import org.koin.android.ext.android.inject
 class VisitFragment
     : Fragment(), BlockingStep, VisitTourismInfoDialogFragment.onVisitPlaceChoice
 {
-    override fun onPlaceChosen(visit: Visit) {
-        mListener!!.onVisited(visit)
-    }
-
     private var mListener: OnVisitSchedulerListener? = null
+    private lateinit var mHoliday: Holiday
     private val mPresenter: VisitRequestPresenter by inject()
+
+    override fun onPlaceChosen(visit: Visit, position: Int) {
+        mListener!!.onVisited(visit)
+        launch {
+            mPresenter.visitPlace(mHoliday, visit.city, position)
+        }
+    }
 
     override fun onSelected() {
     }
@@ -52,7 +56,9 @@ class VisitFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        arguments?.let {
+            mHoliday = it.getParcelable(VISIT_ARG)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -64,8 +70,8 @@ class VisitFragment
                 val visits = mPresenter.requestVisits()
                 list.apply {
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                    adapter = VisitRecyclerViewAdapter(visits) { visit ->
-                        val dialog = VisitTourismInfoDialogFragment.newInstance(visit)
+                    adapter = VisitRecyclerViewAdapter(visits) { visit, position ->
+                        val dialog = VisitTourismInfoDialogFragment.newInstance(visit, position)
                         dialog.fragmentListener = this@VisitFragment
                         dialog.show(fragmentManager, VisitTourismInfoDialogFragment.ARG_VISIT_INFO)
                     }
