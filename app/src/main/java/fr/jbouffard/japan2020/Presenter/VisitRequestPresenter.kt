@@ -18,7 +18,24 @@ class VisitRequestPresenter(private val httpClient: HttpClient) {
         return service.getVisitsInfo().await()
     }
 
+    suspend fun requestOvernightsOffers(): List<OvernightOffer>  {
+        val retrofit = httpClient.retrofit.baseUrl(ApiInterface.BASE_URL).build()
+
+        val service = retrofit.create<ApiInterface>(ApiInterface::class.java)
+        val request = OvernightRequest(
+                "2018-11-02 12:00",
+                "2018-11-10 12:00",
+                6,
+                "Tokyo"
+        )
+        return service.getOvernightOffers(request).await()
+    }
+
     suspend fun visitPlace(holiday: Holiday, city: String , position: Int) {
         val date = holiday.getDateOf(position)
+    }
+
+    suspend fun finishDay(holiday: Holiday) {
+        holiday.wakeUp()
     }
 }

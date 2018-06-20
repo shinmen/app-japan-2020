@@ -31,10 +31,10 @@
     <string name="close">Masquer</string>
     <string name="company_name">Compagnie: %1$s</string>
     <string name="highlighted_time">%1$s, %2$s.</string>
+    <string name="day_nb">Jour %1$d</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add">Ajouter</string>
     <string name="added_visit">Visite ajoutée</string>
+    <string name="end_of_trip">Fin</string>
 
 </resources>

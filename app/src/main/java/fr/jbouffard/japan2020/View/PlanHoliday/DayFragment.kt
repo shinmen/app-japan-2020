@@ -16,13 +16,13 @@ import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
 import fr.jbouffard.japan2020.Presenter.VisitRequestPresenter
 
 import fr.jbouffard.japan2020.R
-import kotlinx.android.synthetic.main.fragment_visit_list.*
+import kotlinx.android.synthetic.main.fragment_day_list.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.support.v4.toast
 import org.koin.android.ext.android.inject
 
-class VisitFragment
+class DayFragment
     : Fragment(), BlockingStep, VisitTourismInfoDialogFragment.onVisitPlaceChoice
 {
     private var mListener: OnVisitSchedulerListener? = null
@@ -31,7 +31,7 @@ class VisitFragment
     private val mPresenter: VisitRequestPresenter by inject()
 
     override fun onPlaceChosen(visit: Visit) {
-        mListener!!.onVisited(visit)
+        mListener?.onVisited(visit)
         launch {
             mPresenter.visitPlace(mHoliday, visit.city, mDayNumber)
         }
@@ -48,11 +48,18 @@ class VisitFragment
     }
 
     override fun onBackClicked(callback: StepperLayout.OnBackClickedCallback?) {
-        callback?.goToPrevStep()
+        launch(UI) {
+            mListener?.onPrevDay()
+            mPresenter.finishDay(mHoliday)
+            callback?.goToPrevStep()
+        }
     }
 
     override fun onNextClicked(callback: StepperLayout.OnNextClickedCallback?) {
-        callback?.goToNextStep()
+        launch(UI) {
+            mListener?.onNextDay()
+            callback?.goToNextStep()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +71,7 @@ class VisitFragment
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_visit_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_day_list, container, false)
 
         launch(UI) {
             try {
@@ -72,10 +79,22 @@ class VisitFragment
                 val visits = mPresenter.requestVisits()
                 list.apply {
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    setHasFixedSize(true)
+                    isNestedScrollingEnabled = true
                     adapter = VisitRecyclerViewAdapter(visits) { visit ->
                         val dialog = VisitTourismInfoDialogFragment.newInstance(visit)
-                        dialog.fragmentListener = this@VisitFragment
+                        dialog.fragmentListener = this@DayFragment
                         dialog.show(fragmentManager, VisitTourismInfoDialogFragment.ARG_VISIT_INFO)
+                    }
+                }
+                list_overnights.apply {
+                    val offers = mPresenter.requestOvernightsOffers()
+                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    setHasFixedSize(true)
+                    isNestedScrollingEnabled = true
+                    adapter = OvernightRecyclerViewAdapter(offers) { overnight ->
+                        val dialog = OvernightDetailDialogFragment.newInstance(overnight)
+                        dialog.show(fragmentManager, OvernightDetailDialogFragment.ARG_OVERNIGHT_DETAIL)
                     }
                 }
             } catch (e: Exception) {
@@ -103,17 +122,18 @@ class VisitFragment
 
     interface OnVisitSchedulerListener {
         fun onVisited(visit: Visit)
+        fun onNextDay()
+        fun onPrevDay()
     }
 
     companion object {
         const val VISIT_ARG = "holiday_for_visit"
-        fun newInstance(holiday: Holiday, dayNumber: Int): VisitFragment {
+        fun newInstance(holiday: Holiday, dayNumber: Int): DayFragment {
             val args = Bundle().apply {
                 putParcelable(VISIT_ARG, holiday)
                 putInt("dayNumber", dayNumber)
-
             }
-            return VisitFragment().apply { arguments = args }
+            return DayFragment().apply { arguments = args }
         }
     }
 }

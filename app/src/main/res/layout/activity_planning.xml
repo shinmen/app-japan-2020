@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/shojumaru"
         android:gravity="center_horizontal"
-        android:text="@string/step_day"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,6 +28,16 @@
 
     </FrameLayout>
 
+    <ProgressBar
+        android:id="@+id/loading_day"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        />
+
     <android.support.constraint.Guideline
         android:id="@+id/map_separator"
         android:layout_width="wrap_content"
@@ -44,6 +53,7 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/map_separator"
+        app:ms_completeButtonText="@string/end_of_trip"
         app:ms_activeStepColor="@color/colorPrimary"
         app:ms_stepperType="progress_bar" />
 

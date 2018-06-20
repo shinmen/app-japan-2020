@@ -5,40 +5,25 @@ import android.support.v4.app.FragmentManager
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.adapter.AbstractFragmentStepAdapter
 import com.stepstone.stepper.viewmodel.StepViewModel
-import fr.jbouffard.japan2020.Domain.Travel.Entity.Day
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
+import fr.jbouffard.japan2020.R
 
 /**
  * Created by julienb on 21/05/18.
  */
 class StepperAdapter(fm: FragmentManager, context: Context, private val holiday: Holiday) : AbstractFragmentStepAdapter(fm, context) {
-    private val days by lazy {   0.rangeTo(holiday.holidayDuration).toList() }
     override fun getCount(): Int {
-        return (holiday.holidayDuration * 2).toInt()
+        return holiday.holidayDuration.toInt()
     }
 
     override fun createStep(position: Int): Step {
-        days[position]
-        return if (position %2 == 0) {
-            VisitFragment.newInstance(holiday, position)
-        } else {
-            OvernightFragment.newInstance(holiday)
-        }
+        return DayFragment.newInstance(holiday, position+1)
     }
 
     override fun getViewModel(position: Int): StepViewModel {
-        val builder = StepViewModel.Builder(context)
-        /*val dayCount = count / 2
-        when {
-            position < 1 -> builder.setNextButtonLabel("Jour 1")
-            position == 2 -> builder.setNextButtonLabel("Jour 2")
-            position %2 == 0 -> builder.setNextButtonLabel("Jour ${position-1}")
-            else -> builder.setNextButtonLabel("Jour ${position-1}")
-        }*/
-        if (position %2 == 0) {
-            builder.setNextButtonLabel("Jour ${position+1}")
-        } else {
-            builder.setNextButtonLabel("Jour $position")
+        val builder = StepViewModel.Builder(context).apply {
+            setNextButtonLabel(context.resources.getString(R.string.day_nb, position+2))
+            setBackButtonLabel(context.resources.getString(R.string.day_nb, position))
         }
 
         return builder.create()

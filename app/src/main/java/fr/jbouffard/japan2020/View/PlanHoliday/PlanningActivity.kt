@@ -2,13 +2,10 @@ package fr.jbouffard.japan2020.View.PlanHoliday
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.annotations.IconFactory
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
 import com.mapbox.mapboxsdk.annotations.PolylineOptions
 import com.mapbox.mapboxsdk.camera.CameraPosition
@@ -24,16 +21,18 @@ import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Domain.Utils.GeolocationForArrivalCity
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
 import fr.jbouffard.japan2020.R
+import kotlinx.android.synthetic.main.activity_planning.*
 import org.jetbrains.anko.toast
 
 
 class PlanningActivity
     : AppCompatActivity(),
-        VisitFragment.OnVisitSchedulerListener,
+        DayFragment.OnVisitSchedulerListener,
         OvernightFragment.OnListFragmentInteractionListener
 {
     private var mMap: MapboxMap? = null
     private var markerList: MutableList<LatLng> = mutableListOf()
+    private var mDayNumber: Int = 1
 
     override fun onVisited(visit: Visit) {
         mMap?.addMarker(MarkerOptions().apply {
@@ -48,6 +47,14 @@ class PlanningActivity
         toast(getString(R.string.added_visit))
     }
 
+    override fun onNextDay() {
+        step_day.text = getString(R.string.day_nb, ++mDayNumber)
+    }
+
+    override fun onPrevDay() {
+        step_day.text = getString(R.string.day_nb, --mDayNumber)
+    }
+
     override fun onListFragmentInteraction() {
 
     }
@@ -55,6 +62,7 @@ class PlanningActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_planning)
+        step_day.text = resources.getString(R.string.day_nb, 1)
         val arrivalCity = intent.getParcelableExtra<City>(ARRIVAL_CITY_ARG)
         val arrivalGeolocation = GeolocationForArrivalCity.geolocation(arrivalCity)
 
