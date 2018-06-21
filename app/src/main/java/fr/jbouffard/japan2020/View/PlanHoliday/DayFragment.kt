@@ -12,13 +12,18 @@ import com.stepstone.stepper.BlockingStep
 import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.VerificationError
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
+import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
 import fr.jbouffard.japan2020.Presenter.VisitRequestPresenter
 
 import fr.jbouffard.japan2020.R
+import fr.jbouffard.japan2020.View.PlanFlight.FlightRequestActivity
 import kotlinx.android.synthetic.main.fragment_day_list.*
 import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
+import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.toast
 import org.koin.android.ext.android.inject
 
@@ -30,33 +35,38 @@ class DayFragment
     private var mDayNumber: Int = 1
     private val mPresenter: VisitRequestPresenter by inject()
 
-    override fun onPlaceChosen(visit: Visit) {
+    override fun onVisitPlaceChosen(visit: Visit) {
         mListener?.onVisited(visit)
         launch {
             mPresenter.visitPlace(mHoliday, visit.city, mDayNumber)
         }
     }
 
+    override fun onOvernightPlaceChosen(city: City) {
+
+    }
+
     override fun onSelected() {
     }
 
     override fun verifyStep(): VerificationError? {
+        onLoading()
+
         return null
     }
 
     override fun onError(error: VerificationError) {
+        longToast(error.errorMessage)
     }
 
     override fun onBackClicked(callback: StepperLayout.OnBackClickedCallback?) {
-        launch(UI) {
-            mListener?.onPrevDay()
-            mPresenter.finishDay(mHoliday)
-            callback?.goToPrevStep()
-        }
+        val i = FlightRequestActivity.newIntent(activity!!)
+        startActivity(i)
     }
 
     override fun onNextClicked(callback: StepperLayout.OnNextClickedCallback?) {
         launch(UI) {
+            mPresenter.finishDay(mHoliday)
             mListener?.onNextDay()
             callback?.goToNextStep()
         }
@@ -97,6 +107,7 @@ class DayFragment
                         dialog.show(fragmentManager, OvernightDetailDialogFragment.ARG_OVERNIGHT_DETAIL)
                     }
                 }
+                onLoaded()
             } catch (e: Exception) {
                 toast(e.message.toString())
             }
@@ -105,6 +116,17 @@ class DayFragment
         return view
     }
 
+    private fun onLoaded() {
+        loading_day.visibility = View.GONE
+        list.visibility = View.VISIBLE
+        list_overnights.visibility = View.VISIBLE
+    }
+
+    private fun onLoading() {
+        loading_day.visibility = View.VISIBLE
+        list.visibility = View.GONE
+        list_overnights.visibility = View.GONE
+    }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -123,7 +145,7 @@ class DayFragment
     interface OnVisitSchedulerListener {
         fun onVisited(visit: Visit)
         fun onNextDay()
-        fun onPrevDay()
+        fun onLoading()
     }
 
     companion object {

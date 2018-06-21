@@ -31,33 +31,51 @@ Morbi rhoncus augue odio, et malesuada purus mollis id. Class aptent taciti soci
         app:layout_constraintTop_toBottomOf="@id/city"
         tools:text="@tools:sample/lorem/random" />
 
-    <Button
+    <ImageButton
         android:id="@+id/visit_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@android:color/transparent"
-        android:paddingBottom="16dp"
+        android:padding="8dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
         android:text="@string/close"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintEnd_toStartOf="@id/confirm"
-        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintEnd_toStartOf="@+id/stay_tonight"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tourism_info" />
 
-    <Button
+    <ImageButton
+        android:id="@+id/stay_tonight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:paddingBottom="16dp"
+        android:src="@drawable/ic_accomodation_icon"
+        android:background="@android:color/transparent"
+        android:text="@string/close"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/visit_confirm"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toEndOf="@+id/visit_close"
+        app:layout_constraintTop_toBottomOf="@id/tourism_info" />
+
+    <ImageButton
         android:id="@+id/visit_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
         android:elevation="@dimen/cardview_default_elevation"
-        android:paddingBottom="16dp"
+        android:padding="8dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_visit_icon"
         android:text="@string/add"
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toEndOf="@id/close"
+        app:layout_constraintStart_toEndOf="@+id/stay_tonight"
         app:layout_constraintTop_toBottomOf="@id/tourism_info" />
 
 </android.support.constraint.ConstraintLayout>

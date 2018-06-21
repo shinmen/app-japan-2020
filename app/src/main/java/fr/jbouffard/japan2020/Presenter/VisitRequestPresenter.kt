@@ -32,7 +32,7 @@ class VisitRequestPresenter(private val httpClient: HttpClient) {
     }
 
     suspend fun visitPlace(holiday: Holiday, city: String , position: Int) {
-        val date = holiday.getDateOf(position)
+        //val date = holiday.getDateOf(position)
     }
 
     suspend fun finishDay(holiday: Holiday) {

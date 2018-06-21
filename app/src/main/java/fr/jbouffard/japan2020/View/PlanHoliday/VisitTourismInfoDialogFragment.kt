@@ -6,6 +6,7 @@ import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 
 import fr.jbouffard.japan2020.R
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
@@ -37,8 +38,12 @@ class VisitTourismInfoDialogFragment : DialogFragment() {
         visit_close.onClick {
             dismiss()
         }
+        stay_tonight.onClick {
+            fragmentListener.onOvernightPlaceChosen(City(mVisit.city))
+            dismiss()
+        }
         visit_confirm.onClick {
-            fragmentListener.onPlaceChosen(mVisit)
+            fragmentListener.onVisitPlaceChosen(mVisit)
             dismiss()
         }
     }
@@ -54,7 +59,8 @@ class VisitTourismInfoDialogFragment : DialogFragment() {
     }
 
     interface onVisitPlaceChoice {
-        fun onPlaceChosen(visit: Visit)
+        fun onVisitPlaceChosen(visit: Visit)
+        fun onOvernightPlaceChosen(city: City)
     }
 
 }// Required empty public constructor

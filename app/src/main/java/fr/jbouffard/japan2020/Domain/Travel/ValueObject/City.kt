@@ -9,4 +9,4 @@ import kotlinx.android.parcel.Parcelize
  * Created by julienb on 26/02/18.
  */
 @Parcelize
-data class City(val name: String, val country: String) : Parcelable
+data class City(val name: String, val country: String = "Japan") : Parcelable

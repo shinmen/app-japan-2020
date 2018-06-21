@@ -50,7 +50,12 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
         airTransportation.selectRoundTrip()
 
         applyNewEvent(SelectFlightPlan(goingFlightPlan, returnFlightPlan, fare, version, streamId))
-        applyNewEvent(PlanHolidayPeriod(goingFlightPlan.flightPlan.last().arrivalDate, returnFlightPlan.flightPlan.first().departureDate, version, streamId))
+        applyNewEvent(PlanHolidayPeriod(
+                goingFlightPlan.flightPlan.last().arrivalDate,
+                returnFlightPlan.flightPlan.first().departureDate,
+                version,
+                streamId
+        ))
     }
 
     fun startHolidayPlanning() {

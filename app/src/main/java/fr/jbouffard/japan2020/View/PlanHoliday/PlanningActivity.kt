@@ -2,10 +2,18 @@ package fr.jbouffard.japan2020.View.PlanHoliday
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.drawable.VectorDrawable
 import android.os.Bundle
+import android.support.transition.TransitionManager
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.view.ViewGroup
 import com.mapbox.mapboxsdk.Mapbox
+import com.mapbox.mapboxsdk.annotations.IconFactory
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
 import com.mapbox.mapboxsdk.annotations.PolylineOptions
 import com.mapbox.mapboxsdk.camera.CameraPosition
@@ -20,24 +28,28 @@ import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Domain.Utils.GeolocationForArrivalCity
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
+import fr.jbouffard.japan2020.Infrastructure.Utils.VectorDrawableTransformer
 import fr.jbouffard.japan2020.R
 import kotlinx.android.synthetic.main.activity_planning.*
+import org.jetbrains.anko.contentView
 import org.jetbrains.anko.toast
 
 
 class PlanningActivity
     : AppCompatActivity(),
-        DayFragment.OnVisitSchedulerListener,
-        OvernightFragment.OnListFragmentInteractionListener
+        DayFragment.OnVisitSchedulerListener
 {
     private var mMap: MapboxMap? = null
     private var markerList: MutableList<LatLng> = mutableListOf()
     private var mDayNumber: Int = 1
 
     override fun onVisited(visit: Visit) {
+        val icon = VectorDrawableTransformer.toBitmap(getDrawable(R.drawable.ic_visit_icon) as VectorDrawable)
         mMap?.addMarker(MarkerOptions().apply {
             position(visit.geolocation)
+            icon(IconFactory.getInstance(this@PlanningActivity).fromBitmap(icon))
             title(visit.city)
+            snippet(getString(R.string.day_nb, mDayNumber))
         })
         markerList.add(visit.geolocation)
         mMap?.addPolyline(PolylineOptions()
@@ -48,20 +60,18 @@ class PlanningActivity
     }
 
     override fun onNextDay() {
+        //TransitionManager.beginDelayedTransition(contentView as ViewGroup)
         step_day.text = getString(R.string.day_nb, ++mDayNumber)
     }
 
-    override fun onPrevDay() {
-        step_day.text = getString(R.string.day_nb, --mDayNumber)
-    }
-
-    override fun onListFragmentInteraction() {
-
+    override fun onLoading() {
+        //TransitionManager.beginDelayedTransition(contentView as ViewGroup)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_planning)
+
         step_day.text = resources.getString(R.string.day_nb, 1)
         val arrivalCity = intent.getParcelableExtra<City>(ARRIVAL_CITY_ARG)
         val arrivalGeolocation = GeolocationForArrivalCity.geolocation(arrivalCity)
@@ -71,6 +81,11 @@ class PlanningActivity
         val indicator = findViewById<StepperLayout>(R.id.indicator)
         val adapter = StepperAdapter(supportFragmentManager, this, holiday)
         indicator.setAdapter(adapter)
+
+        initMap(savedInstanceState, arrivalGeolocation, arrivalCity)
+    }
+
+    private fun initMap(savedInstanceState: Bundle?, arrivalGeolocation: LatLng, arrivalCity: City) {
         Mapbox.getInstance(this, getString(R.string.map_box_api_key))
 
         // Create supportMapFragment
@@ -96,10 +111,13 @@ class PlanningActivity
 
         mapFragment.getMapAsync({ map ->
             mMap = map
+            val icon = VectorDrawableTransformer.toBitmap(getDrawable(R.drawable.ic_visit_icon) as VectorDrawable)
             map.addMarker(MarkerOptions().apply {
                 position(arrivalGeolocation)
+                icon(IconFactory.getInstance(this@PlanningActivity).fromBitmap(icon))
                 title(arrivalCity.name)
-                }
+                snippet(getString(R.string.day_nb, 1))
+            }
             )
             markerList.add(arrivalGeolocation)
             map.setLatLngBoundsForCameraTarget(JAPAN_BOUNDS)

@@ -36,5 +36,6 @@
     <string name="add">Ajouter</string>
     <string name="added_visit">Visite ajoutée</string>
     <string name="end_of_trip">Fin</string>
+    <string name="flights">Vols</string>
 
 </resources>

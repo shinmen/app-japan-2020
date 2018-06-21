@@ -12,25 +12,46 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list"
-            android:name="fr.jbouffard.japan2020.View.PlanHoliday.VisitFragment"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:layoutManager="LinearLayoutManager"
-            tools:context="fr.jbouffard.japan2020.View.PlanHoliday.DayFragment"
-            tools:listitem="@layout/fragment_day" />
+            android:layout_height="match_parent">
+            <ProgressBar
+                android:id="@+id/loading_day"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="visible"
+                tools:visibility="visible"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list"
+                android:name="fr.jbouffard.japan2020.View.PlanHoliday.VisitFragment"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:layoutManager="LinearLayoutManager"
+                tools:context="fr.jbouffard.japan2020.View.PlanHoliday.DayFragment"
+                tools:listitem="@layout/fragment_day"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_overnights"
-            android:name="fr.jbouffard.japan2020.View.PlanHoliday.VisitFragment"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:layoutManager="LinearLayoutManager"
-            tools:context="fr.jbouffard.japan2020.View.PlanHoliday.DayFragment"
-            tools:listitem="@layout/fragment_day"
-            />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_overnights"
+                android:name="fr.jbouffard.japan2020.View.PlanHoliday.VisitFragment"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:layoutManager="LinearLayoutManager"
+                tools:context="fr.jbouffard.japan2020.View.PlanHoliday.DayFragment"
+                tools:listitem="@layout/fragment_day"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@id/list"
+                />
+        </android.support.constraint.ConstraintLayout>
+
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
 

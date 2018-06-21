@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.jbouffard.japan2020.View.PlanHoliday.PlanningActivity">
+    tools:context="fr.jbouffard.japan2020.View.PlanHoliday.PlanningActivity"
+    >
 
     <TextView
         android:id="@+id/step_day"
@@ -28,16 +29,6 @@
 
     </FrameLayout>
 
-    <ProgressBar
-        android:id="@+id/loading_day"
-        android:layout_width="80dp"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
-        />
-
     <android.support.constraint.Guideline
         android:id="@+id/map_separator"
         android:layout_width="wrap_content"
@@ -55,7 +46,9 @@
         app:layout_constraintTop_toBottomOf="@+id/map_separator"
         app:ms_completeButtonText="@string/end_of_trip"
         app:ms_activeStepColor="@color/colorPrimary"
-        app:ms_stepperType="progress_bar" />
+        app:ms_stepperType="progress_bar"
+        app:ms_showBackButtonOnFirstStep="true"
+    />
 
 
 </android.support.constraint.ConstraintLayout>
