@@ -1,6 +1,7 @@
 package fr.jbouffard.japan2020.Presenter
 
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
+import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Movement
 import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Infrastructure.DTO.*
 import fr.jbouffard.japan2020.Infrastructure.Repository.ApiInterface
@@ -31,11 +32,11 @@ class VisitRequestPresenter(private val httpClient: HttpClient) {
         return service.getOvernightOffers(request).await()
     }
 
-    suspend fun visitPlace(holiday: Holiday, city: String , position: Int) {
-        //val date = holiday.getDateOf(position)
+    fun visitPlace(holiday: Holiday, destination: String) {
+        //holiday.goToCity(holiday.currentCity, destination)
     }
 
-    suspend fun finishDay(holiday: Holiday) {
+    fun finishDay(holiday: Holiday) {
         holiday.wakeUp()
     }
 }

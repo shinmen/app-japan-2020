@@ -24,7 +24,6 @@ class StepperAdapter(fm: FragmentManager, context: Context, private val holiday:
         val builder = StepViewModel.Builder(context).apply {
             setNextButtonLabel(context.resources.getString(R.string.day_nb, position+2))
             setBackButtonLabel(context.getString(R.string.flights))
-            //setBackButtonLabel(context.resources.getString(R.string.day_nb, position))
         }
 
         return builder.create()

@@ -2,6 +2,8 @@ package fr.jbouffard.japan2020.Domain.Travel.Entity
 
 import android.os.Parcel
 import android.os.Parcelable
+import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
+import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Movement
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Overnight
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Visit
 import kotlinx.android.parcel.Parcelize
@@ -19,12 +21,21 @@ class Day() : Parcelable {
 
     var visits: MutableList<Visit> = mutableListOf()
 
+    var movements: MutableList<Movement> = mutableListOf()
+
+    val currentCity: String
+        get() {return movements.last().destination }
+
     fun scheduleAccomodation(overnight: Overnight) {
         this.overnight = overnight
     }
 
     fun scheduleVisit(visit: Visit) {
         visits.add(visit)
+    }
+
+    fun scheduleMoveTo(destination: String) {
+
     }
 
     constructor(source: Parcel) : this() {

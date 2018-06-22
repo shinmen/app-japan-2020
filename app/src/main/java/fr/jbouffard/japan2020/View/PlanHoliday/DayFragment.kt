@@ -11,18 +11,16 @@ import android.view.ViewGroup
 import com.stepstone.stepper.BlockingStep
 import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.VerificationError
+import fr.jbouffard.japan2020.Domain.DomainException
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
 import fr.jbouffard.japan2020.Presenter.VisitRequestPresenter
-
 import fr.jbouffard.japan2020.R
 import fr.jbouffard.japan2020.View.PlanFlight.FlightRequestActivity
 import kotlinx.android.synthetic.main.fragment_day_list.*
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
 import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.toast
 import org.koin.android.ext.android.inject
@@ -37,20 +35,23 @@ class DayFragment
 
     override fun onVisitPlaceChosen(visit: Visit) {
         mListener?.onVisited(visit)
-        launch {
-            mPresenter.visitPlace(mHoliday, visit.city, mDayNumber)
+        launch(UI) {
+            try {
+                mPresenter.visitPlace(mHoliday, visit.city)
+            } catch (e: DomainException) {
+                toast(e.message.toString())
+            }
         }
     }
 
     override fun onOvernightPlaceChosen(city: City) {
-
+        onDayEnded()
     }
 
     override fun onSelected() {
     }
 
     override fun verifyStep(): VerificationError? {
-        onLoading()
 
         return null
     }
@@ -66,9 +67,14 @@ class DayFragment
 
     override fun onNextClicked(callback: StepperLayout.OnNextClickedCallback?) {
         launch(UI) {
-            mPresenter.finishDay(mHoliday)
-            mListener?.onNextDay()
-            callback?.goToNextStep()
+            try {
+                mPresenter.finishDay(mHoliday)
+                mListener?.onNextDay()
+                callback?.goToNextStep()
+            } catch (e: DomainException) {
+                toast(e.message.toString())
+            }
+
         }
     }
 
@@ -86,6 +92,7 @@ class DayFragment
         launch(UI) {
             try {
                 TransitionManager.beginDelayedTransition(container!!)
+                onLoading()
                 val visits = mPresenter.requestVisits()
                 list.apply {
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -119,13 +126,17 @@ class DayFragment
     private fun onLoaded() {
         loading_day.visibility = View.GONE
         list.visibility = View.VISIBLE
-        list_overnights.visibility = View.VISIBLE
     }
 
     private fun onLoading() {
         loading_day.visibility = View.VISIBLE
         list.visibility = View.GONE
         list_overnights.visibility = View.GONE
+    }
+
+    private fun onDayEnded() {
+        list.visibility = View.GONE
+        list_overnights.visibility = View.VISIBLE
     }
 
     override fun onAttach(context: Context?) {
