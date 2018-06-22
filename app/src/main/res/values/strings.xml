@@ -37,5 +37,7 @@
     <string name="added_visit">Visite ajoutée</string>
     <string name="end_of_trip">Fin</string>
     <string name="flights">Vols</string>
+    <string name="area">Région: %1$s</string>
+    <string name="nearby_cities">Lieux proches: %1$s</string>
 
 </resources>

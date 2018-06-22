@@ -18,7 +18,12 @@ class VisitAdapter : JsonDeserializer<Visit> {
     override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Visit? {
         val jsonObject = json?.asJsonObject ?: return null
         val latLng = LatLng(jsonObject.get("latitude").asDouble, jsonObject.get("longitude").asDouble)
-
-        return Visit(jsonObject.get("name").asString, latLng, jsonObject.get("tourism_info").asString)
+        val nearbyCities = jsonObject.get("nearby_cities").asJsonArray
+        return Visit(
+                jsonObject.get("name").asString, latLng,
+                jsonObject.get("tourism_info").asString,
+                jsonObject.get("area").asString,
+                nearbyCities.map { it.asString }
+        )
     }
 }
