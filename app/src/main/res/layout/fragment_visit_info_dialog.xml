@@ -18,10 +18,11 @@
     <ScrollView
         android:id="@+id/tourism_info_container"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/city">
+        app:layout_constraintTop_toBottomOf="@id/city"
+        >
         <TextView
             android:id="@+id/tourism_info"
             android:layout_width="wrap_content"
@@ -54,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/area"
-        tools:text="Kanto" />
+        tools:text="Tokyo, Nikko, Kamakura" />
 
     <ImageButton
         android:id="@+id/visit_close"

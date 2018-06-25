@@ -23,19 +23,16 @@ class Day() : Parcelable {
 
     var movements: MutableList<Movement> = mutableListOf()
 
-    val currentCity: String
-        get() {return movements.last().destination }
-
     fun scheduleAccomodation(overnight: Overnight) {
         this.overnight = overnight
     }
 
-    fun scheduleVisit(visit: Visit) {
-        visits.add(visit)
+    fun scheduleVisit(city: String) {
+        visits.add(Visit(City(city), date!!))
     }
 
-    fun scheduleMoveTo(destination: String) {
-
+    fun scheduleMoveTo(move: Movement) {
+        movements.add(move)
     }
 
     constructor(source: Parcel) : this() {

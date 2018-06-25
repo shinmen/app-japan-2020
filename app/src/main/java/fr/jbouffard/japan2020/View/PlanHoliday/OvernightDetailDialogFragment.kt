@@ -20,6 +20,7 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 class OvernightDetailDialogFragment : DialogFragment() {
 
     private lateinit var mOvernight: OvernightOffer
+    lateinit var fragmentListener: OnOvernightPlaceChoice
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +53,11 @@ class OvernightDetailDialogFragment : DialogFragment() {
         close.onClick {
             dismiss()
         }
+
+        confirm.onClick {
+            fragmentListener.onOvernightPlaceChosen(mOvernight)
+            dismiss()
+        }
     }
 
     companion object {
@@ -62,6 +68,10 @@ class OvernightDetailDialogFragment : DialogFragment() {
             }
             return OvernightDetailDialogFragment().apply { arguments = args }
         }
+    }
+
+    interface OnOvernightPlaceChoice {
+        fun onOvernightPlaceChosen(overnight: OvernightOffer)
     }
 
 }// Required empty public constructor

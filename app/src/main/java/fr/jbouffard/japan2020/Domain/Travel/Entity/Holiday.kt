@@ -32,8 +32,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     var holidayDuration: Long = 0
         get() = Duration(startHolidayAt, endHolidayAt).standardDays
 
-    val currentCity: String
-        get() = daySchedules.last().currentCity
+    var currentCity: String? = null
 
     fun getDateOf(position: Int) = if(position%2 == 0) { daySchedules[position].date } else { daySchedules[position-1].date }
 
@@ -85,16 +84,17 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
         applyNewEvent(NewDayStarted(dayAfter, version, streamId))
     }
 
-    fun scheduleVisitCity(visit: Visit) {
-
+    fun scheduleVisitCity(city: String) {
+        daySchedules.last().scheduleVisit(city)
     }
 
-    fun scheduleStayOver(stay: Overnight) {
-
+    fun scheduleStayOver() {
+        //daySchedules.last().scheduleAccomodation(stay)
     }
 
-    fun goToCity(origin: String, destination: String) {
-        val move = Movement(origin, destination, daySchedules.last().date!!)
+    fun goToCity(destination: String) {
+        val move = Movement(currentCity!!, destination, daySchedules.last().date!!)
+        daySchedules.last().scheduleMoveTo(move)
         applyNewEvent(MovedToCity(move, version, streamId))
     }
 
@@ -104,6 +104,8 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
         is ArrivedInJapan -> loadEvent(event)
         is NewDayStarted -> loadEvent(event)
         is MovedToCity -> loadEvent(event)
+        is VisitedCity -> loadEvent(event)
+        is SleptInCity -> loadEvent(event)
     }
 
     private fun loadEvent(event: MovedToCity) {
@@ -125,8 +127,8 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     private fun loadEvent(event: ArrivedInJapan) {
         val day = Day()
         day.date = startHolidayAt
+        currentCity = event.firstCity.name
         daySchedules.add(day)
-        daySchedules.last().visits.add(Visit(event.firstCity, event.arrivedAt.toDate()))
         version++
     }
 
@@ -134,6 +136,16 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
         val day = Day()
         day.date = event.date
         daySchedules.add(day)
+        version++
+    }
+
+    private fun loadEvent(event: VisitedCity) {
+        daySchedules.last().scheduleVisit(event.visit.city.name)
+        version++
+    }
+
+    private fun loadEvent(event: SleptInCity) {
+        daySchedules.last().scheduleAccomodation(event.overnight)
         version++
     }
 

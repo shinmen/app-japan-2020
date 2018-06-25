@@ -17,7 +17,7 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 class VisitTourismInfoDialogFragment : DialogFragment() {
 
     private lateinit var mVisit: Visit
-    lateinit var fragmentListener: onVisitPlaceChoice
+    lateinit var fragmentListener: OnVisitPlaceChoice
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +60,7 @@ class VisitTourismInfoDialogFragment : DialogFragment() {
         }
     }
 
-    interface onVisitPlaceChoice {
+    interface OnVisitPlaceChoice {
         fun onVisitPlaceChosen(visit: Visit)
         fun onOvernightPlaceChosen(city: City)
     }

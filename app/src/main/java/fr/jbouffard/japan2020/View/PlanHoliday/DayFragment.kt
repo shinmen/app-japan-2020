@@ -14,6 +14,7 @@ import com.stepstone.stepper.VerificationError
 import fr.jbouffard.japan2020.Domain.DomainException
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
+import fr.jbouffard.japan2020.Infrastructure.DTO.OvernightOffer
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
 import fr.jbouffard.japan2020.Presenter.VisitRequestPresenter
 import fr.jbouffard.japan2020.R
@@ -26,12 +27,18 @@ import org.jetbrains.anko.support.v4.toast
 import org.koin.android.ext.android.inject
 
 class DayFragment
-    : Fragment(), BlockingStep, VisitTourismInfoDialogFragment.onVisitPlaceChoice
+    : Fragment(), BlockingStep, VisitTourismInfoDialogFragment.OnVisitPlaceChoice, OvernightDetailDialogFragment.OnOvernightPlaceChoice
 {
     private var mListener: OnVisitSchedulerListener? = null
     private lateinit var mHoliday: Holiday
     private var mDayNumber: Int = 1
     private val mPresenter: VisitRequestPresenter by inject()
+
+    override fun onOvernightPlaceChosen(overnight: OvernightOffer) {
+        mListener?.onLoading()
+        mPresenter.sleepIn(mHoliday, overnight)
+    }
+
 
     override fun onVisitPlaceChosen(visit: Visit) {
         mListener?.onVisited(visit)
@@ -111,6 +118,7 @@ class DayFragment
                     isNestedScrollingEnabled = true
                     adapter = OvernightRecyclerViewAdapter(offers) { overnight ->
                         val dialog = OvernightDetailDialogFragment.newInstance(overnight)
+                        dialog.fragmentListener = this@DayFragment
                         dialog.show(fragmentManager, OvernightDetailDialogFragment.ARG_OVERNIGHT_DETAIL)
                     }
                 }

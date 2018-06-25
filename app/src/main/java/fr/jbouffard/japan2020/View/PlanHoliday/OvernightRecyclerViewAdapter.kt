@@ -22,7 +22,7 @@ class OvernightRecyclerViewAdapter(private val overnights: List<OvernightOffer>,
         fun bind(overnightOffer: OvernightOffer, listener: (OvernightOffer) -> Unit) = with(itemView) {
             Picasso.get().load(overnightOffer.thumbnailUrl)
                     .into(thumbnail)
-            pricePerPax.text = "${overnightOffer.pricePerPax}€/pers."
+            pricePerPax.text = resources.getString(R.string.price_per_pax, overnightOffer.pricePerPax)
             name.text = overnightOffer.accommodation.commercialName
             bed.text = overnightOffer.accommodation.bedNb.toString()
             setOnClickListener { listener(overnightOffer) }
