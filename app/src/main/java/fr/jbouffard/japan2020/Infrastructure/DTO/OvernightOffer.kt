@@ -2,6 +2,8 @@ package fr.jbouffard.japan2020.Infrastructure.DTO
 
 import android.os.Parcelable
 import com.mapbox.mapboxsdk.geometry.LatLng
+import fr.jbouffard.japan2020.Domain.Travel.ValueObject.AccommodationAddress
+import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Overnight
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

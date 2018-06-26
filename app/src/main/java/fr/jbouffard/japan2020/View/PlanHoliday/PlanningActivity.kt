@@ -27,6 +27,7 @@ import com.stepstone.stepper.StepperLayout
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Domain.Utils.GeolocationForArrivalCity
+import fr.jbouffard.japan2020.Infrastructure.DTO.OvernightOffer
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
 import fr.jbouffard.japan2020.Infrastructure.Utils.VectorDrawableTransformer
 import fr.jbouffard.japan2020.R
@@ -57,6 +58,24 @@ class PlanningActivity
                         .color(ContextCompat.getColor(this, R.color.colorPrimaryDark))
                         .width(2.toFloat()))
         toast(getString(R.string.added_visit))
+    }
+
+    override fun onSleptIn(overnight: OvernightOffer) {
+        val iconBitmap = VectorDrawableTransformer.toBitmap(getDrawable(R.drawable.ic_accomodation_icon) as VectorDrawable)
+        val icon = IconFactory.getInstance(this@PlanningActivity).fromBitmap(iconBitmap)
+
+        mMap?.addMarker(MarkerOptions().apply {
+            position(overnight.geolocation)
+            icon(icon)
+            title(overnight.accommodation.city)
+            snippet(getString(R.string.day_nb, mDayNumber))
+        })
+        markerList.add(overnight.geolocation)
+        mMap?.addPolyline(PolylineOptions()
+                .addAll(markerList.asIterable())
+                .color(ContextCompat.getColor(this, R.color.colorPrimaryDark))
+                .width(2.toFloat()))
+        toast(getString(R.string.stay_over_added))
     }
 
     override fun onNextDay() {

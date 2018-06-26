@@ -7,8 +7,7 @@ import fr.jbouffard.japan2020.Infrastructure.Repository.HttpClient
 import fr.jbouffard.japan2020.Infrastructure.Repository.Repository
 import fr.jbouffard.japan2020.Presenter.FlightRequestPresenter
 import fr.jbouffard.japan2020.Presenter.OvernightRequestPresenter
-import fr.jbouffard.japan2020.Presenter.VisitRequestPresenter
-import org.koin.android.ext.android.get
+import fr.jbouffard.japan2020.Presenter.DayRequestPresenter
 import org.koin.dsl.module.Module
 import org.koin.dsl.module.applicationContext
 
@@ -17,8 +16,7 @@ import org.koin.dsl.module.applicationContext
  */
 val japan2020Module: Module =  applicationContext {
     factory { FlightRequestPresenter(get(), get()) }
-    factory { OvernightRequestPresenter(get()) }
-    factory { VisitRequestPresenter(get()) }
+    factory { DayRequestPresenter(get()) }
     factory { HttpClient() }
     factory { Repository(get()) as RepositoryInterface }
     factory { EventStoreImpl(get()) as EventStore }

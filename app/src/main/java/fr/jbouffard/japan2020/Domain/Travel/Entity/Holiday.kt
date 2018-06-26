@@ -7,7 +7,6 @@ import fr.jbouffard.japan2020.Domain.Travel.Event.*
 import fr.jbouffard.japan2020.Domain.DomainEvent
 import fr.jbouffard.japan2020.Domain.Travel.Exception.MissingOvernightException
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.*
-import kotlinx.android.parcel.Parcelize
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.Period
@@ -34,7 +33,8 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
 
     var currentCity: String? = null
 
-    fun getDateOf(position: Int) = if(position%2 == 0) { daySchedules[position].date } else { daySchedules[position-1].date }
+    var currentDate: DateTime? = null
+        get() = daySchedules.last().date
 
     override fun applyNewEvent(domainEvent: DomainEvent) {
         super.applyNewEvent(domainEvent)
@@ -86,10 +86,14 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
 
     fun scheduleVisitCity(city: String) {
         daySchedules.last().scheduleVisit(city)
+        val visit = Visit(City(city), daySchedules.last().date!!)
+        applyNewEvent(VisitedCity(visit, version, streamId))
     }
 
-    fun scheduleStayOver() {
-        //daySchedules.last().scheduleAccomodation(stay)
+    fun scheduleStayOver(accommodation: AccommodationAddress, rate: Float, weekDiscount: Float) {
+        val overnight = Overnight(accommodation, daySchedules.last().date!!.toDate(), rate, weekDiscount)
+        daySchedules.last().scheduleAccommodation(overnight)
+        applyNewEvent(SleptInCity(overnight, version, streamId))
     }
 
     fun goToCity(destination: String) {
@@ -145,7 +149,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     }
 
     private fun loadEvent(event: SleptInCity) {
-        daySchedules.last().scheduleAccomodation(event.overnight)
+        daySchedules.last().scheduleAccommodation(event.overnight)
         version++
     }
 

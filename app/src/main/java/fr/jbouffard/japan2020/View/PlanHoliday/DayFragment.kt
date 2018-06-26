@@ -16,7 +16,7 @@ import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Infrastructure.DTO.OvernightOffer
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
-import fr.jbouffard.japan2020.Presenter.VisitRequestPresenter
+import fr.jbouffard.japan2020.Presenter.DayRequestPresenter
 import fr.jbouffard.japan2020.R
 import fr.jbouffard.japan2020.View.PlanFlight.FlightRequestActivity
 import kotlinx.android.synthetic.main.fragment_day_list.*
@@ -32,13 +32,13 @@ class DayFragment
     private var mListener: OnVisitSchedulerListener? = null
     private lateinit var mHoliday: Holiday
     private var mDayNumber: Int = 1
-    private val mPresenter: VisitRequestPresenter by inject()
+    private val mPresenter: DayRequestPresenter by inject()
 
     override fun onOvernightPlaceChosen(overnight: OvernightOffer) {
-        mListener?.onLoading()
+        mListener?.onSleptIn(overnight)
         mPresenter.sleepIn(mHoliday, overnight)
+        mHoliday
     }
-
 
     override fun onVisitPlaceChosen(visit: Visit) {
         mListener?.onVisited(visit)
@@ -51,8 +51,23 @@ class DayFragment
         }
     }
 
-    override fun onOvernightPlaceChosen(city: City) {
-        onDayEnded()
+    override fun onOvernightCityChosen(city: City) {
+
+        launch(UI) {
+            mListener?.onLoading()
+            list_overnights.apply {
+                val overnightOffers = mPresenter.requestOvernightsOffers(mHoliday.currentDate!!, city)
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                setHasFixedSize(true)
+                isNestedScrollingEnabled = true
+                adapter = OvernightRecyclerViewAdapter(overnightOffers) { overnight ->
+                    val dialog = OvernightDetailDialogFragment.newInstance(overnight)
+                    dialog.fragmentListener = this@DayFragment
+                    dialog.show(fragmentManager, OvernightDetailDialogFragment.ARG_OVERNIGHT_DETAIL)
+                }
+            }
+            onDayEnded()
+        }
     }
 
     override fun onSelected() {
@@ -101,7 +116,7 @@ class DayFragment
                 TransitionManager.beginDelayedTransition(container!!)
                 onLoading()
                 val visits = mPresenter.requestVisits()
-                list.apply {
+                list_visits.apply {
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     setHasFixedSize(true)
                     isNestedScrollingEnabled = true
@@ -111,18 +126,8 @@ class DayFragment
                         dialog.show(fragmentManager, VisitTourismInfoDialogFragment.ARG_VISIT_INFO)
                     }
                 }
-                list_overnights.apply {
-                    val offers = mPresenter.requestOvernightsOffers()
-                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                    setHasFixedSize(true)
-                    isNestedScrollingEnabled = true
-                    adapter = OvernightRecyclerViewAdapter(offers) { overnight ->
-                        val dialog = OvernightDetailDialogFragment.newInstance(overnight)
-                        dialog.fragmentListener = this@DayFragment
-                        dialog.show(fragmentManager, OvernightDetailDialogFragment.ARG_OVERNIGHT_DETAIL)
-                    }
-                }
-                onLoaded()
+
+                onListVisitsLoaded()
             } catch (e: Exception) {
                 toast(e.message.toString())
             }
@@ -131,19 +136,20 @@ class DayFragment
         return view
     }
 
-    private fun onLoaded() {
+    private fun onListVisitsLoaded() {
         loading_day.visibility = View.GONE
-        list.visibility = View.VISIBLE
+        list_visits.visibility = View.VISIBLE
     }
 
     private fun onLoading() {
         loading_day.visibility = View.VISIBLE
-        list.visibility = View.GONE
+        list_visits.visibility = View.GONE
         list_overnights.visibility = View.GONE
     }
 
     private fun onDayEnded() {
-        list.visibility = View.GONE
+        loading_day.visibility = View.GONE
+        list_visits.visibility = View.GONE
         list_overnights.visibility = View.VISIBLE
     }
 
@@ -152,7 +158,7 @@ class DayFragment
         if (context is OnVisitSchedulerListener) {
             mListener = context
         } else {
-            throw RuntimeException(context!!.toString() + " must implement OnListFragmentInteractionListener")
+            throw RuntimeException(context!!.toString() + " must implement OnVisitSchedulerListener")
         }
     }
 
@@ -163,6 +169,7 @@ class DayFragment
 
     interface OnVisitSchedulerListener {
         fun onVisited(visit: Visit)
+        fun onSleptIn(overnight: OvernightOffer)
         fun onNextDay()
         fun onLoading()
     }

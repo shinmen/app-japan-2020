@@ -39,5 +39,6 @@
     <string name="flights">Vols</string>
     <string name="area">Région: %1$s</string>
     <string name="nearby_cities">Lieux proches: %1$s</string>
-    <string name="price_per_pax">%1$d€/pers.</string>
+    <string name="price_per_pax">%1$.2f€/pers.</string>
+    <string name="stay_over_added">On passe la nuit</string>
 </resources>

@@ -41,7 +41,7 @@ class VisitTourismInfoDialogFragment : DialogFragment() {
             dismiss()
         }
         stay_tonight.onClick {
-            fragmentListener.onOvernightPlaceChosen(City(mVisit.city))
+            fragmentListener.onOvernightCityChosen(City(mVisit.city))
             dismiss()
         }
         visit_confirm.onClick {
@@ -62,7 +62,7 @@ class VisitTourismInfoDialogFragment : DialogFragment() {
 
     interface OnVisitPlaceChoice {
         fun onVisitPlaceChosen(visit: Visit)
-        fun onOvernightPlaceChosen(city: City)
+        fun onOvernightCityChosen(city: City)
     }
 
 }// Required empty public constructor

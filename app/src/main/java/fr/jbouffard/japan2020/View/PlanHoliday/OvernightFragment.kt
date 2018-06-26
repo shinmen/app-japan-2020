@@ -10,17 +10,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.stepstone.stepper.BlockingStep
-import com.stepstone.stepper.Step
 import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.VerificationError
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Presenter.OvernightRequestPresenter
 
 import fr.jbouffard.japan2020.R
-import kotlinx.android.synthetic.main.fragment_overnight.view.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.support.v4.toast
 import org.koin.android.ext.android.inject
 
@@ -61,7 +58,7 @@ class OvernightFragment
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_overnight_list, container, false)
-        val list = view.findViewById<RecyclerView>(R.id.list)
+        val list = view.findViewById<RecyclerView>(R.id.list_visits)
 
         launch(UI) {
             try {

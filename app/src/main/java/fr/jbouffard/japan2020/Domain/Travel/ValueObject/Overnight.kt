@@ -8,4 +8,4 @@ import java.util.*
  * Created by julienb on 26/02/18.
  */
 @Parcelize
-data class Overnight(val address : AccommodationAddress, val overnightDate: Date, val rate: Float) : Parcelable
+data class Overnight(val address : AccommodationAddress, val overnightDate: Date, val rate: Float, val weekDiscount: Float) : Parcelable
