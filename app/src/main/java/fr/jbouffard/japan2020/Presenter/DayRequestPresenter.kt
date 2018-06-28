@@ -44,6 +44,7 @@ class DayRequestPresenter(private val httpClient: HttpClient) {
                 overnightOffer.accommodation.commercialName,
                 City(overnightOffer.accommodation.city)
                 )
+        holiday.goToCity(accommodation.city.name)
         holiday.scheduleStayOver(accommodation, overnightOffer.pricePerPax, overnightOffer.weekReduction)
     }
 

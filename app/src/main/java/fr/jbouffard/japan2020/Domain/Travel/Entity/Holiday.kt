@@ -6,6 +6,8 @@ import fr.jbouffard.japan2020.Domain.AggregateRoot
 import fr.jbouffard.japan2020.Domain.Travel.Event.*
 import fr.jbouffard.japan2020.Domain.DomainEvent
 import fr.jbouffard.japan2020.Domain.Travel.Exception.MissingOvernightException
+import fr.jbouffard.japan2020.Domain.Travel.Exception.MustReturnToCityOfDepartureException
+import fr.jbouffard.japan2020.Domain.Travel.Exception.RailpassExpiredException
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.*
 import org.joda.time.DateTime
 import org.joda.time.Duration
@@ -67,14 +69,6 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
         ))
     }
 
-    fun shouldStartRailpass() {
-
-    }
-
-    fun selectRailPassPackage(railpass: RailpassPackage) {
-
-    }
-
     fun wakeUp() {
         if (daySchedules.last().overnight == null) {
             throw MissingOvernightException("On dort dehors?")
@@ -91,15 +85,48 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     }
 
     fun scheduleStayOver(accommodation: AccommodationAddress, rate: Float, weekDiscount: Float) {
-        val overnight = Overnight(accommodation, daySchedules.last().date!!.toDate(), rate, weekDiscount)
+        val holidayCurrentDay = daySchedules.last().date!!
+        railpassPackage?.let {
+            if (it.isEndSameDayAs(holidayCurrentDay) &&
+                accommodation.city.name != airTransportation!!.returnFlightPlan.flightPlan.first().departureCity.name
+            ) {
+              throw MustReturnToCityOfDepartureException(
+                      "Le railpass se termine aujourd'hui, il faut retourner dans la ville de départ du vol retour"
+              )
+            }
+        }
+        val overnight = Overnight(accommodation, holidayCurrentDay.toDate(), rate, weekDiscount)
         daySchedules.last().scheduleAccommodation(overnight)
         applyNewEvent(SleptInCity(overnight, version, streamId))
     }
 
     fun goToCity(destination: String) {
-        val move = Movement(currentCity!!, destination, daySchedules.last().date!!)
+        if (currentCity!! == destination) {
+            return
+        }
+        val holidayCurrentDay = daySchedules.last().date!!
+        activateRailPassAtFirstCityChange()
+        railpassPackage?.let {
+            if (!it.isRailPassStillActive(holidayCurrentDay)) {
+                throw RailpassExpiredException("Le railpass a expiré")
+            }
+        }
+        val move = Movement(currentCity!!, destination, holidayCurrentDay)
         daySchedules.last().scheduleMoveTo(move)
         applyNewEvent(MovedToCity(move, version, streamId))
+    }
+
+    private fun activateRailPassAtFirstCityChange() {
+        railpassPackage?.let {
+            activateRailPass()
+        }
+    }
+
+    private fun activateRailPass() {
+        val startDate = daySchedules.last().date!!
+        val endDate = startDate.plus(Period.days(7))
+        railpassPackage = RailpassPackage(startDate = startDate.toDate(), endDate = endDate.toDate())
+        applyNewEvent(RailPassActivated(railpassPackage!!, version, streamId))
     }
 
     private fun load(event: EventList) = when (event) {
@@ -110,6 +137,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
         is MovedToCity -> loadEvent(event)
         is VisitedCity -> loadEvent(event)
         is SleptInCity -> loadEvent(event)
+        is RailPassActivated -> loadEvent(event)
     }
 
     private fun loadEvent(event: MovedToCity) {
@@ -150,6 +178,11 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
 
     private fun loadEvent(event: SleptInCity) {
         daySchedules.last().scheduleAccommodation(event.overnight)
+        version++
+    }
+
+    private fun loadEvent(event: RailPassActivated) {
+        railpassPackage = event.railpassPackage
         version++
     }
 

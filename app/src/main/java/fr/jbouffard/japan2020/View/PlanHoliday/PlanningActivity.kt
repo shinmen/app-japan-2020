@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.drawable.VectorDrawable
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.transition.TransitionManager
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -43,6 +44,7 @@ class PlanningActivity
     private var mMap: MapboxMap? = null
     private var markerList: MutableList<LatLng> = mutableListOf()
     private var mDayNumber: Int = 1
+    private var mFinishedDay: Boolean = false
 
     override fun onVisited(visit: Visit) {
         val icon = VectorDrawableTransformer.toBitmap(getDrawable(R.drawable.ic_visit_icon) as VectorDrawable)
@@ -76,15 +78,19 @@ class PlanningActivity
                 .color(ContextCompat.getColor(this, R.color.colorPrimaryDark))
                 .width(2.toFloat()))
         toast(getString(R.string.stay_over_added))
+        mFinishedDay = true
     }
 
     override fun onNextDay() {
-        //TransitionManager.beginDelayedTransition(contentView as ViewGroup)
         step_day.text = getString(R.string.day_nb, ++mDayNumber)
     }
 
     override fun onLoading() {
-        //TransitionManager.beginDelayedTransition(contentView as ViewGroup)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putBoolean(FINISHED_DAY, mFinishedDay)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,6 +108,18 @@ class PlanningActivity
         indicator.setAdapter(adapter)
 
         initMap(savedInstanceState, arrivalGeolocation, arrivalCity)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        mFinishedDay = savedInstanceState?.getBoolean(FINISHED_DAY)!!
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(mFinishedDay) {
+            indicator.visibility = View.GONE
+        }
     }
 
     private fun initMap(savedInstanceState: Bundle?, arrivalGeolocation: LatLng, arrivalCity: City) {
@@ -146,6 +164,7 @@ class PlanningActivity
     companion object {
         private const val HOLIDAY_ARG = "holiday_arg"
         private const val ARRIVAL_CITY_ARG = "arrival_city_arg"
+        private const val FINISHED_DAY = "finished_day"
         fun newIntent(packageContext: Context, holiday: Holiday, arrivalCity: City): Intent {
             return Intent(packageContext, PlanningActivity::class.java).apply {
                 putExtra(HOLIDAY_ARG, holiday)

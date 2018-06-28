@@ -18,6 +18,7 @@ data class NewDayStarted(val date: DateTime, val version: Int, override val stre
 data class MovedToCity(val move: Movement, val version: Int, override val streamId: String): EventList(), DomainEvent
 data class VisitedCity(val visit: Visit, val version: Int, override val streamId: String): EventList(), DomainEvent
 data class SleptInCity(val overnight: Overnight, val version: Int, override val streamId: String): EventList(), DomainEvent
+data class RailPassActivated(val railpassPackage: RailpassPackage, val version: Int, override val streamId: String): EventList(), DomainEvent
 
 
 

@@ -8,7 +8,7 @@ import org.joda.time.DateTime
 import org.joda.time.Period
 
 @Parcelize
-data class AirTransportation(val goingFlightPlan: FlightPlan, private val returnFlightPlan: FlightPlan, val fare: Float) : Parcelable{
+data class AirTransportation(val goingFlightPlan: FlightPlan, val returnFlightPlan: FlightPlan, val fare: Float) : Parcelable{
 
     fun selectRoundTrip() {
         val goingDepartureDate = goingFlightPlan.flightPlan.first().departureDate

@@ -37,7 +37,6 @@ class DayFragment
     override fun onOvernightPlaceChosen(overnight: OvernightOffer) {
         mListener?.onSleptIn(overnight)
         mPresenter.sleepIn(mHoliday, overnight)
-        mHoliday
     }
 
     override fun onVisitPlaceChosen(visit: Visit) {
@@ -52,7 +51,6 @@ class DayFragment
     }
 
     override fun onOvernightCityChosen(city: City) {
-
         launch(UI) {
             mListener?.onLoading()
             list_overnights.apply {
@@ -126,7 +124,6 @@ class DayFragment
                         dialog.show(fragmentManager, VisitTourismInfoDialogFragment.ARG_VISIT_INFO)
                     }
                 }
-
                 onListVisitsLoaded()
             } catch (e: Exception) {
                 toast(e.message.toString())
