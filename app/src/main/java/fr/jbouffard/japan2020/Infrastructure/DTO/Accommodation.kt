@@ -14,5 +14,6 @@ data class Accommodation(
         val bedroomsNb: Int,
         val bedNb: Int,
         val bathRoomNb: Int,
-        val city: String
+        val city: String,
+        val queryCity: String
     ) : Parcelable

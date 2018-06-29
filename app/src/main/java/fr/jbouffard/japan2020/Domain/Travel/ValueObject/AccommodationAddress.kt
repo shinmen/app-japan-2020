@@ -7,4 +7,4 @@ import kotlinx.android.parcel.Parcelize
  * Created by julienb on 26/02/18.
  */
 @Parcelize
-data class AccommodationAddress(val name: String, val city: City) : Parcelable
+data class AccommodationAddress(val name: String, val city: City, val commercialCityName: String) : Parcelable

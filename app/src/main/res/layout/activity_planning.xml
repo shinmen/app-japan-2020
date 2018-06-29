@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/planning_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools" >
+<android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="fr.jbouffard.japan2020.View.PlanHoliday.PlanningActivity"
@@ -49,6 +54,5 @@
         app:ms_stepperType="progress_bar"
         app:ms_showBackButtonOnFirstStep="true"
     />
-
-
 </android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>

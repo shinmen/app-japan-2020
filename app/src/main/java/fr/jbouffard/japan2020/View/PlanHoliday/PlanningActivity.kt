@@ -2,17 +2,11 @@ package fr.jbouffard.japan2020.View.PlanHoliday
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
 import android.graphics.drawable.VectorDrawable
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.support.transition.TransitionManager
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.view.ViewGroup
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.annotations.IconFactory
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
@@ -30,11 +24,10 @@ import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Domain.Utils.GeolocationForArrivalCity
 import fr.jbouffard.japan2020.Infrastructure.DTO.OvernightOffer
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
+import fr.jbouffard.japan2020.Infrastructure.Utils.SnackBarStyler
 import fr.jbouffard.japan2020.Infrastructure.Utils.VectorDrawableTransformer
 import fr.jbouffard.japan2020.R
 import kotlinx.android.synthetic.main.activity_planning.*
-import org.jetbrains.anko.contentView
-import org.jetbrains.anko.toast
 
 
 class PlanningActivity
@@ -45,6 +38,10 @@ class PlanningActivity
     private var markerList: MutableList<LatLng> = mutableListOf()
     private var mDayNumber: Int = 1
     private var mFinishedDay: Boolean = false
+
+    override fun onError(error: String) {
+        SnackBarStyler(this).errorSnack(planning_container, error)
+    }
 
     override fun onVisited(visit: Visit) {
         val icon = VectorDrawableTransformer.toBitmap(getDrawable(R.drawable.ic_visit_icon) as VectorDrawable)
@@ -59,7 +56,7 @@ class PlanningActivity
                         .addAll(markerList.asIterable())
                         .color(ContextCompat.getColor(this, R.color.colorPrimaryDark))
                         .width(2.toFloat()))
-        toast(getString(R.string.added_visit))
+        SnackBarStyler(this).infoSnack(planning_container, getString(R.string.added_visit))
     }
 
     override fun onSleptIn(overnight: OvernightOffer) {
@@ -77,7 +74,7 @@ class PlanningActivity
                 .addAll(markerList.asIterable())
                 .color(ContextCompat.getColor(this, R.color.colorPrimaryDark))
                 .width(2.toFloat()))
-        toast(getString(R.string.stay_over_added))
+        SnackBarStyler(this).infoSnack(planning_container, getString(R.string.stay_over_added))
         mFinishedDay = true
     }
 
@@ -118,7 +115,7 @@ class PlanningActivity
     override fun onResume() {
         super.onResume()
         if(mFinishedDay) {
-            indicator.visibility = View.GONE
+            //indicator.visibility = View.GONE
         }
     }
 

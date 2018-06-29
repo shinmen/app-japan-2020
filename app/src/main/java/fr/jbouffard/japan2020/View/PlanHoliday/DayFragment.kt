@@ -22,8 +22,6 @@ import fr.jbouffard.japan2020.View.PlanFlight.FlightRequestActivity
 import kotlinx.android.synthetic.main.fragment_day_list.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import org.jetbrains.anko.support.v4.longToast
-import org.jetbrains.anko.support.v4.toast
 import org.koin.android.ext.android.inject
 
 class DayFragment
@@ -35,18 +33,21 @@ class DayFragment
     private val mPresenter: DayRequestPresenter by inject()
 
     override fun onOvernightPlaceChosen(overnight: OvernightOffer) {
-        mListener?.onSleptIn(overnight)
-        mPresenter.sleepIn(mHoliday, overnight)
+        try {
+            mPresenter.sleepIn(mHoliday, overnight)
+            mListener?.onSleptIn(overnight)
+            onDayEnded()
+        } catch (e: DomainException) {
+            mListener?.onError(e.message.toString())
+        }
     }
 
     override fun onVisitPlaceChosen(visit: Visit) {
         mListener?.onVisited(visit)
-        launch(UI) {
-            try {
-                mPresenter.visitPlace(mHoliday, visit.city)
-            } catch (e: DomainException) {
-                toast(e.message.toString())
-            }
+        try {
+            mPresenter.visitPlace(mHoliday, visit.city)
+        } catch (e: DomainException) {
+            mListener?.onError(e.message.toString())
         }
     }
 
@@ -64,7 +65,7 @@ class DayFragment
                     dialog.show(fragmentManager, OvernightDetailDialogFragment.ARG_OVERNIGHT_DETAIL)
                 }
             }
-            onDayEnded()
+            onNightStarted()
         }
     }
 
@@ -77,7 +78,7 @@ class DayFragment
     }
 
     override fun onError(error: VerificationError) {
-        longToast(error.errorMessage)
+        mListener?.onError(error.errorMessage)
     }
 
     override fun onBackClicked(callback: StepperLayout.OnBackClickedCallback?) {
@@ -92,7 +93,7 @@ class DayFragment
                 mListener?.onNextDay()
                 callback?.goToNextStep()
             } catch (e: DomainException) {
-                toast(e.message.toString())
+                mListener?.onError(e.message.toString())
             }
 
         }
@@ -113,7 +114,7 @@ class DayFragment
             try {
                 TransitionManager.beginDelayedTransition(container!!)
                 onLoading()
-                val visits = mPresenter.requestVisits()
+                val visits = mPresenter.requestVisits(mHoliday)
                 list_visits.apply {
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     setHasFixedSize(true)
@@ -126,7 +127,7 @@ class DayFragment
                 }
                 onListVisitsLoaded()
             } catch (e: Exception) {
-                toast(e.message.toString())
+                mListener?.onError(e.message.toString())
             }
         }
 
@@ -144,10 +145,16 @@ class DayFragment
         list_overnights.visibility = View.GONE
     }
 
-    private fun onDayEnded() {
+    private fun onNightStarted() {
         loading_day.visibility = View.GONE
         list_visits.visibility = View.GONE
         list_overnights.visibility = View.VISIBLE
+    }
+
+    private fun onDayEnded() {
+        loading_day.visibility = View.GONE
+        list_visits.visibility = View.GONE
+        list_overnights.visibility = View.GONE
     }
 
     override fun onAttach(context: Context?) {
@@ -169,6 +176,7 @@ class DayFragment
         fun onSleptIn(overnight: OvernightOffer)
         fun onNextDay()
         fun onLoading()
+        fun onError(error: String)
     }
 
     companion object {

@@ -47,6 +47,16 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
         load(domainEvent as EventList)
     }
 
+    fun filterVisitsAvailable(visits: List<Visit> ): List<Visit> {
+        railpassPackage?.let {
+            if (!it.isRailPassStillActive(currentDate!!)) {
+                return visits.filter { it.city.name == airTransportation!!.returnFlightPlan.flightPlan.first().departureCity.name }
+            }
+        }
+
+        return visits
+    }
+
     fun selectRoundTrip(goingFlightPlan: FlightPlan, returnFlightPlan: FlightPlan, fare: Float) {
         val airTransportation = AirTransportation(goingFlightPlan, returnFlightPlan, fare)
         airTransportation.selectRoundTrip()
@@ -73,8 +83,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
         if (daySchedules.last().overnight == null) {
             throw MissingOvernightException("On dort dehors?")
         }
-        val dayAfter = daySchedules.last().date
-        dayAfter!!.plus(Period.days(1))
+        val dayAfter = currentDate!!.plus(Period.days(1))
         applyNewEvent(NewDayStarted(dayAfter, version, streamId))
     }
 
@@ -85,17 +94,16 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     }
 
     fun scheduleStayOver(accommodation: AccommodationAddress, rate: Float, weekDiscount: Float) {
-        val holidayCurrentDay = daySchedules.last().date!!
         railpassPackage?.let {
-            if (it.isEndSameDayAs(holidayCurrentDay) &&
-                accommodation.city.name != airTransportation!!.returnFlightPlan.flightPlan.first().departureCity.name
+            if (it.isEndSameDayAs(currentDate!!) &&
+                accommodation.commercialCityName != airTransportation!!.returnFlightPlan.flightPlan.first().departureCity.name
             ) {
               throw MustReturnToCityOfDepartureException(
                       "Le railpass se termine aujourd'hui, il faut retourner dans la ville de départ du vol retour"
               )
             }
         }
-        val overnight = Overnight(accommodation, holidayCurrentDay.toDate(), rate, weekDiscount)
+        val overnight = Overnight(accommodation, currentDate!!.toDate(), rate, weekDiscount)
         daySchedules.last().scheduleAccommodation(overnight)
         applyNewEvent(SleptInCity(overnight, version, streamId))
     }
@@ -104,28 +112,26 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
         if (currentCity!! == destination) {
             return
         }
-        val holidayCurrentDay = daySchedules.last().date!!
         activateRailPassAtFirstCityChange()
         railpassPackage?.let {
-            if (!it.isRailPassStillActive(holidayCurrentDay)) {
+            if (!it.isRailPassStillActive(currentDate!!)) {
                 throw RailpassExpiredException("Le railpass a expiré")
             }
         }
-        val move = Movement(currentCity!!, destination, holidayCurrentDay)
+        val move = Movement(currentCity!!, destination, currentDate!!)
         daySchedules.last().scheduleMoveTo(move)
         applyNewEvent(MovedToCity(move, version, streamId))
     }
 
     private fun activateRailPassAtFirstCityChange() {
-        railpassPackage?.let {
+        if (railpassPackage == null) {
             activateRailPass()
         }
     }
 
     private fun activateRailPass() {
-        val startDate = daySchedules.last().date!!
-        val endDate = startDate.plus(Period.days(7))
-        railpassPackage = RailpassPackage(startDate = startDate.toDate(), endDate = endDate.toDate())
+        val endDate = currentDate!!.plus(Period.days(RailpassPackage.PACKAGE_DURATION))
+        railpassPackage = RailpassPackage(startDate = currentDate!!.toDate(), endDate = endDate.toDate())
         applyNewEvent(RailPassActivated(railpassPackage!!, version, streamId))
     }
 
@@ -142,6 +148,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
 
     private fun loadEvent(event: MovedToCity) {
         daySchedules.last().movements.add(event.move)
+        currentCity = event.move.destination
         version++
     }
 
@@ -159,6 +166,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     private fun loadEvent(event: ArrivedInJapan) {
         val day = Day()
         day.date = startHolidayAt
+        currentDate = startHolidayAt
         currentCity = event.firstCity.name
         daySchedules.add(day)
         version++
@@ -167,6 +175,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     private fun loadEvent(event: NewDayStarted) {
         val day = Day()
         day.date = event.date
+        currentDate = event.date
         daySchedules.add(day)
         version++
     }
