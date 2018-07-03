@@ -43,9 +43,9 @@ class DayFragment
     }
 
     override fun onVisitPlaceChosen(visit: Visit) {
-        mListener?.onVisited(visit)
         try {
             mPresenter.visitPlace(mHoliday, visit.city)
+            mListener?.onVisited(visit)
         } catch (e: DomainException) {
             mListener?.onError(e.message.toString())
         }

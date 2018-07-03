@@ -115,7 +115,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
         activateRailPassAtFirstCityChange()
         railpassPackage?.let {
             if (!it.isRailPassStillActive(currentDate!!)) {
-                throw RailpassExpiredException("Le railpass a expiré")
+                throw RailpassExpiredException("Impossible de s\'y rendre, le railpass a expiré")
             }
         }
         val move = Movement(currentCity!!, destination, currentDate!!)
@@ -130,7 +130,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     }
 
     private fun activateRailPass() {
-        val endDate = currentDate!!.plus(Period.days(RailpassPackage.PACKAGE_DURATION))
+        val endDate = currentDate!!.plus(Period.days(RailpassPackage.PACKAGE_DURATION - 1))
         railpassPackage = RailpassPackage(startDate = currentDate!!.toDate(), endDate = endDate.toDate())
         applyNewEvent(RailPassActivated(railpassPackage!!, version, streamId))
     }

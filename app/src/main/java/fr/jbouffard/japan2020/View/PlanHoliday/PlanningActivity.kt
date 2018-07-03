@@ -45,13 +45,23 @@ class PlanningActivity
 
     override fun onVisited(visit: Visit) {
         val icon = VectorDrawableTransformer.toBitmap(getDrawable(R.drawable.ic_visit_icon) as VectorDrawable)
-        mMap?.addMarker(MarkerOptions().apply {
-            position(visit.geolocation)
-            icon(IconFactory.getInstance(this@PlanningActivity).fromBitmap(icon))
-            title(visit.city)
-            snippet(getString(R.string.day_nb, mDayNumber))
-        })
-        markerList.add(visit.geolocation)
+        val marker = mMap?.markers
+                ?.filter {
+                    it.position == visit.geolocation
+                }?.takeIf { it.isNotEmpty() }
+                ?.get(0)
+
+        if(marker == null) {
+            mMap?.addMarker(MarkerOptions().apply {
+                position(visit.geolocation)
+                icon(IconFactory.getInstance(this@PlanningActivity).fromBitmap(icon))
+                title(visit.city)
+                snippet(getString(R.string.day_nb, mDayNumber))
+            })
+            markerList.add(visit.geolocation)
+        } else {
+            marker.snippet = "${marker.snippet}, ${getString(R.string.day_nb, mDayNumber)}"
+        }
         mMap?.addPolyline(PolylineOptions()
                         .addAll(markerList.asIterable())
                         .color(ContextCompat.getColor(this, R.color.colorPrimaryDark))

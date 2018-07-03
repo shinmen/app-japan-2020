@@ -1,5 +1,6 @@
 package fr.jbouffard.japan2020.Presenter
 
+import fr.jbouffard.japan2020.Domain.DomainException
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.AccommodationAddress
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City

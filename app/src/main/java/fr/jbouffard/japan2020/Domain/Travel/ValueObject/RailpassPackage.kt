@@ -13,7 +13,7 @@ data class RailpassPackage(var packageName: String = PACKAGE_7_NAME, val price: 
     companion object {
         private const val PACKAGE_7_NAME = "7 days"
         private const val PACKAGE_7_RATE = 224.toFloat()
-        const val PACKAGE_DURATION = 7
+        const val PACKAGE_DURATION = 2
     }
 
     fun isEndSameDayAs(day: DateTime): Boolean {
