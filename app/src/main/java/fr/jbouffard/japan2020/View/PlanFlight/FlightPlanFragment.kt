@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.support.constraint.Group
 import android.support.transition.*
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
@@ -50,7 +51,7 @@ class FlightPlanFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_flightplan_list, container, false)
-        val loading = view.findViewById<ProgressBar>(R.id.flight_plan_loading)
+        val loading = view.findViewById<Group>(R.id.group_loading_flight)
 
         launch(UI) {
             try {

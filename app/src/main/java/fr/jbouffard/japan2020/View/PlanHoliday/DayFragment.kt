@@ -53,6 +53,8 @@ class DayFragment
 
     override fun onOvernightCityChosen(city: City) {
         launch(UI) {
+            onLoading()
+            label_activity.text = getString(R.string.overnight_label)
             mListener?.onLoading()
             list_overnights.apply {
                 val overnightOffers = mPresenter.requestOvernightsOffers(mHoliday.currentDate!!, city)
@@ -137,24 +139,28 @@ class DayFragment
     private fun onListVisitsLoaded() {
         loading_day.visibility = View.GONE
         list_visits.visibility = View.VISIBLE
+        label_activity.visibility = View.VISIBLE
     }
 
     private fun onLoading() {
         loading_day.visibility = View.VISIBLE
         list_visits.visibility = View.GONE
         list_overnights.visibility = View.GONE
+        label_activity.visibility = View.GONE
     }
 
     private fun onNightStarted() {
         loading_day.visibility = View.GONE
         list_visits.visibility = View.GONE
         list_overnights.visibility = View.VISIBLE
+        label_activity.visibility = View.VISIBLE
     }
 
     private fun onDayEnded() {
         loading_day.visibility = View.GONE
         list_visits.visibility = View.GONE
         list_overnights.visibility = View.GONE
+        label_activity.visibility = View.GONE
     }
 
     override fun onAttach(context: Context?) {

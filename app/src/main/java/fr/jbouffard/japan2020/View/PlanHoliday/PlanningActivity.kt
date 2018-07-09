@@ -84,7 +84,7 @@ class PlanningActivity
                 .addAll(markerList.asIterable())
                 .color(ContextCompat.getColor(this, R.color.colorPrimaryDark))
                 .width(2.toFloat()))
-        SnackBarStyler(this).infoSnack(planning_container, getString(R.string.stay_over_added))
+        SnackBarStyler(this).infoSnack(planning_container, getString(R.string.stay_over_added, overnight.accommodation.city))
         mFinishedDay = true
     }
 

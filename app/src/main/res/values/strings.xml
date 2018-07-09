@@ -18,7 +18,6 @@
     <string name="city_nagoya">Nagoya</string>
     <string name="flight_price_request">Voir les prix</string>
     <string name="step_flight">Les vols</string>
-    <string name="step_day">Les visites</string>
     <string name="origin_city">Départ de</string>
     <string name="destination_city">retour de</string>
     <string name="euro_price">%1$s €</string>
@@ -40,5 +39,9 @@
     <string name="area">Région: %1$s</string>
     <string name="nearby_cities">Lieux proches: %1$s</string>
     <string name="price_per_pax">%1$.2f€/pers.</string>
-    <string name="stay_over_added">On passe la nuit</string>
+    <string name="stay_over_added">Nuit prévue à %1$s</string>
+    <string name="visits_label">Les visites</string>
+    <string name="overnight_label">La nuit</string>
+    <string name="patience_flights_warning">Patience le temps de trouver les vols&#8230;</string>
+
 </resources>
