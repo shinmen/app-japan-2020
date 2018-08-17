@@ -28,6 +28,7 @@ import fr.jbouffard.japan2020.Infrastructure.Utils.SnackBarStyler
 import fr.jbouffard.japan2020.Infrastructure.Utils.VectorDrawableTransformer
 import fr.jbouffard.japan2020.R
 import kotlinx.android.synthetic.main.activity_planning.*
+import org.joda.time.DateTime
 
 
 class PlanningActivity
@@ -72,14 +73,24 @@ class PlanningActivity
     override fun onSleptIn(overnight: OvernightOffer) {
         val iconBitmap = VectorDrawableTransformer.toBitmap(getDrawable(R.drawable.ic_accomodation_icon) as VectorDrawable)
         val icon = IconFactory.getInstance(this@PlanningActivity).fromBitmap(iconBitmap)
+        val marker = mMap?.markers
+                ?.filter {
+                    it.position == overnight.geolocation
+                }?.takeIf { it.isNotEmpty() }
+                ?.get(0)
 
-        mMap?.addMarker(MarkerOptions().apply {
-            position(overnight.geolocation)
-            icon(icon)
-            title(overnight.accommodation.city)
-            snippet(getString(R.string.day_nb, mDayNumber))
-        })
-        markerList.add(overnight.geolocation)
+        if(marker == null) {
+            mMap?.addMarker(MarkerOptions().apply {
+                position(overnight.geolocation)
+                icon(icon)
+                title(overnight.accommodation.city)
+                snippet(getString(R.string.day_nb, mDayNumber))
+            })
+            markerList.add(overnight.geolocation)
+        } else {
+            marker.snippet = "${marker.snippet}, ${getString(R.string.day_nb, mDayNumber)}"
+        }
+
         mMap?.addPolyline(PolylineOptions()
                 .addAll(markerList.asIterable())
                 .color(ContextCompat.getColor(this, R.color.colorPrimaryDark))
@@ -88,8 +99,11 @@ class PlanningActivity
         mFinishedDay = true
     }
 
-    override fun onNextDay() {
+    override fun onNextDay(currentDate: DateTime?) {
         step_day.text = getString(R.string.day_nb, ++mDayNumber)
+        currentDate?.let {
+            step_day_date.text = getString(R.string.day_date, currentDate.toString("dd MMM"))
+        }
     }
 
     override fun onLoading() {
@@ -104,12 +118,14 @@ class PlanningActivity
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_planning)
 
-        step_day.text = resources.getString(R.string.day_nb, 1)
         val arrivalCity = intent.getParcelableExtra<City>(ARRIVAL_CITY_ARG)
         val arrivalGeolocation = GeolocationForArrivalCity.geolocation(arrivalCity)
 
         val holiday = intent.getParcelableExtra<Holiday>(HOLIDAY_ARG)
         holiday.startHolidayPlanning()
+        step_day.text = getString(R.string.day_nb, 1)
+        step_day_date.text = getString(R.string.day_date, holiday.currentDate?.toString("dd/MM"))
+
         val indicator = findViewById<StepperLayout>(R.id.indicator)
         val adapter = StepperAdapter(supportFragmentManager, this, holiday)
         indicator.setAdapter(adapter)
@@ -153,7 +169,7 @@ class PlanningActivity
             mapFragment = supportFragmentManager.findFragmentByTag("com.mapbox.map") as SupportMapFragment
         }
 
-        mapFragment.getMapAsync({ map ->
+        mapFragment.getMapAsync { map ->
             mMap = map
             val icon = VectorDrawableTransformer.toBitmap(getDrawable(R.drawable.ic_visit_icon) as VectorDrawable)
             map.addMarker(MarkerOptions().apply {
@@ -165,7 +181,7 @@ class PlanningActivity
             )
             markerList.add(arrivalGeolocation)
             map.setLatLngBoundsForCameraTarget(JAPAN_BOUNDS)
-        })
+        }
     }
 
     companion object {

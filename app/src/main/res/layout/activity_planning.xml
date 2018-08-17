@@ -23,6 +23,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/step_day_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/shojumaru"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/step_day" />
 
     <FrameLayout
         android:id="@+id/map_container"
@@ -30,7 +41,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/map_separator"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/step_day">
+        app:layout_constraintTop_toBottomOf="@+id/step_day_date">
 
     </FrameLayout>
 

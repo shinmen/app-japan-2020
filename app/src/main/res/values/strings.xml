@@ -31,11 +31,12 @@
     <string name="company_name">Compagnie: %1$s</string>
     <string name="highlighted_time">%1$s, %2$s.</string>
     <string name="day_nb">Jour %1$d</string>
+    <string name="day_date">Le %1$s</string>
 
     <string name="add">Ajouter</string>
     <string name="added_visit">Visite ajoutée</string>
     <string name="end_of_trip">Fin</string>
-    <string name="flights">Vols</string>
+    <string name="budget">Budget</string>
     <string name="area">Région: %1$s</string>
     <string name="nearby_cities">Lieux proches: %1$s</string>
     <string name="price_per_pax">%1$.2f€/pers.</string>

@@ -31,7 +31,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     private var endHolidayAt: DateTime? = null
 
     var holidayDuration: Long = 0
-        get() = Duration(startHolidayAt, endHolidayAt).standardDays
+        get() = Duration(startHolidayAt, endHolidayAt?.plusDays(1)).standardDays
 
     var currentCity: String? = null
 

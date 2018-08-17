@@ -22,6 +22,7 @@ import fr.jbouffard.japan2020.View.PlanFlight.FlightRequestActivity
 import kotlinx.android.synthetic.main.fragment_day_list.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import org.joda.time.DateTime
 import org.koin.android.ext.android.inject
 
 class DayFragment
@@ -92,12 +93,11 @@ class DayFragment
         launch(UI) {
             try {
                 mPresenter.finishDay(mHoliday)
-                mListener?.onNextDay()
+                mListener?.onNextDay(mHoliday.currentDate)
                 callback?.goToNextStep()
             } catch (e: DomainException) {
                 mListener?.onError(e.message.toString())
             }
-
         }
     }
 
@@ -180,7 +180,7 @@ class DayFragment
     interface OnVisitSchedulerListener {
         fun onVisited(visit: Visit)
         fun onSleptIn(overnight: OvernightOffer)
-        fun onNextDay()
+        fun onNextDay(currentDate: DateTime?)
         fun onLoading()
         fun onError(error: String)
     }
