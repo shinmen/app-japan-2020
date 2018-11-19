@@ -19,12 +19,12 @@ import org.koin.dsl.module.applicationContext
  * Created by julienb on 24/05/18.
  */
 val japan2020Module: Module =  applicationContext {
-    factory { FlightRequestPresenter(get(), get(), get()) }
-    factory { DayRequestPresenter(get()) }
+    factory { FlightRequestPresenter(get(), get(), get(), get()) }
+    factory { DayRequestPresenter(get(), get(), get()) }
     factory { HttpClient() }
     factory { Repository(get()) as RepositoryInterface }
     factory { EventStoreImpl(get()) as EventStore }
     bean { Bus() }
-    //bean { Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "app").build()}
+    bean { Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "app").build()}
     //bean {get<AppDatabase>().budgetDao()}
 }

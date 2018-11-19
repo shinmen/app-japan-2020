@@ -14,5 +14,8 @@ interface BudgetDao {
     fun deleteByUuid(uuid: String)
 
     @Query("SELECT * FROM budget WHERE aggregateUuid = :uuid")
-    fun findByUuid(uuid: String)
+    fun findByUuid(uuid: String): Budget
+
+    @Query("DELETE FROM budget")
+    fun truncate()
 }

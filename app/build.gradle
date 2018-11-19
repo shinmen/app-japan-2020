@@ -4,14 +4,14 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-//apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "fr.jbouffard.japan2020"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -58,7 +58,7 @@ dependencies {
     implementation 'com.stepstone.stepper:material-stepper:2.1.0'
     implementation "com.mapbox.mapboxsdk:mapbox-android-sdk:$mapbox_version"
     implementation "android.arch.persistence.room:runtime:$room_version"
-    annotationProcessor "android.arch.persistence.room:compiler:$room_version" // use kapt for Kotlin
+    kapt "android.arch.persistence.room:compiler:$room_version" // use kapt for Kotlin
     implementation 'com.squareup:otto:1.3.8'
 }
 kotlin {

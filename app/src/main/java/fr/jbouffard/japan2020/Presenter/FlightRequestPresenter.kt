@@ -1,5 +1,6 @@
 package fr.jbouffard.japan2020.Presenter
 
+import android.util.Log
 import com.squareup.otto.Bus
 import com.squareup.otto.Subscribe
 import fr.jbouffard.japan2020.Domain.Budget.Entity.BudgetOrganisation
@@ -16,7 +17,9 @@ import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Dao.BudgetDao
 import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Entity.Budget
 import fr.jbouffard.japan2020.Infrastructure.Repository.ApiInterface
 import fr.jbouffard.japan2020.Infrastructure.Repository.HttpClient
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import retrofit2.Retrofit
 import java.util.*
 
@@ -26,7 +29,8 @@ import java.util.*
 class FlightRequestPresenter(
         private val httpClient: HttpClient,
         private val repo: RepositoryInterface,
-        private val eventBus: Bus
+        private val eventBus: Bus,
+        private val db: AppDatabase
 ) {
 
     suspend fun requestFlightPrice(flightRequest: FlightRequestCommand): List<FlightOffer>  {
@@ -43,7 +47,7 @@ class FlightRequestPresenter(
     }
 
     @Throws(DomainException::class)
-    suspend fun selectRoundTrip(flightOffer: FlightOffer): Holiday {
+    fun selectRoundTrip(flightOffer: FlightOffer): Holiday {
         val adapter = FlightOfferAdapter()
         val holiday = Holiday(UUID.randomUUID())
         holiday.selectRoundTrip(
@@ -51,26 +55,26 @@ class FlightRequestPresenter(
                 adapter.toFlightPlan(flightOffer.returnFlight),
                 flightOffer.totalRatePerAdult
         )
-        repo.save(holiday, holiday.version)
         eventBus.register(this)
         holiday.getUncommittedChanges().forEach {
-            eventBus.post(it)
+            //it.
+            //eventBus.post(it)
         }
 
         return holiday
     }
 
     @Subscribe
-    fun project(event: SelectFlightPlan) {
-        val budgetFlightEntry = Budget(
-                event.streamId,
-                1,
-                Budget.SERVICE_FLIGHT,
-                event.fare,
-                "Vols aller/retour"
-        )
-        //db.budgetDao().insertOne(budgetFlightEntry)
-
-        //val t = db.budgetDao().findByUuid(event.streamId)
+    fun buildFlightBudgetProjection(event: SelectFlightPlan) {
+        launch {
+            val budgetFlightEntry = Budget(
+                    event.streamId,
+                    event.goingFlightPlan.flightPlan.last().arrivalDate.millis,
+                    Budget.SERVICE_FLIGHT,
+                    event.fare,
+                    "Vols aller/retour"
+            )
+            db.budgetDao().insertOne(budgetFlightEntry)
+        }
     }
 }

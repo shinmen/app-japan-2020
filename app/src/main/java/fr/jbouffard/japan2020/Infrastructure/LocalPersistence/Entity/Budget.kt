@@ -5,13 +5,13 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "budget")
-data class Budget(
-        @ColumnInfo(name = "aggregateUuid") private val aggregateUuid: String? = null,
-        @ColumnInfo(name = "day_nb") private val dayNb: Int = 1,
-        @ColumnInfo(name = "service") private val service: String? = null,
-        @ColumnInfo(name = "rate") private val rate: Float = 0.toFloat(),
-        @ColumnInfo(name = "service_label") private val serviceLabel: String? = null,
-        @PrimaryKey(autoGenerate = true) private val id: Int = 0
+class Budget(
+        @ColumnInfo(name = "aggregateUuid") var aggregateUuid: String?,
+        @ColumnInfo(name = "day_nb") var dayNb: Long?,
+        @ColumnInfo(name = "service") var service: String?,
+        @ColumnInfo(name = "rate") var rate: Float = 0.toFloat(),
+        @ColumnInfo(name = "service_label") var serviceLabel: String?,
+        @PrimaryKey(autoGenerate = true) var id: Int = 0
     ) {
     companion object {
         const val SERVICE_FLIGHT: String = "flight"
@@ -19,4 +19,7 @@ data class Budget(
         const val SERVICE_ACCOMODATION_DISCOUNT: String = "overnight_discount"
         const val SERVICE_RAILPASS: String = "railpass"
     }
+
+
+
 }

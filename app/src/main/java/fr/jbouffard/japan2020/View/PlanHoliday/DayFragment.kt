@@ -76,7 +76,6 @@ class DayFragment
     }
 
     override fun verifyStep(): VerificationError? {
-
         return null
     }
 
