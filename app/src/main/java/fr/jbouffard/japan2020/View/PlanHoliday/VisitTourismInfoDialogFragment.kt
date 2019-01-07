@@ -7,11 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
-
-import fr.jbouffard.japan2020.R
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
+import fr.jbouffard.japan2020.R
 import kotlinx.android.synthetic.main.fragment_visit_info_dialog.*
-import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 
 class VisitTourismInfoDialogFragment : DialogFragment() {

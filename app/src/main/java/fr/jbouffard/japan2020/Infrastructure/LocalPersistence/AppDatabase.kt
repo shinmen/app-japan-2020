@@ -11,7 +11,7 @@ import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Entity.Budget
 abstract class AppDatabase : RoomDatabase() {
     abstract fun budgetDao(): BudgetDao
 
-/*    companion object {
+    companion object {
 
         // For Singleton instantiation
         @Volatile private var instance: AppDatabase? = null
@@ -27,5 +27,5 @@ abstract class AppDatabase : RoomDatabase() {
         private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(context, AppDatabase::class.java, "app").build()
         }
-    }*/
+    }
 }

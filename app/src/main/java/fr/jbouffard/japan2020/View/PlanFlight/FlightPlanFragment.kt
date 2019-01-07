@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.constraint.Group
-import android.support.transition.*
+import android.support.transition.TransitionManager
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -17,19 +17,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.ProgressBar
-import fr.jbouffard.japan2020.Domain.DomainException
 import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
+import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
 import fr.jbouffard.japan2020.Presenter.FlightRequestPresenter
 import fr.jbouffard.japan2020.R
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
-import fr.jbouffard.japan2020.Infrastructure.Repository.HttpClient
-import kotlinx.android.synthetic.main.detail_going_flight_plan.*
-import kotlinx.android.synthetic.main.detail_return_flight_plan.*
 import kotlinx.android.synthetic.main.fragment_start_holiday_planning.*
-import org.jetbrains.anko.sdk25.coroutines.onClick
+import kotlinx.android.synthetic.main.view_detail_going_flight_plan.*
+import kotlinx.android.synthetic.main.view_detail_return_flight_plan.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.toast
 import org.koin.android.ext.android.inject
@@ -53,7 +51,7 @@ class FlightPlanFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_flightplan_list, container, false)
         val loading = view.findViewById<Group>(R.id.group_loading_flight)
 
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             try {
                 val offers = mPresenter.requestFlightPrice(mFlightRequestCommand!!)
                 val list = view.findViewById<RecyclerView>(R.id.flight_plan_list)
@@ -79,9 +77,8 @@ class FlightPlanFragment : Fragment() {
 
                         start_planning_btn.onClick {
                             try {
-                                //mPresenter.selectRoundTrip(flightOffer)
                                 mListener?.onStartHolidayPlanning(flightOffer)
-                            }  catch (e: DomainException) {
+                            }  catch (e: Exception) {
                                 longToast(e.message.toString())
                             }
                         }
@@ -177,6 +174,7 @@ class FlightPlanFragment : Fragment() {
     }
 
     companion object {
+        const val TAG = "flightplan"
         private const val ARG_FLIGHT_PLAN = "command"
 
         fun newInstance(command: FlightRequestCommand): FlightPlanFragment {

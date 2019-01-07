@@ -3,18 +3,15 @@ package fr.jbouffard.japan2020.View.PlanHoliday
 
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import fr.jbouffard.japan2020.Infrastructure.DTO.OvernightOffer
-
 import fr.jbouffard.japan2020.R
 import kotlinx.android.synthetic.main.fragment_overnight_detail_dialog.*
-import android.support.constraint.ConstraintSet
-import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 
 class OvernightDetailDialogFragment : DialogFragment() {

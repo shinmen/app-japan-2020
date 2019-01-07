@@ -2,20 +2,24 @@ package fr.jbouffard.japan2020.View.PlanFlight
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
 import fr.jbouffard.japan2020.Presenter.FlightRequestPresenter
 import fr.jbouffard.japan2020.R
 import fr.jbouffard.japan2020.View.PlanHoliday.PlanningActivity
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.jetbrains.anko.longToast
 import org.koin.android.ext.android.inject
 
 class FlightRequestActivity
-        : AppCompatActivity(), FlightRequestFragment.OnFlightRequestListener, FlightPlanFragment.OnStartHolidayPlanningFlightPlanListener
+        : AppCompatActivity(),
+        FlightRequestFragment.OnFlightRequestListener,
+        FlightPlanFragment.OnStartHolidayPlanningFlightPlanListener
 {
     private val mPresenter: FlightRequestPresenter by inject()
 
@@ -24,21 +28,25 @@ class FlightRequestActivity
         supportFragmentManager
                 .beginTransaction()
                 .setTransition(android.R.transition.explode)
-                .replace(android.R.id.content, fragment, "flightplan")
-                .addToBackStack("flightplan")
+                .replace(android.R.id.content, fragment, FlightPlanFragment.TAG)
+                .addToBackStack(FlightPlanFragment.TAG)
                 .commit()
     }
 
     override fun onStartHolidayPlanning(flightOffer: FlightOffer) {
-        launch(UI) {
-            val holiday = mPresenter.selectRoundTrip(flightOffer)
-            val arrivalCity = City(
-                    flightOffer.goingFlight.flights.last().arrivalAirport.city,
-                    flightOffer.goingFlight.flights.last().arrivalAirport.country
-            )
-            val i = PlanningActivity.newIntent(this@FlightRequestActivity, holiday, arrivalCity)
+        GlobalScope.launch (Dispatchers.Main) {
+            try {
+                val holiday = mPresenter.selectRoundTrip(flightOffer)
+                val arrivalCity = City(
+                        flightOffer.goingFlight.flights.last().arrivalAirport.city,
+                        flightOffer.goingFlight.flights.last().arrivalAirport.country
+                )
+                val i = PlanningActivity.newIntent(this@FlightRequestActivity, holiday, arrivalCity)
 
-            startActivity(i)
+                startActivity(i)
+            } catch (e: Exception) {
+                longToast(e.message.toString())
+            }
         }
     }
 
@@ -46,7 +54,7 @@ class FlightRequestActivity
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flight_request)
 
-        val flightPlanFragment = supportFragmentManager.findFragmentByTag("flightplan") as FlightPlanFragment?
+        val flightPlanFragment = supportFragmentManager.findFragmentByTag(FlightPlanFragment.TAG) as FlightPlanFragment?
         if (flightPlanFragment == null) {
             val fragment = FlightRequestFragment.newInstance()
             supportFragmentManager

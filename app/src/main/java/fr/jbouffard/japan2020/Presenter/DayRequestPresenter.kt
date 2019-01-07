@@ -1,10 +1,7 @@
 package fr.jbouffard.japan2020.Presenter
 
-import com.squareup.otto.Bus
-import com.squareup.otto.Subscribe
-import fr.jbouffard.japan2020.Domain.DomainException
+import android.util.Log
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
-import fr.jbouffard.japan2020.Domain.Travel.Event.SelectFlightPlan
 import fr.jbouffard.japan2020.Domain.Travel.Event.SleptInCity
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.AccommodationAddress
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
@@ -14,10 +11,7 @@ import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Dao.BudgetDao
 import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Entity.Budget
 import fr.jbouffard.japan2020.Infrastructure.Repository.ApiInterface
 import fr.jbouffard.japan2020.Infrastructure.Repository.HttpClient
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
 import org.joda.time.DateTime
 import org.joda.time.Period
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Visit as DomainVisit
@@ -27,7 +21,6 @@ import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Visit as DomainVisit
  */
 class DayRequestPresenter(
         private val httpClient: HttpClient,
-        private val eventBus: Bus,
         private val db: AppDatabase
 ) {
 
@@ -68,37 +61,42 @@ class DayRequestPresenter(
         holiday.goToCity(accommodation.commercialCityName)
         holiday.scheduleStayOver(accommodation, overnightOffer.pricePerPax, overnightOffer.weekReduction)
 
-        eventBus.register(this)
-        holiday.getUncommittedChanges().forEach {
-            eventBus.post(it)
-        }
+        holiday.getUncommittedChanges()
+                .filter { it is SleptInCity }
+                .map{ buildStayProjection(it as SleptInCity) }
     }
 
     fun finishDay(holiday: Holiday) {
         holiday.wakeUp()
     }
 
-    @Subscribe
-    fun buildFlightBudgetProjection(event: SleptInCity) {
-        launch {
-            val budgetFlightEntry = Budget(
+    suspend fun getOnGoingBudget(aggregateUuid: String): List<Budget> {
+        return db.budgetDao().awaitOne(aggregateUuid)
+    }
+
+    fun buildStayProjection(event: SleptInCity) {
+        GlobalScope.launch {
+            val budgetOvernightEntry = Budget(
                     event.streamId,
                     DateTime(event.overnight.overnightDate).millis,
                     Budget.SERVICE_ACCOMODATION,
                     event.overnight.rate,
-                    "Vols aller/retour"
+                    "Nuit"
             )
             try {
-                db.budgetDao().insertOne(budgetFlightEntry)
+                val existingBudget = db.budgetDao().findOneByUuidAndTimeAndType(
+                        budgetOvernightEntry.aggregateUuid.toString(),
+                        budgetOvernightEntry.dayNb!!,
+                        Budget.SERVICE_ACCOMODATION
+                )
+                if (existingBudget == null) {
+                    db.budgetDao().insertOne(budgetOvernightEntry)
+                }
             } catch (e: Exception) {
-              e.message
+              Log.d("room", e.message)
             }
-        }
-
-        launch(UI) {
-            val resu = db.budgetDao().awaitOne(event.streamId)
         }
     }
 
-    suspend fun BudgetDao.awaitOne(aggregateUuid: String): Budget = async { findByUuid(aggregateUuid) }.await()
+    private suspend fun BudgetDao.awaitOne(aggregateUuid: String): List<Budget> = GlobalScope.async { findByUuid(aggregateUuid) }.await()
 }

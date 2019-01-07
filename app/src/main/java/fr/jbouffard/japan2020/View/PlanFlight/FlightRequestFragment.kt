@@ -14,9 +14,10 @@ import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Infrastructure.DTO.CityCodeMapper
 import fr.jbouffard.japan2020.R
 import kotlinx.android.synthetic.main.fragment_flight_request.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import org.jetbrains.anko.sdk25.coroutines.onClick
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.joda.time.DateTime
 
 class FlightRequestFragment
@@ -36,7 +37,7 @@ class FlightRequestFragment
         showGoingReturnCalendar(view)
 
         flight_request_btn.onClick {
-            launch(UI) {
+            GlobalScope.launch(Dispatchers.Main) {
                 if (isValid()) {
                     val originId = radio_group_origin.checkedRadioButtonId
                     val origin = view.findViewById<RadioButton>(originId).text

@@ -1,7 +1,7 @@
 package fr.jbouffard.japan2020.Infrastructure.Repository
 
 import fr.jbouffard.japan2020.Infrastructure.DTO.*
-import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.Deferred
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -17,7 +17,7 @@ interface ApiInterface {
     }
 
     //@POST("flights/offers")
-    @POST("v2/5bf289792f00005400cfa125")
+    @POST("v2/5c2c82bb2e0000070ae875c0")
     fun getFlightOffers(@Body flightRequest: FlightRequest): Deferred<List<FlightOffer>>
 
     //@POST("overnight/offers")

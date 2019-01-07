@@ -43,7 +43,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
-        layout="@layout/detail_going_flight_plan"
+        layout="@layout/view_detail_going_flight_plan"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@id/going_flight_label" />
 
     <include
-        layout="@layout/detail_return_flight_plan"
+        layout="@layout/view_detail_return_flight_plan"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginEnd="4dp"

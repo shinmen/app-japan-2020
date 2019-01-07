@@ -1,12 +1,11 @@
 package fr.jbouffard.japan2020.Presenter
 
 import android.util.Log
-import com.squareup.otto.Bus
-import com.squareup.otto.Subscribe
 import fr.jbouffard.japan2020.Domain.Budget.Entity.BudgetOrganisation
 import fr.jbouffard.japan2020.Domain.DomainException
 import fr.jbouffard.japan2020.Domain.RepositoryInterface
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
+import fr.jbouffard.japan2020.Domain.Travel.Event.EventList
 import fr.jbouffard.japan2020.Domain.Travel.Event.SelectFlightPlan
 import fr.jbouffard.japan2020.Infrastructure.Adapter.FlightOfferAdapter
 import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
@@ -17,10 +16,8 @@ import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Dao.BudgetDao
 import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Entity.Budget
 import fr.jbouffard.japan2020.Infrastructure.Repository.ApiInterface
 import fr.jbouffard.japan2020.Infrastructure.Repository.HttpClient
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
-import retrofit2.Retrofit
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 /**
@@ -29,7 +26,6 @@ import java.util.*
 class FlightRequestPresenter(
         private val httpClient: HttpClient,
         private val repo: RepositoryInterface,
-        private val eventBus: Bus,
         private val db: AppDatabase
 ) {
 
@@ -55,18 +51,15 @@ class FlightRequestPresenter(
                 adapter.toFlightPlan(flightOffer.returnFlight),
                 flightOffer.totalRatePerAdult
         )
-        eventBus.register(this)
-        holiday.getUncommittedChanges().forEach {
-            //it.
-            //eventBus.post(it)
-        }
+        holiday.getUncommittedChanges()
+                .filter { it is SelectFlightPlan }
+                .map{ buildFlightBudgetProjection(it as SelectFlightPlan) }
 
         return holiday
     }
 
-    @Subscribe
     fun buildFlightBudgetProjection(event: SelectFlightPlan) {
-        launch {
+        GlobalScope.launch {
             val budgetFlightEntry = Budget(
                     event.streamId,
                     event.goingFlightPlan.flightPlan.last().arrivalDate.millis,

@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:context="fr.jbouffard.japan2020.View.PlanHoliday.OvernightFragment"
-        tools:listitem="@layout/fragment_overnight" />
+        tools:listitem="@layout/item_overnight" />
 
     <android.support.constraint.Group
         android:id="@+id/group"

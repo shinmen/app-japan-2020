@@ -14,10 +14,10 @@ import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.VerificationError
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Presenter.OvernightRequestPresenter
-
 import fr.jbouffard.japan2020.R
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.support.v4.toast
 import org.koin.android.ext.android.inject
 
@@ -43,7 +43,7 @@ class OvernightFragment
     }
 
     override fun onNextClicked(callback: StepperLayout.OnNextClickedCallback?) {
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             mPresenter.finishDay(mHoliday)
             callback?.goToNextStep()
         }
@@ -60,7 +60,7 @@ class OvernightFragment
         val view = inflater.inflate(R.layout.fragment_overnight_list, container, false)
         val list = view.findViewById<RecyclerView>(R.id.list_visits)
 
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             try {
                 TransitionManager.beginDelayedTransition(container!!)
                 val offers = mPresenter.requestOvernightsOffers()

@@ -187,12 +187,14 @@ class PlanningActivity
         private const val HOLIDAY_ARG = "holiday_arg"
         private const val ARRIVAL_CITY_ARG = "arrival_city_arg"
         private const val FINISHED_DAY = "finished_day"
+
         fun newIntent(packageContext: Context, holiday: Holiday, arrivalCity: City): Intent {
             return Intent(packageContext, PlanningActivity::class.java).apply {
                 putExtra(HOLIDAY_ARG, holiday)
                 putExtra(ARRIVAL_CITY_ARG, arrivalCity)
             }
         }
+
         private val JAPAN_BOUNDS = LatLngBounds.Builder()
                 .include(LatLng(43.956052, 147.860351))
                 .include(LatLng(30.392789, 127.874031))

@@ -5,13 +5,13 @@ import android.support.v7.widget.RecyclerView
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StyleSpan
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
 import fr.jbouffard.japan2020.R
-import kotlinx.android.synthetic.main.fragment_flightplan.view.*
+import kotlinx.android.synthetic.main.item_flightplan.view.*
 import android.text.style.RelativeSizeSpan
+import fr.jbouffard.japan2020.Infrastructure.Utils.inflate
 
 
 /**
@@ -21,7 +21,7 @@ class FlightPlanRecyclerViewAdapter(
         private val flights: List<FlightOffer>, private val listener: (FlightOffer) -> Unit
     ) : RecyclerView.Adapter<FlightPlanRecyclerViewAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.fragment_flightplan))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.item_flightplan))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(flights[position], listener)
 
@@ -39,16 +39,12 @@ class FlightPlanRecyclerViewAdapter(
 
         private fun highlightHour(date: String): SpannableString {
             val styledText = SpannableString(date)
-            val flag = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
+            val flag = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             styledText.setSpan(StyleSpan(Typeface.BOLD), date.length - 5, date.length, flag)
             styledText.setSpan(RelativeSizeSpan(1.3f), date.length - 5, date.length, flag)
 
             return styledText
         }
-    }
-
-    private fun ViewGroup.inflate(layoutRes: Int): View {
-        return LayoutInflater.from(context).inflate(layoutRes, this, false)
     }
 }
 

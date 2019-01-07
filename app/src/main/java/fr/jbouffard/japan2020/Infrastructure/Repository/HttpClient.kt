@@ -2,7 +2,7 @@ package fr.jbouffard.japan2020.Infrastructure.Repository
 
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import fr.jbouffard.japan2020.Infrastructure.Adapter.DateTimeTypeAdapter
 import fr.jbouffard.japan2020.Infrastructure.Adapter.EventDescriptorAdapter
 import fr.jbouffard.japan2020.Infrastructure.Adapter.VisitAdapter
