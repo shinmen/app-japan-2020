@@ -1,4 +1,4 @@
-package fr.jbouffard.japan2020.View.PlanHoliday
+package fr.jbouffard.japan2020.View.PlanHoliday.Overnight
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -11,9 +11,9 @@ import kotlinx.android.synthetic.main.item_overnight.view.*
 
 class OvernightRecyclerViewAdapter(private val overnights: List<OvernightOffer>, private val listener: (OvernightOffer) -> Unit) : RecyclerView.Adapter<OvernightRecyclerViewAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = OvernightRecyclerViewAdapter.ViewHolder(parent.inflate(R.layout.item_overnight))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.item_overnight))
 
-    override fun onBindViewHolder(holder: OvernightRecyclerViewAdapter.ViewHolder, position: Int) = holder.bind(overnights[position], listener)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(overnights[position], listener)
 
     override fun getItemCount() = overnights.size
 

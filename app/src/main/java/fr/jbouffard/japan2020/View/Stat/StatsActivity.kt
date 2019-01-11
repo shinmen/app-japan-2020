@@ -5,7 +5,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import fr.jbouffard.japan2020.R
 import kotlinx.android.synthetic.main.activity_stats.*
-import kotlinx.android.synthetic.main.navigation.*
+import kotlinx.android.synthetic.main.view_navigation.*
 
 class StatsActivity : AppCompatActivity() {
 

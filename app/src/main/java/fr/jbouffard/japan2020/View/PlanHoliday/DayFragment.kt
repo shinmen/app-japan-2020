@@ -2,10 +2,7 @@ package fr.jbouffard.japan2020.View.PlanHoliday
 
 import android.content.Context
 import android.os.Bundle
-import android.support.transition.TransitionManager
 import android.support.v4.app.Fragment
-import android.support.v4.util.SparseArrayCompat
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,65 +14,42 @@ import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Infrastructure.DTO.OvernightOffer
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
-import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Entity.Budget
-import fr.jbouffard.japan2020.Presenter.DayRequestPresenter
+import fr.jbouffard.japan2020.Presenter.VisitRequestPresenter
 import fr.jbouffard.japan2020.R
 import fr.jbouffard.japan2020.View.PlanFlight.FlightRequestActivity
-import kotlinx.android.synthetic.main.fragment_day_list.*
-import kotlinx.coroutines.*
-import org.jetbrains.anko.support.v4.UI
+import fr.jbouffard.japan2020.View.PlanHoliday.Budget.*
+import fr.jbouffard.japan2020.View.PlanHoliday.Overnight.OvernightFragment
+import fr.jbouffard.japan2020.View.PlanHoliday.Visit.VisitFragment
+import kotlinx.android.synthetic.main.fragment_day.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.koin.android.ext.android.inject
 
 class DayFragment
-    : Fragment(), BlockingStep, VisitTourismInfoDialogFragment.OnVisitPlaceChoice, OvernightDetailDialogFragment.OnOvernightPlaceChoice {
+    : Fragment(),
+        BlockingStep,
+        VisitFragment.OnVisitListener,
+        OvernightFragment.OnOvernightListener,
+        BudgetFragment.OnBudgetListener
+{
+
     private var mListener: OnVisitSchedulerListener? = null
     private lateinit var mHoliday: Holiday
     private var mDayNumber: Int = 1
-    private val mPresenter: DayRequestPresenter by inject()
+    private val mPresenter: VisitRequestPresenter by inject()
 
-    override fun onOvernightPlaceChosen(overnight: OvernightOffer) {
-        try {
-             GlobalScope.launch(Dispatchers.Main) {
-                val sleep = async {
-                    mPresenter.sleepIn(mHoliday, overnight)
-                }
-                mListener?.onSleptIn(overnight)
-                sleep.await()
-                onDayEnded()
-            }
-        } catch (e: DomainException) {
-            mListener?.onError(e.message.toString())
-        }
-    }
-
-    override fun onVisitPlaceChosen(visit: Visit) {
-        try {
-            mPresenter.visitPlace(mHoliday, visit.city)
-            mListener?.onVisited(visit)
-        } catch (e: DomainException) {
-            mListener?.onError(e.message.toString())
-        }
+    override fun onSleptIn(overnight: OvernightOffer) {
+        mListener?.onSleptIn(overnight)
     }
 
     override fun onOvernightCityChosen(city: City) {
-        GlobalScope.launch(Dispatchers.Main) {
-            onLoading()
-            label_activity.text = getString(R.string.overnight_label)
-            mListener?.onLoading()
-            list_overnights.apply {
-                val overnightOffers = mPresenter.requestOvernightsOffers(mHoliday.currentDate!!, city)
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                setHasFixedSize(true)
-                isNestedScrollingEnabled = true
-                adapter = OvernightRecyclerViewAdapter(overnightOffers) { overnight ->
-                    val dialog = OvernightDetailDialogFragment.newInstance(overnight)
-                    dialog.fragmentListener = this@DayFragment
-                    dialog.show(fragmentManager, OvernightDetailDialogFragment.ARG_OVERNIGHT_DETAIL)
-                }
-            }
-            onNightStarted()
-        }
+        childFragmentManager
+                .beginTransaction()
+                .setTransition(android.R.transition.explode)
+                .replace(R.id.day_container, OvernightFragment.newInstance(mHoliday, city), VisitFragment.TAG)
+                .commit()
     }
 
     override fun onSelected() {
@@ -109,92 +83,47 @@ class DayFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            mHoliday = it.getParcelable(VISIT_ARG)!!
+            mHoliday = it.getParcelable(HOLIDAY_ARG)!!
             mDayNumber = it.getInt("dayNumber")
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_day_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_day, container, false)
 
-        GlobalScope.launch(Dispatchers.Main) {
-            try {
-                TransitionManager.beginDelayedTransition(container!!)
-                onLoading()
-                val visits = mPresenter.requestVisits(mHoliday)
-                list_visits.apply {
-                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                    setHasFixedSize(true)
-                    isNestedScrollingEnabled = true
-                    adapter = VisitRecyclerViewAdapter(visits) { visit ->
-                        val dialog = VisitTourismInfoDialogFragment.newInstance(visit)
-                        dialog.fragmentListener = this@DayFragment
-                        dialog.show(fragmentManager, VisitTourismInfoDialogFragment.ARG_VISIT_INFO)
-                    }
-                }
-                onListVisitsLoaded()
-            } catch (e: Exception) {
-                mListener?.onError(e.message.toString())
-            }
-        }
+        childFragmentManager
+                .beginTransaction()
+                .setTransition(android.R.transition.explode)
+                .add(R.id.day_container, VisitFragment.newInstance(mHoliday), VisitFragment.TAG)
+                .commit()
 
         return view
     }
 
-    private fun onListVisitsLoaded() {
-        loading_day.visibility = View.GONE
-        list_visits.visibility = View.VISIBLE
-        label_activity.visibility = View.VISIBLE
+    override fun onDayEnded() {
+        childFragmentManager
+                .beginTransaction()
+                .setTransition(android.R.transition.explode)
+                .replace(R.id.day_container, BudgetFragment.newInstance(mHoliday), BudgetFragment.TAG)
+                .commit()
     }
 
-    private fun onLoading() {
-        loading_day.visibility = View.VISIBLE
-        list_visits.visibility = View.GONE
-        list_overnights.visibility = View.GONE
-        label_activity.visibility = View.GONE
-        list_budgets.visibility = View.GONE
+    override fun onError(error: String) {
+        mListener?.onError(error)
     }
 
-    private fun onNightStarted() {
-        loading_day.visibility = View.GONE
-        list_visits.visibility = View.GONE
-        list_overnights.visibility = View.VISIBLE
-        label_activity.visibility = View.VISIBLE
+    override fun onLoad() {
+        //loading_day.visibility = View.VISIBLE
+        //day_container.visibility = View.GONE
     }
 
-    private suspend fun onDayEnded() {
-        loading_day.visibility = View.GONE
-        list_visits.visibility = View.GONE
-        list_overnights.visibility = View.GONE
-        label_activity.visibility = View.GONE
-        list_budgets.visibility = View.VISIBLE
-        displayBudget()
+    override fun onLoaded() {
+        //loading_day.visibility = View.GONE
+        //day_container.visibility = View.VISIBLE
     }
 
-    private suspend fun displayBudget() {
-            val budgetLines = mPresenter.getOnGoingBudget(mHoliday.streamId)
-            val budgets = budgetLines
-                    .groupBy { it.dayNb }
-                    .map { val lines = it.value
-                            .filterIsInstance<ViewType>()
-                            .toMutableList()
-                            lines.add(BudgetSeparator())
-                            lines.add(0, BudgetDay(it.key!!))
-                        lines
-                    }
-                    .flatMap { it.toList() }
-
-            list_budgets.apply {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                setHasFixedSize(true)
-                isNestedScrollingEnabled = true
-                val delegates = SparseArrayCompat<BudgetRecyclerViewAdapter.ViewTypeDelegateAdapter>(2)
-                delegates.append(Budget.VIEW_TYPE, BudgetDelegateAdapter())
-                delegates.append(BudgetSeparator.VIEW_TYPE, SeparatorDelegateAdapter())
-                delegates.append(BudgetDay.VIEW_TYPE, BudgetDayDelegateAdapter())
-
-                adapter = BudgetRecyclerViewAdapter(budgets, delegates)
-            }
+    override fun onVisited(visit: Visit) {
+        mListener?.onVisited(visit)
     }
 
     override fun onAttach(context: Context?) {
@@ -220,10 +149,11 @@ class DayFragment
     }
 
     companion object {
-        const val VISIT_ARG = "holiday_for_visit"
+        const val HOLIDAY_ARG = "holiday_for_day"
+
         fun newInstance(holiday: Holiday, dayNumber: Int): DayFragment {
             val args = Bundle().apply {
-                putParcelable(VISIT_ARG, holiday)
+                putParcelable(HOLIDAY_ARG, holiday)
                 putInt("dayNumber", dayNumber)
             }
             return DayFragment().apply { arguments = args }

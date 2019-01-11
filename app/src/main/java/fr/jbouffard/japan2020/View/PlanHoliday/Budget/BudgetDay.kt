@@ -1,4 +1,4 @@
-package fr.jbouffard.japan2020.View.PlanHoliday
+package fr.jbouffard.japan2020.View.PlanHoliday.Budget
 
 import org.joda.time.DateTime
 

@@ -8,6 +8,6 @@
     tools:context="fr.jbouffard.japan2020.View.Stat.StatsActivity">
 
 
-    <include layout="@layout/navigation"/>
+    <include layout="@layout/view_navigation"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.jbouffard.japan2020.View.PlanHoliday.OvernightDetailDialogFragment">
+    tools:context="fr.jbouffard.japan2020.View.PlanHoliday.Overnight.OvernightDetailDialogFragment">
 
     <TextView
         android:id="@+id/city"

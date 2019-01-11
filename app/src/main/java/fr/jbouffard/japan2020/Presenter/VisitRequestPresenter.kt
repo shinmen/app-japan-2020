@@ -2,6 +2,7 @@ package fr.jbouffard.japan2020.Presenter
 
 import android.util.Log
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
+import fr.jbouffard.japan2020.Domain.Travel.Event.RailPassActivated
 import fr.jbouffard.japan2020.Domain.Travel.Event.SleptInCity
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.AccommodationAddress
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
@@ -19,7 +20,7 @@ import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Visit as DomainVisit
 /**
  * Created by julienb on 31/05/18.
  */
-class DayRequestPresenter(
+class VisitRequestPresenter(
         private val httpClient: HttpClient,
         private val db: AppDatabase
 ) {
@@ -34,69 +35,39 @@ class DayRequestPresenter(
         return visitsOffers.filter { visits.map { it.city.name }.contains(it.city) }
     }
 
-    suspend fun requestOvernightsOffers(date: DateTime, city: City): List<OvernightOffer>  {
-        val retrofit = httpClient.retrofit.baseUrl(ApiInterface.BASE_URL).build()
-
-        val service = retrofit.create<ApiInterface>(ApiInterface::class.java)
-        val request = OvernightRequest(
-                date.toString("y-M-d 12:00"),
-                date.plus(Period.days(1)).toString("y-M-d 12:00"),
-                6,
-                city.name
-        )
-        return service.getOvernightOffers(request).await()
-    }
-
     fun visitPlace(holiday: Holiday, destination: String) {
         holiday.goToCity(destination)
         holiday.scheduleVisitCity(destination)
-    }
-
-    fun sleepIn(holiday: Holiday, overnightOffer: OvernightOffer) {
-        val accommodation = AccommodationAddress(
-                overnightOffer.accommodation.commercialName,
-                City(overnightOffer.accommodation.city),
-                overnightOffer.accommodation.queryCity
-                )
-        holiday.goToCity(accommodation.commercialCityName)
-        holiday.scheduleStayOver(accommodation, overnightOffer.pricePerPax, overnightOffer.weekReduction)
-
         holiday.getUncommittedChanges()
-                .filter { it is SleptInCity }
-                .map{ buildStayProjection(it as SleptInCity) }
+                .filter { it is RailPassActivated }
+                .map{ buildRailpassProjection(it as RailPassActivated) }
     }
 
     fun finishDay(holiday: Holiday) {
         holiday.wakeUp()
     }
 
-    suspend fun getOnGoingBudget(aggregateUuid: String): List<Budget> {
-        return db.budgetDao().awaitOne(aggregateUuid)
-    }
-
-    fun buildStayProjection(event: SleptInCity) {
+    private fun buildRailpassProjection(event: RailPassActivated) {
         GlobalScope.launch {
             val budgetOvernightEntry = Budget(
                     event.streamId,
-                    DateTime(event.overnight.overnightDate).millis,
-                    Budget.SERVICE_ACCOMODATION,
-                    event.overnight.rate,
-                    "Nuit"
+                    DateTime(event.railpassPackage.startDate).millis,
+                    Budget.SERVICE_RAILPASS,
+                    event.railpassPackage.price,
+                    "Railpass"
             )
             try {
                 val existingBudget = db.budgetDao().findOneByUuidAndTimeAndType(
                         budgetOvernightEntry.aggregateUuid.toString(),
                         budgetOvernightEntry.dayNb!!,
-                        Budget.SERVICE_ACCOMODATION
+                        Budget.SERVICE_RAILPASS
                 )
                 if (existingBudget == null) {
                     db.budgetDao().insertOne(budgetOvernightEntry)
                 }
             } catch (e: Exception) {
-              Log.d("room", e.message)
+                Log.d("room", e.message)
             }
         }
     }
-
-    private suspend fun BudgetDao.awaitOne(aggregateUuid: String): List<Budget> = GlobalScope.async { findByUuid(aggregateUuid) }.await()
 }

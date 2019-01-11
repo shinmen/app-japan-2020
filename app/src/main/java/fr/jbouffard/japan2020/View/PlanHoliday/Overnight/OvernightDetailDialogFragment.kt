@@ -1,4 +1,4 @@
-package fr.jbouffard.japan2020.View.PlanHoliday
+package fr.jbouffard.japan2020.View.PlanHoliday.Overnight
 
 
 import android.os.Bundle

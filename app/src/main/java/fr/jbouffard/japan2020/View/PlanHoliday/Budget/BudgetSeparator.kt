@@ -1,4 +1,4 @@
-package fr.jbouffard.japan2020.View.PlanHoliday
+package fr.jbouffard.japan2020.View.PlanHoliday.Budget
 
 class BudgetSeparator: ViewType {
     override fun getViewType(): Int = VIEW_TYPE

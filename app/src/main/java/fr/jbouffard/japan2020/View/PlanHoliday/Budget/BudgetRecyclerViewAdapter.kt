@@ -1,4 +1,4 @@
-package fr.jbouffard.japan2020.View.PlanHoliday
+package fr.jbouffard.japan2020.View.PlanHoliday.Budget
 
 import android.support.v4.util.SparseArrayCompat
 import android.support.v7.widget.RecyclerView

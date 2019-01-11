@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.animation.AnimationUtils
+import fr.jbouffard.japan2020.Infrastructure.Service.ResetOnGoingBudget
 import fr.jbouffard.japan2020.R
 import fr.jbouffard.japan2020.View.PlanFlight.FlightRequestActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -14,6 +15,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val intent = ResetOnGoingBudget.newIntent(this)
+        startService(intent)
 
         /*line.post{
             plane.post {

@@ -43,6 +43,7 @@
     <string name="stay_over_added">Nuit prévue à %1$s</string>
     <string name="visits_label">Les visites</string>
     <string name="overnight_label">La nuit</string>
+    <string name="budget_label">Budget en cours</string>
     <string name="patience_flights_warning">Patience le temps de trouver les vols&#8230;</string>
 
     <string name="flight_label">Vol:</string>

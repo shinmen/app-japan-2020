@@ -47,7 +47,7 @@
             android:fillViewport="true">
 
             <include
-                layout="@layout/fragment_start_holiday_planning"
+                layout="@layout/recycler_flight_info_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </ScrollView>
@@ -61,7 +61,7 @@
         app:layout_constraintTop_toBottomOf="@id/start_holiday_container"
         app:layout_constraintVertical_weight="0.5">
 
-        <include layout="@layout/fragment_flightplan_recyclerview" />
+        <include layout="@layout/recycler_flightplan_list" />
     </FrameLayout>
 
     <android.support.constraint.Group
