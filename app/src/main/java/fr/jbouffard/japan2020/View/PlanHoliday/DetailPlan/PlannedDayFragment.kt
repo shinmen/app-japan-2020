@@ -3,80 +3,80 @@ package fr.jbouffard.japan2020.View.PlanHoliday.DetailPlan
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.util.SparseArrayCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import fr.jbouffard.japan2020.Domain.EventStore
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
-import fr.jbouffard.japan2020.Infrastructure.Adapter.DetailDayAdapter
-import fr.jbouffard.japan2020.Infrastructure.Adapter.FlightAdapter
-import fr.jbouffard.japan2020.Presenter.DetailPlanPresenter
+import fr.jbouffard.japan2020.presenter.DetailPlanPresenter
 import fr.jbouffard.japan2020.R
 import fr.jbouffard.japan2020.View.PlanHoliday.DetailDayRecyclerViewAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.get
+import fr.jbouffard.japan2020.presenter.UpdateHolidayStatPresenter
+import kotlinx.android.synthetic.main.fragment_holiday_detail.*
+import kotlinx.android.synthetic.main.recycler_holiday_detail_list.*
+import kotlinx.coroutines.*
 import org.koin.android.ext.android.inject
+import java.lang.Exception
 
 class PlannedDayFragment : Fragment() {
 
-    private lateinit var holiday: Holiday
+    private lateinit var mHoliday: Holiday
 
-    private var listener: OnListFragmentInteractionListener? = null
-    private val mPresenter: DetailPlanPresenter by inject()
+    private var mListener: OnHolidaySaveListener? = null
+    private val mDetailPlanPresenter: DetailPlanPresenter by inject()
+    private val mHolidayPresenter: UpdateHolidayStatPresenter by inject()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            holiday = it.getParcelable(ARG_HOLIDAY)!!
+            mHoliday = it.getParcelable(ARG_HOLIDAY)!!
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.recycler_planneddaytype_list, container, false)
-
-
-        return view
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_holiday_detail, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                save_holiday_container.visibility = View.VISIBLE
+                mHolidayPresenter.updateHolidayStats(mHoliday)
+            } catch (e: Exception) {
+                mListener?.retry { mHolidayPresenter.updateHolidayStats(mHoliday) }
+            } finally {
+                save_holiday_container.visibility = View.GONE
+            }
+        }
 
-        // Set the adapter
-        if (view is RecyclerView) {
-            // Retrieve a Presenter instance
-            GlobalScope.launch(Dispatchers.Main) {
-                val detailDays = mPresenter.getDetailDays(holiday)
-                with(view) {
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = DetailDayRecyclerViewAdapter(detailDays, mPresenter.getAdapters())
-                }
+        GlobalScope.launch(Dispatchers.Main) {
+            val detailDays = mDetailPlanPresenter.getDetailDays(mHoliday)
+            with(list) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = DetailDayRecyclerViewAdapter(detailDays, mDetailPlanPresenter.getAdapters())
             }
         }
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnListFragmentInteractionListener) {
-            //listener = context
+        if (context is OnHolidaySaveListener) {
+            mListener = context
         } else {
-            //throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
+            throw RuntimeException("$context must implement OnHolidaySaveListener")
         }
     }
 
     override fun onDetach() {
         super.onDetach()
-        listener = null
+        mListener = null
     }
 
-    interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction()
+    interface OnHolidaySaveListener {
+        fun retry(tryAgain: suspend () -> Unit)
     }
 
     companion object {

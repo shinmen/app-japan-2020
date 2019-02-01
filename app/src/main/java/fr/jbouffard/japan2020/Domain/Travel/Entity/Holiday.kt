@@ -1,6 +1,7 @@
 package fr.jbouffard.japan2020.Domain.Travel.Entity
 
 import android.os.Parcel
+import android.os.ParcelUuid
 import android.os.Parcelable
 import fr.jbouffard.japan2020.Domain.AggregateRoot
 import fr.jbouffard.japan2020.Domain.Travel.Event.*
@@ -206,24 +207,27 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     }
 
     constructor(source: Parcel) : this(source.readSerializable() as UUID) {
-        airTransportation = source.readParcelable(AirTransportation::class.java.classLoader)
+        /*airTransportation = source.readParcelable(AirTransportation::class.java.classLoader)
         source.readList(daySchedules, Day::class.java.classLoader)
         startHolidayAt = DateTime(source.readLong())
         endHolidayAt = DateTime(source.readLong())
-        railpassPackage = source.readParcelable(RailpassPackage::class.java.classLoader) as RailpassPackage?
+        railpassPackage = source.readParcelable(RailpassPackage::class.java.classLoader) as RailpassPackage?*/
+        source.readList(changes, EventList::class.java.classLoader)
+        this.replayHistory(changes)
     }
 
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeSerializable(uuid)
-        writeParcelable(airTransportation, flags)
+        /*writeParcelable(airTransportation, flags)
         writeList(daySchedules)
         writeLong(startHolidayAt!!.millis)
         writeLong(endHolidayAt!!.millis)
         if (railpassPackage != null) {
             writeParcelable(railpassPackage, flags)
-        }
+        }*/
+        writeList(changes)
     }
 
     companion object {

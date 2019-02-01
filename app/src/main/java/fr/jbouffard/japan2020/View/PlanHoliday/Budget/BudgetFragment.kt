@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
-import fr.jbouffard.japan2020.Presenter.BudgetPresenter
+import fr.jbouffard.japan2020.presenter.BudgetPresenter
 import fr.jbouffard.japan2020.R
 import fr.jbouffard.japan2020.View.PlanHoliday.DetailDayRecyclerViewAdapter
 import fr.jbouffard.japan2020.View.PlanHoliday.ViewType

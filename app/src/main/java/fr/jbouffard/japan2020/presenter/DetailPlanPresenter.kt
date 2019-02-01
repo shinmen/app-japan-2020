@@ -1,4 +1,4 @@
-package fr.jbouffard.japan2020.Presenter
+package fr.jbouffard.japan2020.presenter
 
 import android.support.v4.util.SparseArrayCompat
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday

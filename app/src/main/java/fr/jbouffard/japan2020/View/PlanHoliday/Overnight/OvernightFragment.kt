@@ -11,7 +11,7 @@ import fr.jbouffard.japan2020.Domain.DomainException
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Infrastructure.DTO.OvernightOffer
-import fr.jbouffard.japan2020.Presenter.OvernightRequestPresenter
+import fr.jbouffard.japan2020.presenter.OvernightRequestPresenter
 import fr.jbouffard.japan2020.R
 import kotlinx.android.synthetic.main.recycler_overnight_list.*
 import kotlinx.android.synthetic.main.view_loader.*

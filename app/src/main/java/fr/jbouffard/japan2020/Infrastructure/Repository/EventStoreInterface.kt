@@ -9,7 +9,7 @@ import retrofit2.http.*
  */
 interface EventStoreInterface {
     companion object {
-        const val BASE_URL = "http://www.japon2020.jbouffard.fr/"
+        const val BASE_URL = "https://fierce-oasis-90265.herokuapp.com"
     }
 
     @POST("events/{streamId}")

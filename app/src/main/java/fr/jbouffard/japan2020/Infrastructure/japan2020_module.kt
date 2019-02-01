@@ -9,8 +9,7 @@ import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.AppDatabase
 import fr.jbouffard.japan2020.Infrastructure.Repository.EventStoreImpl
 import fr.jbouffard.japan2020.Infrastructure.Repository.HttpClient
 import fr.jbouffard.japan2020.Infrastructure.Repository.Repository
-import fr.jbouffard.japan2020.Infrastructure.Service.ResetOnGoingBudget
-import fr.jbouffard.japan2020.Presenter.*
+import fr.jbouffard.japan2020.presenter.*
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module.Module
 import org.koin.dsl.module.applicationContext
@@ -29,6 +28,7 @@ val japan2020Module: Module =  applicationContext {
     factory { EventStoreImpl(get()) as EventStore }
     factory { DetailDayAdapter() }
     factory { FlightAdapter() }
+    factory { UpdateHolidayStatPresenter(get()) }
     //factory { ResetOnGoingBudget(get()) }
     bean { Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "app").build()}
     //bean {get<AppDatabase>().budgetDao()}

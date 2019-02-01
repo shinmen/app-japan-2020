@@ -1,18 +1,13 @@
-package fr.jbouffard.japan2020.Presenter
+package fr.jbouffard.japan2020.presenter
 
-import android.util.Log
-import fr.jbouffard.japan2020.Domain.Budget.Entity.BudgetOrganisation
 import fr.jbouffard.japan2020.Domain.DomainException
-import fr.jbouffard.japan2020.Domain.RepositoryInterface
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
-import fr.jbouffard.japan2020.Domain.Travel.Event.EventList
 import fr.jbouffard.japan2020.Domain.Travel.Event.SelectFlightPlan
 import fr.jbouffard.japan2020.Infrastructure.Adapter.FlightOfferAdapter
 import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightRequest
 import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.AppDatabase
-import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Dao.BudgetDao
 import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Entity.Budget
 import fr.jbouffard.japan2020.Infrastructure.Repository.ApiInterface
 import fr.jbouffard.japan2020.Infrastructure.Repository.HttpClient

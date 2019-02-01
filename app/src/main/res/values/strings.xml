@@ -51,5 +51,6 @@
     <string name="total_price_label">Prix total:</string>
     <string name="price">%1$s€</string>
     <string name="railpass_period">Valable du %1$s au %2$s</string>
+    <string name="save_loading_msg">Mise à jour des stats de voyages</string>
 
 </resources>

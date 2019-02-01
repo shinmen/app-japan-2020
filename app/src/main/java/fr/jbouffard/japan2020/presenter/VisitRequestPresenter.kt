@@ -1,20 +1,16 @@
-package fr.jbouffard.japan2020.Presenter
+package fr.jbouffard.japan2020.presenter
 
 import android.util.Log
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Domain.Travel.Event.RailPassActivated
-import fr.jbouffard.japan2020.Domain.Travel.Event.SleptInCity
-import fr.jbouffard.japan2020.Domain.Travel.ValueObject.AccommodationAddress
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Infrastructure.DTO.*
 import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.AppDatabase
-import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Dao.BudgetDao
 import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Entity.Budget
 import fr.jbouffard.japan2020.Infrastructure.Repository.ApiInterface
 import fr.jbouffard.japan2020.Infrastructure.Repository.HttpClient
 import kotlinx.coroutines.*
 import org.joda.time.DateTime
-import org.joda.time.Period
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.Visit as DomainVisit
 
 /**

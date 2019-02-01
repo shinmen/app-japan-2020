@@ -1,8 +1,6 @@
 package fr.jbouffard.japan2020.View.PlanFlight
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.support.constraint.Group
 import android.support.transition.TransitionManager
@@ -10,17 +8,13 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import android.text.style.RelativeSizeSpan
-import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
-import fr.jbouffard.japan2020.Presenter.FlightRequestPresenter
+import fr.jbouffard.japan2020.presenter.FlightRequestPresenter
 import fr.jbouffard.japan2020.R
 import kotlinx.android.synthetic.main.recycler_flight_info_list.*
 import kotlinx.coroutines.Dispatchers

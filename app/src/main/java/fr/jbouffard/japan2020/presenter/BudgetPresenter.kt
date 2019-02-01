@@ -1,10 +1,9 @@
-package fr.jbouffard.japan2020.Presenter
+package fr.jbouffard.japan2020.presenter
 
 import android.support.v4.util.SparseArrayCompat
 import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.AppDatabase
 import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Dao.BudgetDao
 import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Entity.Budget
-import fr.jbouffard.japan2020.Infrastructure.Repository.HttpClient
 import fr.jbouffard.japan2020.View.PlanHoliday.DateDayDelegateAdapter
 import fr.jbouffard.japan2020.View.PlanHoliday.Budget.BudgetDelegateAdapter
 import fr.jbouffard.japan2020.View.PlanHoliday.DetailDaySeparator
@@ -12,10 +11,6 @@ import fr.jbouffard.japan2020.View.PlanHoliday.SeparatorDelegateAdapter
 import fr.jbouffard.japan2020.View.PlanHoliday.ViewType
 import fr.jbouffard.japan2020.View.PlanHoliday.DateDetailDay
 import fr.jbouffard.japan2020.View.PlanHoliday.DetailDayRecyclerViewAdapter
-import fr.jbouffard.japan2020.View.PlanHoliday.DetailPlan.DetailRailpassDelegateAdapter
-import fr.jbouffard.japan2020.View.PlanHoliday.DetailPlan.DetailRailpassPackage
-import fr.jbouffard.japan2020.View.PlanHoliday.DetailPlan.DetailTotalPrice
-import fr.jbouffard.japan2020.View.PlanHoliday.DetailPlan.DetailTotalPriceDelegateAdapter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 

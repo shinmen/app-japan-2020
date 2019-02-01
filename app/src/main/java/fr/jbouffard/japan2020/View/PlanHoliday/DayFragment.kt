@@ -14,7 +14,7 @@ import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Infrastructure.DTO.OvernightOffer
 import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
-import fr.jbouffard.japan2020.Presenter.VisitRequestPresenter
+import fr.jbouffard.japan2020.presenter.VisitRequestPresenter
 import fr.jbouffard.japan2020.R
 import fr.jbouffard.japan2020.View.PlanFlight.FlightRequestActivity
 import fr.jbouffard.japan2020.View.PlanHoliday.Budget.*
@@ -121,13 +121,9 @@ class DayFragment
     }
 
     override fun onLoad() {
-        //loading_day.visibility = View.VISIBLE
-        //day_container.visibility = View.GONE
     }
 
     override fun onLoaded() {
-        //loading_day.visibility = View.GONE
-        //day_container.visibility = View.VISIBLE
     }
 
     override fun onAttach(context: Context?) {
