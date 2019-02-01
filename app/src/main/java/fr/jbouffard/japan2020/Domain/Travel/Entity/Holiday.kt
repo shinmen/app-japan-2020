@@ -13,6 +13,7 @@ import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.Period
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by julienb on 26/02/18.
@@ -33,7 +34,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     var holidayDuration: Long = 0
         get() = Duration(startHolidayAt, endHolidayAt?.plusDays(1)).standardDays
 
-    var currentCity: String? = null
+    private var currentCity: String? = null
 
     var currentDate: DateTime? = null
         get() = daySchedules.last().date
@@ -88,12 +89,11 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     }
 
     fun scheduleVisitCity(city: String) {
-        daySchedules.last().scheduleVisit(city)
         val visit = Visit(City(city), daySchedules.last().date!!)
         applyNewEvent(VisitedCity(visit, version, streamId))
     }
 
-    fun scheduleStayOver(accommodation: AccommodationAddress, rate: Float, weekDiscount: Float) {
+    fun scheduleStayOver(accommodation: AccommodationAddress, rate: Float, weekDiscount: Float, picture: String) {
         railpassPackage?.let {
             if (it.isEndSameDayAs(currentDate!!) &&
                 accommodation.commercialCityName != airTransportation!!.returnFlightPlan.flightPlan.first().departureCity.name
@@ -103,8 +103,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
               )
             }
         }
-        val overnight = Overnight(accommodation, currentDate!!.toDate(), rate, weekDiscount)
-        daySchedules.last().scheduleAccommodation(overnight)
+        val overnight = Overnight(accommodation, currentDate!!.toDate(), rate, weekDiscount, picture)
         applyNewEvent(SleptInCity(overnight, version, streamId))
     }
 
@@ -119,8 +118,19 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
             }
         }
         val move = Movement(currentCity!!, destination, currentDate!!)
-        daySchedules.last().scheduleMoveTo(move)
         applyNewEvent(MovedToCity(move, version, streamId))
+    }
+
+    fun getPlannedDays(): List<Day> {
+        return ArrayList<Day>(daySchedules)
+    }
+
+    fun getRailPass(): RailpassPackage? {
+        return railpassPackage?.copy()
+    }
+
+    fun getAirTransportation(): AirTransportation {
+        return airTransportation!!.copy()
     }
 
     private fun activateRailPassAtFirstCityChange() {
@@ -147,7 +157,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
     }
 
     private fun loadEvent(event: MovedToCity) {
-        daySchedules.last().movements.add(event.move)
+        daySchedules.last().scheduleMoveTo(event.move)
         currentCity = event.move.destination
         version++
     }
@@ -200,6 +210,7 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
         source.readList(daySchedules, Day::class.java.classLoader)
         startHolidayAt = DateTime(source.readLong())
         endHolidayAt = DateTime(source.readLong())
+        railpassPackage = source.readParcelable(RailpassPackage::class.java.classLoader) as RailpassPackage?
     }
 
     override fun describeContents() = 0
@@ -210,6 +221,9 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
         writeList(daySchedules)
         writeLong(startHolidayAt!!.millis)
         writeLong(endHolidayAt!!.millis)
+        if (railpassPackage != null) {
+            writeParcelable(railpassPackage, flags)
+        }
     }
 
     companion object {

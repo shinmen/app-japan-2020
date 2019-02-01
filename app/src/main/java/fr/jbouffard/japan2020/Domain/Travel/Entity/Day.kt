@@ -17,11 +17,14 @@ class Day() : Parcelable {
         private set
 
     var visits: MutableList<Visit> = mutableListOf()
+        private set
 
     var movements: MutableList<Movement> = mutableListOf()
+        private set
 
     fun scheduleAccommodation(overnight: Overnight) {
         this.overnight = overnight
+        date = DateTime(overnight.overnightDate)
     }
 
     fun scheduleVisit(city: String) {
@@ -30,18 +33,23 @@ class Day() : Parcelable {
 
     fun scheduleMoveTo(move: Movement) {
         movements.add(move)
+        date = move.date
     }
 
     constructor(source: Parcel) : this() {
+        date = DateTime(source.readLong())
         source.readList(visits, Visit::class.java.classLoader)
         overnight = source.readParcelable(Overnight::class.java.classLoader)
+        source.readList(movements, Movement::class.java.classLoader)
     }
 
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+        writeLong(date!!.millis)
         writeList(visits)
         writeParcelable(overnight, flags)
+        writeList(movements)
     }
 
     companion object {

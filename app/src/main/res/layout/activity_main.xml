@@ -72,7 +72,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline_btn" />
 
-    <include layout="@layout/view_navigation"/>
+    <include layout="@layout/view_navigation" />
 
 
 </android.support.constraint.ConstraintLayout>

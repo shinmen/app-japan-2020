@@ -18,6 +18,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
+    <include
+        app:layout_constraintTop_toBottomOf="@id/label_activity"
+        app:layout_constraintStart_toStartOf="parent"
+        layout="@layout/view_loader"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"

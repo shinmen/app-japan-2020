@@ -1,8 +1,11 @@
-package fr.jbouffard.japan2020.View.PlanHoliday.Budget
+package fr.jbouffard.japan2020.View.PlanHoliday
 
 import org.joda.time.DateTime
 
-data class BudgetDay(private val dayNb: Long): ViewType {
+data class DateDetailDay(private val dayNb: Long): ViewType {
+    override fun getDate(): Long {
+        return 0
+    }
 
     fun getDayNb(): DateTime = DateTime().withMillis(dayNb)
 

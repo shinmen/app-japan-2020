@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Japon 2020</string>
-    <string name="title_new">Nouveau voyage</string>
+    <string name="title_back">Vols</string>
     <string name="title_stats">Stats</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_stats">StatsActivity</string>
@@ -21,7 +21,7 @@
     <string name="origin_city">Départ de</string>
     <string name="destination_city">retour de</string>
     <string name="euro_price">%1$s €</string>
-    <string name="duration">%1$sh</string>
+    <string name="duration">%1$s</string>
     <string name="price_per_pax_label">Prix/pers</string>
     <string name="going_flight_label">Aller</string>
     <string name="return_flight_label">Retour</string>
@@ -29,7 +29,7 @@
     <string name="choose_fligh_date_label">Choisir cet A/R</string>
     <string name="close">Masquer</string>
     <string name="company_name">Compagnie: %1$s</string>
-    <string name="highlighted_time">%1$s, %2$s.</string>
+    <string name="highlighted_destination">%1$s, %2$s.</string>
     <string name="day_nb">Jour %1$d</string>
     <string name="day_date">Le %1$s</string>
 
@@ -47,5 +47,9 @@
     <string name="patience_flights_warning">Patience le temps de trouver les vols&#8230;</string>
 
     <string name="flight_label">Vol:</string>
+    <string name="flight_nb">Vol: %1$s</string>
+    <string name="total_price_label">Prix total:</string>
+    <string name="price">%1$s€</string>
+    <string name="railpass_period">Valable du %1$s au %2$s</string>
 
 </resources>

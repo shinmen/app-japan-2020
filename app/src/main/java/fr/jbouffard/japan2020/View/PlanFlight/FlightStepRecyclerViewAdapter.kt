@@ -12,11 +12,15 @@ import android.view.ViewGroup
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightInfo
 import fr.jbouffard.japan2020.Infrastructure.Utils.inflate
 import fr.jbouffard.japan2020.R
-import kotlinx.android.synthetic.main.item_flight_step.view.*
+import kotlinx.android.synthetic.main.item_flight_step_going.view.*
 
-class FlightStepRecyclerViewAdapter(private val flights: List<FlightInfo>) : RecyclerView.Adapter<FlightStepRecyclerViewAdapter.ViewHolder>() {
+class FlightStepRecyclerViewAdapter(private val isGoing: Boolean, private val flights: List<FlightInfo>) : RecyclerView.Adapter<FlightStepRecyclerViewAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.item_flight_step))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val layoutId = if (isGoing)  R.layout.item_flight_step_going  else R.layout.item_flight_step_return
+
+        return ViewHolder(parent.inflate(layoutId))
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(flights[position], position, itemCount)
 
@@ -26,10 +30,18 @@ class FlightStepRecyclerViewAdapter(private val flights: List<FlightInfo>) : Rec
         fun bind(flightOffer: FlightInfo, position: Int, size: Int) = with(itemView) {
                 flight_origin_code.text = flightOffer.departureAirport.code
                 flight_departure_date.text = highlightDate(flightOffer.departureDate.toString("HH:mm dd MMM"))
-                flight_departure_city.text = resources.getString(R.string.highlighted_time, flightOffer.departureAirport.city, flightOffer.departureAirport.country)
+                flight_departure_city.text = resources.getString(
+                        R.string.highlighted_destination,
+                        flightOffer.departureAirport.city.take(12),
+                        flightOffer.departureAirport.country
+                )
                 flight_destination_code.text = flightOffer.arrivalAirport.code
                 flight_arrival_date.text = highlightDate(flightOffer.arrivalDate.toString("HH:mm dd MMM"))
-                flight_arrival_city.text = resources.getString(R.string.highlighted_time, flightOffer.arrivalAirport.city, flightOffer.arrivalAirport.country)
+                flight_arrival_city.text = resources.getString(
+                        R.string.highlighted_destination,
+                        flightOffer.arrivalAirport.city.take(12),
+                        flightOffer.arrivalAirport.country
+                )
                 when (position) {
                     0 -> top_timeline.visibility = View.GONE
                     size - 1 -> bottom_timeline.visibility = View.GONE
@@ -43,6 +55,10 @@ class FlightStepRecyclerViewAdapter(private val flights: List<FlightInfo>) : Rec
             highlighted.setSpan(RelativeSizeSpan(0.8f), 6, date.length, 0)
 
             return highlighted
+        }
+
+        private fun getDestination(city: String, country: String) {
+
         }
     }
 }

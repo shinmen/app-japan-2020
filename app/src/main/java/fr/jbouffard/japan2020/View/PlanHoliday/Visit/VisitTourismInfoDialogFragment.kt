@@ -32,7 +32,7 @@ class VisitTourismInfoDialogFragment : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        city.text = mVisit.city
+        destination_city.text = mVisit.city
         area.text = getString(R.string.area,mVisit.area)
         nearby_cities.text = getString(R.string.nearby_cities,mVisit.nearbyCities.joinToString(", "))
         tourism_info.text = mVisit.tourismInfo

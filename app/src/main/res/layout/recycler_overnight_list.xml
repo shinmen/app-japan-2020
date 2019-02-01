@@ -12,13 +12,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/shojumaru"
-        android:text="@string/visits_label"
+        android:text="@string/overnight_label"
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
 
+    <include
+        app:layout_constraintTop_toBottomOf="@id/label_activity"
+        app:layout_constraintStart_toStartOf="parent"
+        layout="@layout/view_loader"
+        />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         android:name="fr.jbouffard.japan2020.View.PlanHoliday.VisitFragment"

@@ -2,16 +2,17 @@ package fr.jbouffard.japan2020.View.PlanHoliday.Budget
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.util.SparseArrayCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
-import fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Entity.Budget
 import fr.jbouffard.japan2020.Presenter.BudgetPresenter
 import fr.jbouffard.japan2020.R
+import fr.jbouffard.japan2020.View.PlanHoliday.DetailDayRecyclerViewAdapter
+import fr.jbouffard.japan2020.View.PlanHoliday.ViewType
 import kotlinx.android.synthetic.main.recycler_visit_list.*
+import kotlinx.android.synthetic.main.view_loader.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ class BudgetFragment: Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            mHoliday = it.getParcelable(BudgetFragment.ARG_HOLIDAY)
+            mHoliday = it.getParcelable(BudgetFragment.ARG_HOLIDAY)!!
         }
     }
 
@@ -38,23 +39,21 @@ class BudgetFragment: Fragment() {
             mListener = parentFragment as OnBudgetListener
         }
         GlobalScope.launch(Dispatchers.Main) {
+            loading.visibility = View.VISIBLE
             try {
                 val budgets = mapBudget()
-
                 list.apply {
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                     setHasFixedSize(true)
                     isNestedScrollingEnabled = true
-                    val delegates = SparseArrayCompat<BudgetRecyclerViewAdapter.ViewTypeDelegateAdapter>(2)
-                    delegates.append(Budget.VIEW_TYPE, BudgetDelegateAdapter())
-                    delegates.append(BudgetSeparator.VIEW_TYPE, SeparatorDelegateAdapter())
-                    delegates.append(BudgetDay.VIEW_TYPE, BudgetDayDelegateAdapter())
+                    val delegates = mPresenter.getDelegateAdapters()
 
-                    adapter = BudgetRecyclerViewAdapter(budgets, delegates)
+                    adapter = DetailDayRecyclerViewAdapter(budgets, delegates)
                 }
             } catch (e: Exception) {
                 mListener?.onError(e.message.toString())
             }
+            loading.visibility = View.GONE
         }
 
         return view
@@ -68,16 +67,7 @@ class BudgetFragment: Fragment() {
     private suspend fun mapBudget(): List<ViewType> {
         val budgetLines = mPresenter.getOnGoingBudget(mHoliday.streamId)
 
-        return budgetLines
-                .groupBy { it.dayNb }
-                .map { val lines = it.value
-                        .filterIsInstance<ViewType>()
-                        .toMutableList()
-                    lines.add(BudgetSeparator())
-                    lines.add(0, BudgetDay(it.key!!))
-                    lines
-                }
-                .flatMap { it.toList() }
+        return mPresenter.mapBudget(budgetLines)
     }
 
     interface OnBudgetListener {

@@ -25,7 +25,6 @@ import java.util.*
  */
 class FlightRequestPresenter(
         private val httpClient: HttpClient,
-        private val repo: RepositoryInterface,
         private val db: AppDatabase
 ) {
 
@@ -58,7 +57,7 @@ class FlightRequestPresenter(
         return holiday
     }
 
-    fun buildFlightBudgetProjection(event: SelectFlightPlan) {
+    private fun buildFlightBudgetProjection(event: SelectFlightPlan) {
         GlobalScope.launch {
             val budgetFlightEntry = Budget(
                     event.streamId,

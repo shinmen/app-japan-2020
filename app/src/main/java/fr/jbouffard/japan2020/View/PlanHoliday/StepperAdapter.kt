@@ -22,8 +22,9 @@ class StepperAdapter(fm: FragmentManager, context: Context, private val holiday:
 
     override fun getViewModel(position: Int): StepViewModel {
         val builder = StepViewModel.Builder(context).apply {
-            setNextButtonLabel(context.resources.getString(R.string.day_nb, position+2))
-            setBackButtonLabel(context.getString(R.string.budget))
+            setEndButtonLabel(context.resources.getString(R.string.day_nb, position+2))
+            setBackButtonLabel(context.getString(R.string.title_back))
+            //setEndButtonLabel(R.string.end_of_trip)
         }
 
         return builder.create()

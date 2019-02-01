@@ -32,7 +32,7 @@ import org.joda.time.DateTime
 
 class PlanningActivity
     : AppCompatActivity(),
-        DayFragment.OnVisitSchedulerListener
+        DayFragment.OnDaySchedulerListener
 {
     private var mMap: MapboxMap? = null
     private var markerList: MutableList<LatLng> = mutableListOf()
@@ -127,7 +127,7 @@ class PlanningActivity
 
         val indicator = findViewById<StepperLayout>(R.id.indicator)
         val adapter = StepperAdapter(supportFragmentManager, this, holiday)
-        indicator.setAdapter(adapter)
+        indicator.adapter = adapter
 
         initMap(savedInstanceState, arrivalGeolocation, arrivalCity)
     }

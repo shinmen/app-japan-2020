@@ -12,12 +12,13 @@ import retrofit2.http.POST
 interface ApiInterface {
 
     companion object {
-        //const val BASE_URL = "http://www.japon2020.jbouffard.fr/"
-        const val BASE_URL = "http://www.mocky.io/"
+        //const val BASE_URL = "https://fierce-oasis-90265.herokuapp.com"
+        const val BASE_URL = "https://www.mocky.io/"
     }
 
     //@POST("flights/offers")
-    @POST("v2/5c2c82bb2e0000070ae875c0")
+    @POST("v2/5c4f3b983300002d00c583d9") //short stay
+    //@POST("v2/5c2c82bb2e0000070ae875c0")
     fun getFlightOffers(@Body flightRequest: FlightRequest): Deferred<List<FlightOffer>>
 
     //@POST("overnight/offers")

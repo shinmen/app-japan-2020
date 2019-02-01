@@ -14,6 +14,7 @@ import fr.jbouffard.japan2020.Infrastructure.DTO.Visit
 import fr.jbouffard.japan2020.Presenter.VisitRequestPresenter
 import fr.jbouffard.japan2020.R
 import kotlinx.android.synthetic.main.recycler_visit_list.*
+import kotlinx.android.synthetic.main.view_loader.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -31,7 +32,7 @@ class VisitFragment : Fragment(),
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            mHoliday = it.getParcelable(ARG_HOLIDAY)
+            mHoliday = it.getParcelable(ARG_HOLIDAY)!!
         }
     }
 
@@ -44,6 +45,7 @@ class VisitFragment : Fragment(),
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 mListener?.onLoad()
+                loading.visibility = View.VISIBLE
                 TransitionManager.beginDelayedTransition(container!!)
                 val visits = mPresenter.requestVisits(mHoliday)
                 list.apply {
@@ -56,6 +58,7 @@ class VisitFragment : Fragment(),
                         dialog.show(fragmentManager, VisitTourismInfoDialogFragment.ARG_VISIT_INFO)
                     }
                 }
+                loading.visibility = View.GONE
                 mListener?.onLoaded()
             } catch (e: Exception) {
                 mListener?.onError(e.message.toString())

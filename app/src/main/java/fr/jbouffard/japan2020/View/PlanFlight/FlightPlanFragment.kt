@@ -96,7 +96,7 @@ class FlightPlanFragment : Fragment() {
         going_flight_list.apply {
             visibility = View.VISIBLE
             layoutManager = LinearLayoutManager(activity)
-            adapter = FlightStepRecyclerViewAdapter(flightOffer.goingFlight.flights)
+            adapter = FlightStepRecyclerViewAdapter(isGoing = true, flights = flightOffer.goingFlight.flights)
         }
     }
 
@@ -104,7 +104,7 @@ class FlightPlanFragment : Fragment() {
         return_flight_list.apply {
             visibility = View.VISIBLE
             layoutManager = LinearLayoutManager(activity)
-            adapter = FlightStepRecyclerViewAdapter(flightOffer.returnFlight.flights)
+            adapter = FlightStepRecyclerViewAdapter(isGoing = false, flights = flightOffer.returnFlight.flights)
         }
     }
 

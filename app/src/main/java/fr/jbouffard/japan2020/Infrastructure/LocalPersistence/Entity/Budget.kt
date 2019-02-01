@@ -3,7 +3,7 @@ package fr.jbouffard.japan2020.Infrastructure.LocalPersistence.Entity
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
-import fr.jbouffard.japan2020.View.PlanHoliday.Budget.ViewType
+import fr.jbouffard.japan2020.View.PlanHoliday.ViewType
 
 @Entity(tableName = "budget")
 class Budget(
@@ -14,6 +14,10 @@ class Budget(
         @ColumnInfo(name = "service_label") var serviceLabel: String?,
         @PrimaryKey(autoGenerate = true) var id: Int = 0
     ): ViewType {
+
+    override fun getDate(): Long {
+        return dayNb!!
+    }
 
     override fun getViewType(): Int = VIEW_TYPE
 

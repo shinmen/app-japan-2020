@@ -20,7 +20,6 @@ import fr.jbouffard.japan2020.View.PlanFlight.FlightRequestActivity
 import fr.jbouffard.japan2020.View.PlanHoliday.Budget.*
 import fr.jbouffard.japan2020.View.PlanHoliday.Overnight.OvernightFragment
 import fr.jbouffard.japan2020.View.PlanHoliday.Visit.VisitFragment
-import kotlinx.android.synthetic.main.fragment_day.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -35,7 +34,7 @@ class DayFragment
         BudgetFragment.OnBudgetListener
 {
 
-    private var mListener: OnVisitSchedulerListener? = null
+    private var mListener: OnDaySchedulerListener? = null
     private lateinit var mHoliday: Holiday
     private var mDayNumber: Int = 1
     private val mPresenter: VisitRequestPresenter by inject()
@@ -80,11 +79,16 @@ class DayFragment
         }
     }
 
+    override fun onCompleteClicked(callback: StepperLayout.OnCompleteClickedCallback?) {
+        val i = PlannedHolidayActivity.newIntent(activity!!, mHoliday)
+        startActivity(i)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mHoliday = it.getParcelable(HOLIDAY_ARG)!!
-            mDayNumber = it.getInt("dayNumber")
+            mDayNumber = it.getInt(DAY_NB_ARG)
         }
     }
 
@@ -112,6 +116,10 @@ class DayFragment
         mListener?.onError(error)
     }
 
+    override fun onVisited(visit: Visit) {
+        mListener?.onVisited(visit)
+    }
+
     override fun onLoad() {
         //loading_day.visibility = View.VISIBLE
         //day_container.visibility = View.GONE
@@ -122,16 +130,12 @@ class DayFragment
         //day_container.visibility = View.VISIBLE
     }
 
-    override fun onVisited(visit: Visit) {
-        mListener?.onVisited(visit)
-    }
-
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is OnVisitSchedulerListener) {
+        if (context is OnDaySchedulerListener) {
             mListener = context
         } else {
-            throw RuntimeException(context!!.toString() + " must implement OnVisitSchedulerListener")
+            throw RuntimeException(context!!.toString() + " must implement OnDaySchedulerListener")
         }
     }
 
@@ -140,7 +144,7 @@ class DayFragment
         mListener = null
     }
 
-    interface OnVisitSchedulerListener {
+    interface OnDaySchedulerListener {
         fun onVisited(visit: Visit)
         fun onSleptIn(overnight: OvernightOffer)
         fun onNextDay(currentDate: DateTime?)
@@ -150,11 +154,12 @@ class DayFragment
 
     companion object {
         const val HOLIDAY_ARG = "holiday_for_day"
+        const val DAY_NB_ARG = "day_number"
 
         fun newInstance(holiday: Holiday, dayNumber: Int): DayFragment {
             val args = Bundle().apply {
                 putParcelable(HOLIDAY_ARG, holiday)
-                putInt("dayNumber", dayNumber)
+                putInt(DAY_NB_ARG, dayNumber)
             }
             return DayFragment().apply { arguments = args }
         }

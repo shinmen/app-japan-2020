@@ -14,6 +14,7 @@ import fr.jbouffard.japan2020.Infrastructure.DTO.OvernightOffer
 import fr.jbouffard.japan2020.Presenter.OvernightRequestPresenter
 import fr.jbouffard.japan2020.R
 import kotlinx.android.synthetic.main.recycler_overnight_list.*
+import kotlinx.android.synthetic.main.view_loader.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -31,8 +32,8 @@ class OvernightFragment : Fragment(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            mHoliday = it.getParcelable(ARG_OVERNIGHT)
-            mCity = it.getParcelable(ARG_CITY)
+            mHoliday = it.getParcelable(ARG_OVERNIGHT)!!
+            mCity = it.getParcelable(ARG_CITY)!!
         }
     }
 
@@ -45,6 +46,7 @@ class OvernightFragment : Fragment(),
             try {
                 TransitionManager.beginDelayedTransition(container!!)
                 mListener?.onLoad()
+                loading.visibility = View.VISIBLE
                 val offers = mPresenter.requestOvernightsOffers(mHoliday.currentDate!!, mCity)
                 list.apply {
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -54,6 +56,7 @@ class OvernightFragment : Fragment(),
                         dialog.show(fragmentManager, OvernightDetailDialogFragment.ARG_OVERNIGHT_DETAIL)
                     }
                 }
+                loading.visibility = View.GONE
                 mListener?.onLoaded()
             } catch (e: Exception) {
                 mListener?.onError(e.message.toString())

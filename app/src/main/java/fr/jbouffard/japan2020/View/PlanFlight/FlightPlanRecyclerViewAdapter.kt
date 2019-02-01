@@ -30,9 +30,12 @@ class FlightPlanRecyclerViewAdapter(
     class ViewHolder(flightPlanView: View) : RecyclerView.ViewHolder(flightPlanView) {
         fun bind(flightOffer: FlightOffer, listener: (FlightOffer) -> Unit) = with(itemView) {
             departure_date.text = highlightHour(flightOffer.goingFlight.flights.first().departureDate.toString("d MMM à H:mm"))
-            going_duration.text = resources.getString(R.string.duration, "%.2f".format(flightOffer.goingFlight.duration))
+//            going_duration.text = resources.getString(R.string.duration, "%.2f".format(flightOffer.goingFlight.duration))
+            going_duration.text = resources.getString(R.string.duration, formatDuration(flightOffer.goingFlight.duration))
+
             return_date.text = highlightHour(flightOffer.returnFlight.flights.last().departureDate.toString("d MMM à H:mm"))
-            return_duration.text = resources.getString(R.string.duration, "%.2f".format(flightOffer.returnFlight.duration))
+            //return_duration.text = resources.getString(R.string.duration, "%.2f".format(flightOffer.returnFlight.duration))
+            return_duration.text = resources.getString(R.string.duration, formatDuration(flightOffer.returnFlight.duration))
             total_fare.text = resources.getString(R.string.euro_price, "%.2f".format(flightOffer.totalRatePerAdult))
             setOnClickListener { listener(flightOffer) }
         }
@@ -44,6 +47,10 @@ class FlightPlanRecyclerViewAdapter(
             styledText.setSpan(RelativeSizeSpan(1.3f), date.length - 5, date.length, flag)
 
             return styledText
+        }
+
+        private fun formatDuration(duration: Float): String {
+            return "%.2f".format(duration).replace(",", "h")
         }
     }
 }

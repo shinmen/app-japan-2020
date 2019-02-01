@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- https://developer.android.com/training/articles/security-config  -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="@raw/mockyio"/>
+        </trust-anchors>
+    </base-config>
+
+</network-security-config>

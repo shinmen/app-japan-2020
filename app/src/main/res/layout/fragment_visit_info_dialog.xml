@@ -6,7 +6,7 @@
     tools:context="fr.jbouffard.japan2020.View.PlanHoliday.Overnight.OvernightDetailDialogFragment">
 
     <TextView
-        android:id="@+id/city"
+        android:id="@+id/destination_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/shojumaru"
@@ -21,7 +21,7 @@
         android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/city"
+        app:layout_constraintTop_toBottomOf="@id/destination_city"
         >
         <TextView
             android:id="@+id/tourism_info"

@@ -44,7 +44,12 @@ class OvernightRequestPresenter(
                 overnightOffer.accommodation.queryCity
         )
         holiday.goToCity(accommodation.commercialCityName)
-        holiday.scheduleStayOver(accommodation, overnightOffer.pricePerPax, overnightOffer.weekReduction)
+        holiday.scheduleStayOver(
+                accommodation,
+                overnightOffer.pricePerPax,
+                overnightOffer.weekReduction,
+                overnightOffer.thumbnailUrl
+        )
 
         holiday.getUncommittedChanges()
                 .filter { it is SleptInCity }

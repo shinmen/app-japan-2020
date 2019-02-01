@@ -29,7 +29,7 @@ class VisitRecyclerViewAdapter(private val visits: List<Visit>, private val list
                     .load(id)
                     .fit()
                     .into(city_thumbnail)
-            city.text = visit.city
+            destination_city.text = visit.city
             setOnClickListener { listener(visit) }
         }
     }
