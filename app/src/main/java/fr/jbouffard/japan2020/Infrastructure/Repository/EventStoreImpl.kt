@@ -16,7 +16,7 @@ class EventStoreImpl(private val httpClient: HttpClient): EventStore {
         changes.forEach {
             events.add(EventDescription(UUID.randomUUID(), it.javaClass.simpleName, it))
         }
-        service.newBatch(streamId, events).await()
+        //service.newBatch(streamId, events).await()
     }
 
     override suspend fun getAggregateHistory(uuid: String): List<DomainEvent> {

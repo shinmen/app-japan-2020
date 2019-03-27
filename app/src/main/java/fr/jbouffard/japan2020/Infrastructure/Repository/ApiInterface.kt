@@ -19,13 +19,13 @@ interface ApiInterface {
     @POST("flights/offers")
     //@POST("v2/5c4f3b983300002d00c583d9") //short stay
     //@POST("v2/5c2c82bb2e0000070ae875c0")
-    fun getFlightOffers(@Body flightRequest: FlightRequest): Deferred<List<FlightOffer>>
+    fun getFlightOffersAsync(@Body flightRequest: FlightRequest): Deferred<List<FlightOffer>>
 
     @POST("overnight/offers")
     //@POST("v2/5bf289be2f00009700cfa128")
-    fun getOvernightOffers(@Body overnightRequest: OvernightRequest): Deferred<List<OvernightOffer>>
+    fun getOvernightOffersAsync(@Body overnightRequest: OvernightRequest): Deferred<List<OvernightOffer>>
 
     @GET("visits")
     //@GET("v2/5bf289f02f00009700cfa12b")
-    fun getVisitsInfo(): Deferred<List<Visit>>
+    fun getVisitsInfoAsync(): Deferred<List<Visit>>
 }

@@ -134,6 +134,16 @@ class Holiday(override var uuid: UUID) : AggregateRoot(), Parcelable {
         return airTransportation!!.copy()
     }
 
+    fun getBudget(): Float {
+        var budget = getAirTransportation().fare
+        budget = budget.plus(getPlannedDays().map { it.overnight!!.rate }.sum())
+        getRailPass()?.let {
+            budget = budget.plus(it.price)
+        }
+
+        return budget
+    }
+
     private fun activateRailPassAtFirstCityChange() {
         if (railpassPackage == null) {
             activateRailPass()

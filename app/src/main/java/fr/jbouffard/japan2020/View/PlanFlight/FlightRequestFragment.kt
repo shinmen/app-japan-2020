@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.RadioButton
+import fr.jbouffard.japan2020.Domain.Travel.Entity.AirTransportation
 import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Infrastructure.DTO.CityCodeMapper
 import fr.jbouffard.japan2020.R
@@ -19,6 +20,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.joda.time.DateTime
+import org.joda.time.Period
 
 class FlightRequestFragment
     : Fragment(), DatetimeSelectInterface {
@@ -67,6 +69,16 @@ class FlightRequestFragment
             return false
         }
 
+        if (mGoingAt!!.isBefore(DateTime())) {
+            goingDateInput.error = resources.getString(R.string.back_to_the_future)
+            return false
+        }
+
+        if (mGoingAt!!.isBefore(DateTime().plus(Period.days(AirTransportation.MIN_DAY_BEFORE_DEPARTURE)))) {
+            goingDateInput.error =  resources.getString(R.string.going_date_too_near)
+            return false
+        }
+
         if (mReturnAt == null) {
             returnDateInput.error = resources.getString(R.string.error_return_date_required)
             return false
@@ -85,14 +97,16 @@ class FlightRequestFragment
     {
         val goingBtn = view.findViewById<ImageButton>(R.id.flight_going_hint)
         goingBtn.onClick {
-            val dateFragment = DatePickerDialogFragment.newInstance(DateTime.now(), GOING_DATE)
+            val startGoingDate = if (mReturnAt == null)  DateTime().plus(Period.days(AirTransportation.MIN_DAY_BEFORE_DEPARTURE + 1)) else mReturnAt!!.minus(Period.days(5))
+            val dateFragment = DatePickerDialogFragment.newInstance(startGoingDate, GOING_DATE)
             dateFragment.fragmentListener = this@FlightRequestFragment
             dateFragment.show(fragmentManager, "date")
         }
 
         val returnBtn = view.findViewById<ImageButton>(R.id.flight_return_hint)
         returnBtn.onClick{
-            val dateFragment = DatePickerDialogFragment.newInstance(DateTime.now(), RETURN_DATE)
+            val startReturnDate = if (mGoingAt == null)  DateTime.now() else mGoingAt!!.plus(Period.days(5))
+            val dateFragment = DatePickerDialogFragment.newInstance(startReturnDate!!, RETURN_DATE)
             dateFragment.fragmentListener = this@FlightRequestFragment
             dateFragment.show(fragmentManager, "date")
         }

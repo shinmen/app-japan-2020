@@ -7,12 +7,12 @@ import fr.jbouffard.japan2020.R
 import fr.jbouffard.japan2020.View.PlanHoliday.ViewType
 import fr.jbouffard.japan2020.View.PlanHoliday.DetailDayRecyclerViewAdapter
 import kotlinx.android.synthetic.main.item_detail_flight_step.view.*
-import kotlinx.android.synthetic.main.item_flightplan.view.*
+import kotlin.math.roundToInt
 
 class FlightDelegateAdapter: DetailDayRecyclerViewAdapter.ViewTypeDelegateAdapter {
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder = FlightPlanViewHolder(parent)
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, detailDayLine: ViewType) = with(holder as FlightPlanViewHolder) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, detailDayLine: ViewType): Unit = with(holder as FlightPlanViewHolder) {
         bind(detailDayLine as DetailFlightSchedule)
     }
 
@@ -33,8 +33,9 @@ class FlightDelegateAdapter: DetailDayRecyclerViewAdapter.ViewTypeDelegateAdapte
                     flightPlanLine.flight.arrivalCity.name,
                     flightPlanLine.flight.arrivalCity.country
             )
-
-
+            flightPlanLine.fare?.let {
+                fare.text = resources.getString(R.string.price, it.roundToInt().toString())
+            }
 
         }
     }

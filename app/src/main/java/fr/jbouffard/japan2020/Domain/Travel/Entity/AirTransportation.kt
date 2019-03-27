@@ -12,14 +12,18 @@ data class AirTransportation(val goingFlightPlan: FlightPlan, val returnFlightPl
 
     fun selectRoundTrip() {
         val goingDepartureDate = goingFlightPlan.flightPlan.first().departureDate
-        val soonDate = DateTime().apply { plus(Period.days(15))}
-        if (soonDate.isAfter(goingDepartureDate)) {
+        val soonDate = DateTime().apply { plus(Period.days(MIN_DAY_BEFORE_DEPARTURE))}
+        if (goingDepartureDate.isBefore(soonDate)) {
             throw NotEnoughTimeToPlanException("la date de départ est trop proche pour s'organiser")
         }
         val returnArrivalDate = returnFlightPlan.flightPlan.last().departureDate
-        goingDepartureDate.plus(Period.days(14))
-        if (goingDepartureDate.isAfter(returnArrivalDate)) {
+        val maxDate = goingDepartureDate.plus(Period.days(14))
+        if (maxDate.isBefore(returnArrivalDate)) {
             throw HolidayTooExpensiveException("Nous n'aurons pas assez de tune pour un voyage si long")
         }
+    }
+
+    companion object {
+        const val MIN_DAY_BEFORE_DEPARTURE = 30
     }
 }

@@ -72,17 +72,16 @@ class OvernightFragment : Fragment(),
     }
 
     override fun onOvernightPlaceChosen(overnight: OvernightOffer) {
-        try {
-            GlobalScope.launch(Dispatchers.Main) {
-                val sleep = async {
-                    mPresenter.sleepIn(mHoliday, overnight)
-                }
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
                 mListener?.onSleptIn(overnight)
-                sleep.await()
+                mPresenter.sleepIn(mHoliday, overnight)
+
                 mListener?.onDayEnded()
+
+            } catch (e: DomainException) {
+                mListener?.onError(e.message.toString())
             }
-        } catch (e: DomainException) {
-            mListener?.onError(e.message.toString())
         }
     }
 

@@ -36,6 +36,10 @@ class DetailPlanPresenter(private val dayAdapter: DetailDayAdapter, private val 
                     lines
                 }
                 .toList()
+                .plus(DetailTotalPrice(
+                        holiday.getBudget(),
+                        holiday.getAirTransportation().returnFlightPlan.flightPlan.last().arrivalDate)
+                )
     }
 
     fun getAdapters(): SparseArrayCompat<DetailDayRecyclerViewAdapter.ViewTypeDelegateAdapter> {

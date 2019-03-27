@@ -41,22 +41,32 @@ class PlannedDayFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        GlobalScope.launch(Dispatchers.Main) {
+        /*GlobalScope.launch(Dispatchers.Main) {
             try {
                 save_holiday_container.visibility = View.VISIBLE
                 mHolidayPresenter.updateHolidayStats(mHoliday)
+
             } catch (e: Exception) {
                 mListener?.retry { mHolidayPresenter.updateHolidayStats(mHoliday) }
             } finally {
                 save_holiday_container.visibility = View.GONE
             }
-        }
+        }*/
 
         GlobalScope.launch(Dispatchers.Main) {
-            val detailDays = mDetailPlanPresenter.getDetailDays(mHoliday)
-            with(list) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = DetailDayRecyclerViewAdapter(detailDays, mDetailPlanPresenter.getAdapters())
+            try {
+                val detailDays = mDetailPlanPresenter.getDetailDays(mHoliday)
+                with(list) {
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = DetailDayRecyclerViewAdapter(detailDays, mDetailPlanPresenter.getAdapters())
+                }
+                save_holiday_container.visibility = View.VISIBLE
+                mHolidayPresenter.updateHolidayStats(mHoliday)
+
+            } catch (e: Exception) {
+                mListener?.retry { mHolidayPresenter.updateHolidayStats(mHoliday) }
+            } finally {
+                save_holiday_container.visibility = View.GONE
             }
         }
     }

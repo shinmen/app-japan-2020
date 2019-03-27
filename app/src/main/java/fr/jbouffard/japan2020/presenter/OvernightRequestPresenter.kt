@@ -1,6 +1,7 @@
 package fr.jbouffard.japan2020.presenter
 
 import android.util.Log
+import fr.jbouffard.japan2020.Domain.DomainException
 import fr.jbouffard.japan2020.Domain.Travel.Entity.Holiday
 import fr.jbouffard.japan2020.Domain.Travel.Event.SleptInCity
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.AccommodationAddress
@@ -34,9 +35,10 @@ class OvernightRequestPresenter(
                 6,
                 city.name
         )
-        return service.getOvernightOffers(request).await()
+        return service.getOvernightOffersAsync(request).await()
     }
 
+    @Throws(DomainException::class)
     fun sleepIn(holiday: Holiday, overnightOffer: OvernightOffer) {
         val accommodation = AccommodationAddress(
                 overnightOffer.accommodation.commercialName,

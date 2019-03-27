@@ -4,5 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/flight_request_container"
     tools:context="fr.jbouffard.japan2020.View.PlanFlight.FlightRequestActivity">
 </FrameLayout>

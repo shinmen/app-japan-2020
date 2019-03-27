@@ -25,7 +25,7 @@ class VisitRequestPresenter(
         val retrofit = httpClient.retrofit.baseUrl(ApiInterface.BASE_URL).build()
 
         val service = retrofit.create<ApiInterface>(ApiInterface::class.java)
-        val visitsOffers = service.getVisitsInfo().await()
+        val visitsOffers = service.getVisitsInfoAsync().await()
         val visits = holiday.filterVisitsAvailable(visitsOffers.map { DomainVisit(City(it.city), holiday.currentDate!!) })
 
         return visitsOffers.filter { visits.map { it.city.name }.contains(it.city) }

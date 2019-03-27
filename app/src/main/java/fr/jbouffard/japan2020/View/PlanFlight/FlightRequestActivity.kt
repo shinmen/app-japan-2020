@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity
 import fr.jbouffard.japan2020.Domain.Travel.ValueObject.City
 import fr.jbouffard.japan2020.Infrastructure.Command.FlightRequestCommand
 import fr.jbouffard.japan2020.Infrastructure.DTO.FlightOffer
+import fr.jbouffard.japan2020.Infrastructure.Utils.SnackBarStyler
 import fr.jbouffard.japan2020.presenter.FlightRequestPresenter
 import fr.jbouffard.japan2020.R
 import fr.jbouffard.japan2020.View.PlanHoliday.PlanningActivity
+import kotlinx.android.synthetic.main.activity_flight_request.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -45,7 +47,8 @@ class FlightRequestActivity
 
                 startActivity(i)
             } catch (e: Exception) {
-                longToast(e.message.toString())
+                SnackBarStyler(this@FlightRequestActivity)
+                        .errorSnack(flight_request_container, e.message.toString())
             }
         }
     }

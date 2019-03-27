@@ -33,7 +33,7 @@ class FlightRequestPresenter(
                 flightRequest.goingDate.toString("y-M-d H:m"),
                 flightRequest.returnDate.toString("y-M-d H:m")
         )
-        return service.getFlightOffers(request).await()
+        return service.getFlightOffersAsync(request).await()
     }
 
     @Throws(DomainException::class)
