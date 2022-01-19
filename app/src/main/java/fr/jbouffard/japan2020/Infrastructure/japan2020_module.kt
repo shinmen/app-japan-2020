@@ -1,6 +1,6 @@
 package fr.jbouffard.japan2020.Infrastructure
 
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import fr.jbouffard.japan2020.Domain.EventStore
 import fr.jbouffard.japan2020.Domain.RepositoryInterface
 import fr.jbouffard.japan2020.Infrastructure.Adapter.DetailDayAdapter
@@ -24,8 +24,8 @@ val japan2020Module: Module =  applicationContext {
     factory { BudgetPresenter(get()) }
     factory { DetailPlanPresenter(get(), get()) }
     factory { HttpClient() }
-    factory { Repository(get()) as RepositoryInterface }
-    factory { EventStoreImpl(get()) as EventStore }
+    factory { Repository(get()) }
+    factory { EventStoreImpl(get()) }
     factory { DetailDayAdapter() }
     factory { FlightAdapter() }
     factory { UpdateHolidayStatPresenter(get()) }

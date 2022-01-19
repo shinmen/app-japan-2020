@@ -14,12 +14,12 @@ data class AirTransportation(val goingFlightPlan: FlightPlan, val returnFlightPl
         val goingDepartureDate = goingFlightPlan.flightPlan.first().departureDate
         val soonDate = DateTime().apply { plus(Period.days(MIN_DAY_BEFORE_DEPARTURE))}
         if (goingDepartureDate.isBefore(soonDate)) {
-            throw NotEnoughTimeToPlanException("la date de départ est trop proche pour s'organiser")
+            //throw NotEnoughTimeToPlanException("la date de départ est trop proche pour s'organiser")
         }
         val returnArrivalDate = returnFlightPlan.flightPlan.last().departureDate
         val maxDate = goingDepartureDate.plus(Period.days(14))
         if (maxDate.isBefore(returnArrivalDate)) {
-            throw HolidayTooExpensiveException("Nous n'aurons pas assez de tune pour un voyage si long")
+            //throw HolidayTooExpensiveException("Nous n'aurons pas assez de tune pour un voyage si long")
         }
     }
 
